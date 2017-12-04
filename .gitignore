@@ -1,6 +1,11 @@
 # idea
 /.idea/
 
+.env
+/public/bundles/
+/var/
+/vendor/
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
