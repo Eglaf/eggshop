@@ -17,6 +17,7 @@ class DashboardController extends Controller {
 	 * RouteName: app_admin_dashboard_index
 	 * @Route("/admin")
 	 * @Template
+	 *
 	 * @return array
 	 */
 	public function indexAction() {
@@ -26,5 +27,5 @@ class DashboardController extends Controller {
 			'number' => $number,
 		];
 	}
-
+	
 }
