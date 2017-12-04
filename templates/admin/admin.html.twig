@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Admin - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <hr />
+    Ez lesz a menu
+    <hr />
+
+    <div id="admin-content">
+
+        {% block adminContent %}{% endblock %}
+
+    </div><!-- #admin-content -->
+
+{% endblock %}
