@@ -31,9 +31,23 @@ class Product {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="description", type="string", length=512, options={"fixed" = true})
+	 * @ORM\Column(name="description", type="string", length=255, options={"fixed" = true})
 	 */
 	private $description;
+	
+	/**
+	 * @var Category
+	 * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+	 * @ORM\JoinColumn(name="category_id", onDelete="SET NULL")
+	 */
+	private $category;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Getters/Setters                                            **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * @return int
@@ -89,6 +103,23 @@ class Product {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return Category
+	 */
+	public function getCategory() {
+		return $this->category;
+	}
+	
+	/**
+	 * @param Category $category
+	 * @return Product
+	 */
+	public function setCategory($category) {
+		$this->category = $category;
 		
 		return $this;
 	}

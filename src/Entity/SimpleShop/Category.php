@@ -3,6 +3,8 @@
 namespace App\Entity\SimpleShop;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\CategoryRepository")
@@ -28,6 +30,42 @@ class Category {
 	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
 	 */
 	private $label;
+	
+	/**
+	 * @var Product[]
+	 * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
+	 */
+	protected $products;
+	
+	/**
+	 * Category constructor.
+	 */
+	public function __construct() {
+		$this->products = new ArrayCollection();
+	}
+	
+	/**
+	 * Add product to category.
+	 * @param Product $product
+	 * @return Category
+	 */
+	public function addProduct(Product $product) {
+		if (!$this->products->contains($product)) {
+			$this->products[] = $product;
+		}
+		
+		if ($product->getCategory() !== $this) {
+			$product->setCategory($this);
+		}
+		
+		return $this;
+	}
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Getters/Setters                                            **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * @return mixed
@@ -68,6 +106,13 @@ class Category {
 		$this->label = $label;
 		
 		return $this;
+	}
+	
+	/**
+	 * @return Product[]
+	 */
+	public function getProducts() {
+		return $this->products;
 	}
 	
 }

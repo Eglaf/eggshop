@@ -43,7 +43,7 @@ class Address {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="street", type="string", length=16, options={"fixed" = true})
+	 * @ORM\Column(name="houseNumber", type="string", length=16, options={"fixed" = true})
 	 */
 	private $houseNumber;
 	
@@ -55,13 +55,13 @@ class Address {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="street", type="string", length=16, nullable=true, options={"fixed" = true})
+	 * @ORM\Column(name="door", type="string", length=16, nullable=true, options={"fixed" = true})
 	 */
 	private $door;
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="street", type="string", length=16, nullable=true, options={"fixed" = true})
+	 * @ORM\Column(name="doorBell", type="string", length=16, nullable=true, options={"fixed" = true})
 	 */
 	private $doorBell;
 	

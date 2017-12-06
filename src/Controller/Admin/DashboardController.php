@@ -2,14 +2,16 @@
 
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use App\Egf\Ancient\AbstractController;
+use App\Entity;
 
 /**
  * Class DashboardController
  */
-class DashboardController extends Controller {
+class DashboardController extends AbstractController {
 	
 	/**
 	 * Dashboard of admin.

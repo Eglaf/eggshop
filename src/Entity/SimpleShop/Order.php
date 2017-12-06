@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order {
 	
+	// shippingAddress
+	// billingAddress
+	
 	/**
 	 * @var int
 	 * @ORM\Id
@@ -25,7 +28,7 @@ class Order {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="comment", type="string", length=512, nullable=true, options={"fixed" = true})
+	 * @ORM\Column(name="comment", type="text", nullable=true)
 	 */
 	private $comment;
 	
