@@ -5,9 +5,25 @@ namespace App\Entity\SimpleShop;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Products ordered by user.
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\OrderItemRepository")
  */
 class OrderItem {
+	
+	/**
+	 * @var Order
+	 * @ORM\ManyToOne(targetEntity="Order", inversedBy="items")
+	 * @ORM\JoinColumn(name="order_id", onDelete="SET NULL")
+	 */
+	private $order;
+	
+	/**
+	 * The product that was ordered... although the price is stored to avoid changes in the price of order.
+	 * @var Product
+	 * @ORM\ManyToOne(targetEntity="Product", inversedBy="orderItems")
+	 * @ORM\JoinColumn(name="item_id", onDelete="SET NULL")
+	 */
+	private $product;
 	
 	/**
 	 * @var int
@@ -28,6 +44,13 @@ class OrderItem {
 	 * @ORM\Column(type="integer", name="price")
 	 */
 	private $price;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Getters/Setters                                            **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * @return mixed
@@ -70,4 +93,38 @@ class OrderItem {
 		return $this;
 	}
 	
+	/**
+	 * @return mixed
+	 */
+	public function getOrder() {
+		return $this->order;
+	}
+	
+	/**
+	 * @param mixed $order
+	 * @return OrderItem
+	 */
+	public function setOrder($order) {
+		$this->order = $order;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getProduct() {
+		return $this->product;
+	}
+	
+	/**
+	 * @param mixed $product
+	 * @return OrderItem
+	 */
+	public function setProduct($product) {
+		$this->product = $product;
+		
+		return $this;
+	}
+
 }

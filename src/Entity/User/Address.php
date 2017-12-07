@@ -5,9 +5,12 @@ namespace App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Address of user. Can be used as billing or shipping address... both of them are OneWayRelated from App\Entity\SimpleShop\Order..
  * @ORM\Entity(repositoryClass="App\Repository\User\AddressRepository")
  */
 class Address {
+	
+	private $user;
 	
 	/**
 	 * @var int
@@ -64,6 +67,13 @@ class Address {
 	 * @ORM\Column(name="doorBell", type="string", length=16, nullable=true, options={"fixed" = true})
 	 */
 	private $doorBell;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Getters/Setters                                            **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * @return int

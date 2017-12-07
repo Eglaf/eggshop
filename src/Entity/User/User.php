@@ -17,6 +17,8 @@ class User {
 	 */
 	private $id;
 	
-	// todo
+	private $roles;
+	
+	private $addresses;
 	
 }

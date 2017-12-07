@@ -3,8 +3,8 @@
 namespace App\Entity\SimpleShop;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\CategoryRepository")
@@ -12,27 +12,7 @@ use Doctrine\Common\Collections\Collection;
 class Category {
 	
 	/**
-	 * @var int
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
-	
-	/**
-	 * @var boolean
-	 * @ORM\Column(name="active", type="boolean")
-	 */
-	private $active;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
-	 */
-	private $label;
-	
-	/**
-	 * @var Product[]
+	 * @var Collection|Product[]
 	 * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
 	 */
 	protected $products;
@@ -60,6 +40,27 @@ class Category {
 		
 		return $this;
 	}
+	
+	/**
+	 * @var int
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(name="active", type="boolean")
+	 */
+	private $active;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
+	 */
+	private $label;
+	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **

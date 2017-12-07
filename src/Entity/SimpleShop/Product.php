@@ -3,11 +3,51 @@
 namespace App\Entity\SimpleShop;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\ProductRepository")
  */
 class Product {
+	
+	/**
+	 * @var Category
+	 * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+	 * @ORM\JoinColumn(name="category_id", onDelete="SET NULL")
+	 */
+	private $category;
+	
+	/**
+	 * Ordered items. TwoWayRelation because who knows... maybe it'll be needed.
+	 * @var Collection|OrderItem[]
+	 * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="product", cascade={"persist"})
+	 */
+	private $orderItems;
+	
+	/**
+	 * Product constructor.
+	 */
+	public function __construct() {
+		$this->orderItems = new ArrayCollection();
+	}
+	
+	/**
+	 * Add OrderItem to Product.
+	 * @param OrderItem $orderItem
+	 * @return Product
+	 */
+	public function addOrderItem(OrderItem $orderItem) {
+		if (!$this->orderItems->contains($orderItem)) {
+			$this->orderItems[] = $orderItem;
+		}
+		
+		if ($orderItem->getProduct() !== $this) {
+			$orderItem->setProduct($this);
+		}
+		
+		return $this;
+	}
 	
 	/**
 	 * @var int
@@ -34,13 +74,6 @@ class Product {
 	 * @ORM\Column(name="description", type="string", length=255, options={"fixed" = true})
 	 */
 	private $description;
-	
-	/**
-	 * @var Category
-	 * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-	 * @ORM\JoinColumn(name="category_id", onDelete="SET NULL")
-	 */
-	private $category;
 	
 	
 	/**************************************************************************************************************************************************************

@@ -3,11 +3,43 @@
 namespace App\Entity\SimpleShop;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * Status of order.
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\OrderStatusRepository")
  */
 class OrderStatus {
+	
+	/**
+	 * @var Collection|Order[]
+	 * @ORM\OneToMany(targetEntity="Order", mappedBy="status", cascade={"persist"})
+	 */
+	private $orders;
+	
+	/**
+	 * OrderStatus constructor.
+	 */
+	public function __construct() {
+		$this->orders = new ArrayCollection();
+	}
+	
+	/**
+	 * @param Order $order
+	 * @return OrderStatus
+	 */
+	public function addOrders($order) {
+		if (!$this->orders->contains($order)) {
+			$this->orders[] = $order;
+		}
+		
+		if ($order->getStatus() !== $this) {
+			$order->setStatus($this);
+		}
+		
+		return $this;
+	}
 	
 	/**
 	 * @var int
@@ -24,10 +56,18 @@ class OrderStatus {
 	private $label;
 	
 	/**
-	 * @var string Status code of order.
+	 * Status code of order.
+	 * @var string
 	 * @ORM\Column(name="code", type="string", length=64, options={"fixed" = true})
 	 */
 	private $code;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Getters/Setters                                            **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * @return int
@@ -68,6 +108,13 @@ class OrderStatus {
 		$this->code = $code;
 		
 		return $this;
+	}
+	
+	/**
+	 * @return Order[]|Collection
+	 */
+	public function getOrders() {
+		return $this->orders;
 	}
 	
 }
