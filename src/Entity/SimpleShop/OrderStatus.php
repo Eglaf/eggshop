@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Status of order.
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\OrderStatusRepository")
+ * @ORM\Table(name="simpleshop_order_status")
  */
 class OrderStatus {
 	

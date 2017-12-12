@@ -5,9 +5,11 @@ namespace App\Entity\SimpleShop;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\CategoryRepository")
+ * @ORM\Table(name="simpleshop_category")
  */
 class Category {
 	
@@ -15,7 +17,7 @@ class Category {
 	 * @var Collection|Product[]
 	 * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
 	 */
-	protected $products;
+	private $products;
 	
 	/**
 	 * Category constructor.
@@ -58,6 +60,7 @@ class Category {
 	/**
 	 * @var string
 	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
+	 * @Assert\NotBlank()
 	 */
 	private $label;
 	

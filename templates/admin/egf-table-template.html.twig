@@ -1,0 +1,12 @@
+<script id="js-template-egf-table" type="text/template">
+    <input type="text" class="egf-table-global-search" placeholder="<% this.oTrans.globalSearchPlaceholder %>"/>
+    <table border="1">
+        <thead>
+            <% for (iCol in this.aoColumns) { %>
+                <th class="egf-table-head-<% iCol %>"><% this.aoColumns[iCol].text %></th>
+            <% } %>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <span class="egf-table-info"></span>
+</script>

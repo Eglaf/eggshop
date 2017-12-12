@@ -8,7 +8,16 @@
 
     <hr />
     <a href="{{ path('app_admin_dashboard_index') }}">Kezdooldal</a>
+    <a href="{{ path('app_admin_category_list') }}">Kategoriak</a>
     <hr />
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <div id="admin-content">
 
@@ -16,4 +25,19 @@
 
     </div><!-- #admin-content -->
 
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/egf/egf.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/admin/admin.css') }}" rel="stylesheet" />
 {% endblock %}

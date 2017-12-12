@@ -1,0 +1,61 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    List of categories - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+    {# Template for egf table. #}
+    {% include 'admin/egf-table-template.html.twig' %}
+    {% include 'admin/egf-table-row-template.html.twig' %}
+    {% include 'admin/egf-pagination-template.html.twig' %}
+
+    {# Buttons #}
+    <a href="{{ path('app_admin_category_create') }}">Kategoria letrehozas</a><br /><br />
+
+    {# Content #}
+    <div id="table-container"></div>
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        new Egf.Table()
+            .setContainerElemId('table-container')
+            .setContent(JSON.parse('{{ rowsAsJson|raw }}'))
+            .setConfig({
+                orderByProperty: 'label',
+                rowsOnPage: 5
+            })
+            .setTranslations({
+                globalSearchPlaceholder: 'Kereses'
+            })
+            .setColumns([{
+                text: 'Megnevezes',
+                prop: 'label',
+                search: 'string',
+                order: true
+            }, {
+                text: 'Active',
+                order: true,
+                func: function (row) {
+                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                }
+            }, {
+                text: '',
+                func: function (row) {
+                    return 'TODO buttons (' + row.id + ')'; // %id% ?
+                }
+            }])
+            .init();
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

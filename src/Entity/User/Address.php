@@ -5,8 +5,9 @@ namespace App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Address of user. Can be used as billing or shipping address... both of them are OneWayRelated from App\Entity\SimpleShop\Order..
+ * Address of user. Can be used as billing or shipping address... both of them are OneWayRelated from App\Entity\SimpleShop\Order.
  * @ORM\Entity(repositoryClass="App\Repository\User\AddressRepository")
+ * @ORM\Table(name="user_address")
  */
 class Address {
 	

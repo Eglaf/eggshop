@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\Content\TextRepository")
+ * @ORM\Table(name="content_text")
  */
 class Text {
 	

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Products ordered by user.
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\OrderItemRepository")
+ * @ORM\Table(name="simpleshop_order_item")
  */
 class OrderItem {
 	
