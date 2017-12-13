@@ -2,27 +2,34 @@
 
 namespace App\Repository\SimpleShop;
 
-use App\Entity\SimpleShop\Category;
+use App\Entity\SimpleShop\Category as CategoryEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class CategoryRepository extends ServiceEntityRepository
-{
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Category::class);
-    }
-
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->where('s.something = :value')->setParameter('value', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+/**
+ * Class CategoryRepository
+ */
+class CategoryRepository extends ServiceEntityRepository {
+	
+	/**
+	 * Find all the categories with joined products.
+	 * @return CategoryEntity[]
+	 */
+	public function findAllWithProducts() {
+		return $this
+			->createQueryBuilder('c')
+			->addSelect('p')
+			->leftJoin('c.products', 'p')
+			->getQuery()
+			->getResult();
+	}
+	
+	/**
+	 * CategoryRepository constructor.
+	 * @param RegistryInterface $registry
+	 */
+	public function __construct(RegistryInterface $registry) {
+		parent::__construct($registry, CategoryEntity::class);
+	}
+	
 }

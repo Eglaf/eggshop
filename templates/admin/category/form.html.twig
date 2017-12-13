@@ -1,8 +1,8 @@
 {% extends 'admin/admin.html.twig' %}
 
 {% block title %}
-    {% if enCategory.label %}
-        Kategoria ({{ enCategory.label }}) modositas
+    {% if categoryEntity.label %}
+        Kategoria ({{ categoryEntity.label }}) modositas
     {% else %}
         Kategoria letrehozas
     {% endif %}
@@ -11,9 +11,9 @@
 
 {% block adminContent %}
 
-    {{ form_start(oForm) }}
-    {{ form_widget(oForm) }}
-    {{ form_end(oForm) }}
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
 
     <a href="{{ path('app_admin_category_list') }}">Vissza a kategoria listahoz</a>
 

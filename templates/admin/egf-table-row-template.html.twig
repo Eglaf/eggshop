@@ -1,8 +1,8 @@
 <script id="js-template-egf-table-row" type="text/template">
     <tr>
-        <% for (iKey in this.oRowContent) { %>
+        <% for (rowKey in this.rowContent) { %>
             <td>
-                <% this.oRowContent[iKey] %>
+                <% this.rowContent[rowKey] %>
             </td>
         <% } %>
     </tr>

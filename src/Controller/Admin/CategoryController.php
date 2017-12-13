@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
 use App\Entity\SimpleShop\Category as CategoryEntity;
+use App\Repository\SimpleShop\CategoryRepository as CategoryRepository;
 use App\Form\Admin\SimpleShop\CategoryType as CategoryFormType;
 use App\Service\Serializer;
 
@@ -23,14 +24,15 @@ class CategoryController extends AbstractController {
 	 * @Route("/admin/category/list")
 	 * @Template
 	 *
-	 * @param Serializer $serializer Service to convert entities into json.
+	 * @param Serializer         $serializer         Service to convert entities into json.
+	 * @param CategoryRepository $categoryRepository Repository service of categories.
 	 * @return array
 	 */
-	public function listAction(Serializer $serializer) {
-		$rows = $this->getDm()->getRepository(CategoryEntity::class)->findAll();
+	public function listAction(Serializer $serializer, CategoryRepository $categoryRepository) {
+		$categoryRows = $categoryRepository->findAllWithProducts();
 		
 		return [
-			'rowsAsJson' => $serializer->toJson($rows),
+			'listAsJson' => $serializer->toJson($categoryRows),
 		];
 	}
 	
@@ -54,26 +56,26 @@ class CategoryController extends AbstractController {
 	 * @Route("/admin/category/update/{enCategory}", requirements={"enCategory"="\d+"})
 	 * @Template("admin/category/form.html.twig")
 	 *
-	 * @param CategoryEntity $enCategory
+	 * @param CategoryEntity $categoryEntity
 	 * @return array|RedirectResponse
 	 */
-	public function updateAction(CategoryEntity $enCategory) {
-		return $this->form($enCategory);
+	public function updateAction(CategoryEntity $categoryEntity) {
+		return $this->form($categoryEntity);
 	}
 	
 	/**
 	 * Generate form view to Product Category.
-	 * @param CategoryEntity $enCategory
+	 * @param CategoryEntity $categoryEntity
 	 * @return array|RedirectResponse
 	 */
-	protected function form(CategoryEntity $enCategory) {
+	protected function form(CategoryEntity $categoryEntity) {
 		// Create form.
-		$oForm = $this->createForm(CategoryFormType::class, $enCategory);
-		$oForm->handleRequest($this->getRq());
+		$form = $this->createForm(CategoryFormType::class, $categoryEntity);
+		$form->handleRequest($this->getRq());
 		
 		// Save form.
-		if ($oForm->isSubmitted() && $oForm->isValid()) {
-			$this->getDm()->persist($enCategory);
+		if ($form->isSubmitted() && $form->isValid()) {
+			$this->getDm()->persist($categoryEntity);
 			$this->getDm()->flush();
 			
 			return $this->redirectToRoute('app_admin_category_list');
@@ -81,8 +83,8 @@ class CategoryController extends AbstractController {
 		
 		// Form view.
 		return [
-			"enCategory" => $enCategory,
-			"oForm"      => $oForm->createView(),
+			"categoryEntity" => $categoryEntity,
+			"formView"       => $form->createView(),
 		];
 	}
 	

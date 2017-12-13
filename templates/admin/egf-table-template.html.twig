@@ -1,9 +1,9 @@
 <script id="js-template-egf-table" type="text/template">
-    <input type="text" class="egf-table-global-search" placeholder="<% this.oTrans.globalSearchPlaceholder %>"/>
+    <input type="text" class="egf-table-global-search" placeholder="<% this.translations.globalSearchPlaceholder %>"/>
     <table border="1">
         <thead>
-            <% for (iCol in this.aoColumns) { %>
-                <th class="egf-table-head-<% iCol %>"><% this.aoColumns[iCol].text %></th>
+            <% for (columnKey in this.columns) { %>
+                <th class="egf-table-head" data-property="<% this.columns[columnKey].property %>"><% this.columns[columnKey].text %></th>
             <% } %>
         </thead>
         <tbody></tbody>

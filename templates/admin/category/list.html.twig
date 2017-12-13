@@ -11,7 +11,7 @@
     {% include 'admin/egf-pagination-template.html.twig' %}
 
     {# Buttons #}
-    <a href="{{ path('app_admin_category_create') }}">Kategoria letrehozas</a><br /><br />
+    <a href="{{ path('app_admin_category_create') }}">Kategoria letrehozas</a><br/><br/>
 
     {# Content #}
     <div id="table-container"></div>
@@ -27,24 +27,31 @@
     <script type="text/javascript">
         new Egf.Table()
             .setContainerElemId('table-container')
-            .setContent(JSON.parse('{{ rowsAsJson|raw }}'))
+            .setContents(JSON.parse('{{ listAsJson|raw }}'))
             .setConfig({
                 orderByProperty: 'label',
-                rowsOnPage: 5
+                orderDirectionReversed: false,
+                rowsOnPage:      5
             })
             .setTranslations({
                 globalSearchPlaceholder: 'Kereses'
             })
             .setColumns([{
-                text: 'Megnevezes',
-                prop: 'label',
+                text:   'Megnevezes',
+                property:   'label',
                 search: 'string',
-                order: true
+                order:  true
             }, {
-                text: 'Active',
+                text:  'Active',
                 order: true,
-                func: function (row) {
+                func:  function (row) {
                     return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                }
+            }, {
+                text:  'Termekek',
+                order: true,
+                func:  function (row) {
+                    return row.products.length;
                 }
             }, {
                 text: '',

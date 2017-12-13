@@ -1,42 +1,56 @@
 "use strict";
 
-// Check requirements.
+// Check requirements. TODO pagination
 if (typeof Egf.Util === 'undefined' || typeof Egf.Template === 'undefined') {
-    console.error('The file egf.js is required!');
+    console.error('The files egf.js, egf-template.js and egf-pagination.js are required!');
 }
 
 /**
- * Some object to poke tables.
- * todo Make it poke things.
+ * Egf table creator.
+ *
+ * Order of processing rows...
+ * - GlobalSearch
+ * - ColumnSearch todo
+ * - Order
+ * - Limit
  */
 Egf.Table = function () {
 
-    /** @type {Egf.Table} */
+    /** @type {Egf.Table} The this. */
     var ctrl = this;
 
     /** @type {string} ElemId of the container. */
-    this.sContainerElemId = '';
+    this.containerElemId = '';
 
     /** @type {Object[]} Column and header of table. */
-    this.aoColumns = [];
+    this.columns = [];
 
-    /** @type {Object[]} Content of table. It contains everything. */
-    this.aoContent = [];
+    /** @type {Object[]} Raw content of table. It contains everything. All the rows unfiltered and unsorted. */
+    this.rawContents = [];
 
-    /** @type {Object[]} All of the filtered and sorted content of table. Limit comes later. */
-    this.aoSelectedContent = [];
+    /** @type {Object[]} All the filtered by globalSearch contents of table. ColumnSearch, order and limit comes later. */
+    this.filteredByGlobalSearchContents = [];
 
-    /** @type {Object[]} Limited content of table. It'll be rendered into table body. */
-    this.aoLimitedContent = [];
+    /** @type {Object[]} All the filtered by globalSearch and columnSearch contents of table. Order and limit comes later. */
+    this.filteredByColumnSearchContents = [];
+
+    /** @type {Object[]} All the filtered (global and column) and ordered content of table. Limit comes later.*/
+    this.sortedContents = [];
+
+    /** @type {Object[]} All the filtered (global and column), ordered and limited content of table. It'll be rendered into table body. */
+    this.limitedContents = [];
 
     /** @type {string} The globally searched string. */
-    this.sGlobalSearch = '';
+    this.globalSearch = '';
 
-    /** @type {number} Currently visited page. */
-    this.iCurrentPage = 0;
+    /** @type {number} Currently visible page. */
+    this.currentPageNumber = 0;
+
+    /** @type {number} Max pages. */
+    this.maxPageNumber = 0;
 
     /** @type {Object} Config of table. */
-    this.oConfig = {
+    this.config = {
         /** @var {number} Minimum length of search. */
         searchMinLength:        2,
         /** @type {number} Delay (in milliseconds) before doing the search.  */
@@ -52,7 +66,7 @@ Egf.Table = function () {
     };
 
     /** @type {Object} Translations. */
-    this.oTrans = {
+    this.translations = {
         contentInfo:             'Showing %from% to %to% of %all% rows.',
         contentInfoFiltered:     'Showing %from% to %to% of %all% rows. Filtered from %total% rows.',
         globalSearchPlaceholder: 'Global search'
@@ -67,68 +81,68 @@ Egf.Table = function () {
 
     /**
      * Set the elemId of the container.
-     * @param {string} sElemId Element id.
-     * @return {Object} This.
+     * @param elemId {string}
+     * @return {Egf.Table}
      */
-    this.setContainerElemId = function (sElemId) {
-        console.log('Table setContainerElemId(' + sElemId + ')');
+    this.setContainerElemId = function (elemId) {
+        console.log('Table setContainerElemId(' + elemId + ')');
 
-        this.sContainerElemId = (Egf.Util.startsWith(sElemId, '#') ? sElemId : '#' + sElemId);
+        this.containerElemId = (Egf.Util.startsWith(elemId, '#') ? elemId : '#' + elemId);
 
         return this;
     };
 
     /**
      * Set config.
-     * @param {Object} oConfig Settings.
-     * @return {Object} This.
+     * @param config {Object}
+     * @return {Egf.Table}
      */
-    this.setConfig = function (oConfig) {
-        console.log('Table setConfig({Object})', oConfig);
+    this.setConfig = function (config) {
+        console.log('Table setConfig({Object})', config);
 
-        this.oConfig = Egf.Util.objectAssign(this.oConfig, oConfig);
+        this.config = Egf.Util.objectAssign(this.config, config);
 
         return this;
     };
 
     /**
      * Set translations.
-     * @param oTrans {Object}
-     * @return This.
+     * @param translations {Object}
+     * @return {Egf.Table}
      */
-    this.setTranslations = function (oTrans) {
-        console.log('Table setTranslations({Object})', oTrans);
+    this.setTranslations = function (translations) {
+        console.log('Table setTranslations({Object})', translations);
 
-        this.oTrans = Egf.Util.objectAssign(this.oTrans, oTrans);
+        this.translations = Egf.Util.objectAssign(this.translations, translations);
 
         return this;
     };
 
     /**
-     * Set columns.
-     * @param {Object[]} aoColumns Columns.
-     * @return {Object} This.
+     * Set columns with header data.
+     * @param columns {Object[]}
+     * @return {Egf.Table}
      */
-    this.setColumns = function (aoColumns) {
-        console.log('Table setColumns({Object[]})', aoColumns);
+    this.setColumns = function (columns) {
+        console.log('Table setColumns({Object[]})', columns);
 
-        this.aoColumns = aoColumns;
+        this.columns = columns;
 
         return this;
     };
 
     /**
-     * Set content.
-     * @param xContent
-     * @return {Object} This.
+     * Set the raw content. Array of objects or a Json string.
+     * @param xContent {string|Object[]}
+     * @return {Egf.Table}
      */
-    this.setContent = function (xContent) {
+    this.setContents = function (xContent) {
         console.log('Table setContent({string|object}})', xContent);
 
         if (typeof xContent === 'string') {
-            this.aoContent = JSON.parse(xContent);
+            this.rawContents = JSON.parse(xContent);
         } else {
-            this.aoContent = xContent;
+            this.rawContents = xContent;
         }
 
         return this;
@@ -147,13 +161,21 @@ Egf.Table = function () {
     this.init = function () {
         console.log('init');
 
+        // Init table frame.
         this.loadTableFrame();
-        this.addTableEvents();
 
-        this.recalculateSelectedContent();
-        this.recalculateLimitedContent();
+        // Add events.
+        this.addGlobalSearchEvent()
+            .addTableOrderEvent();
 
-        this.loadCurrentContent();
+        // Content filter/order/limit.
+        this.calculateFilteredByGlobalSearchContents()
+            .calculateFilteredByColumnSearchContents()
+            .calculateSortedContents()
+            .calculateLimitedContents();
+
+        // Show content.
+        this.showCurrentContents();
     };
 
     /**
@@ -162,62 +184,97 @@ Egf.Table = function () {
     this.loadTableFrame = function () {
         console.log('loadTableFrame');
 
-        Egf.Template.toElementByTemplate(this.sContainerElemId, 'js-template-egf-table', {
-            aoColumns: ctrl.aoColumns,
-            oTrans:    this.oTrans
+        Egf.Template.toElementByTemplate(this.containerElemId, 'js-template-egf-table', {
+            columns:      ctrl.columns,
+            translations: this.translations
         });
     };
 
     /**
-     * Add events to elements.
+     * Add event to the globalSearch input.
+     * @return {Egf.Table}
      */
-    this.addTableEvents = function () {
-        console.log('addTableEvents TODO');
+    this.addGlobalSearchEvent = function () {
+        console.log('addTableGlobalSearchEvent');
+
+        var timeout = null;
+
+        Egf.Elem.addEvent(this.containerElemId + ' .egf-table-global-search', 'keyup', function (event) {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(function () {
+                ctrl.globalSearch = event.target.value;
+
+                ctrl.calculateFilteredByGlobalSearchContents()
+                    .calculateFilteredByColumnSearchContents()
+                    .calculateSortedContents()
+                    .calculateLimitedContents();
+
+                ctrl.showCurrentContents();
+            }, ctrl.config.delaySearch);
+        });
+
+        return this;
     };
+
+    /** todo */
+    this.addColumnSearchEvent = function () {
+        /*this
+            .calculateFilteredByColumnSearchContents()
+            .calculateSortedContents()
+            .calculateLimitedContents();*/
+    };
+
+    /**
+     * Add sorting events to headers.
+     * @return {Egf.Table}
+     */
+    this.addTableOrderEvent = function () {
+        console.log('addTableOrderEvent');
+
+        Egf.Elem.addEvent(this.containerElemId + ' .egf-table-head', 'click', function (event) {
+            var orderProperty = event.target.getAttribute('data-property');
+
+            // Secondary click on the column header set the direction to desc.
+            if (orderProperty === ctrl.config.orderByProperty) {
+                ctrl.config.orderDirectionReversed = !ctrl.config.orderDirectionReversed;
+            }
+            // If the clicked orderBy property is not the current, then make it current and set the direction to asc.
+            else {
+                ctrl.config.orderByProperty = orderProperty;
+                ctrl.config.orderDirectionReversed = false;
+            }
+
+            ctrl.calculateSortedContents()
+                .calculateLimitedContents();
+
+            ctrl.showCurrentContents();
+        });
+
+        return this;
+    };
+
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
-     * Filter content                                             **         **         **         **         **         **         **         **         **         **
+     * Show                                                       **         **         **         **         **         **         **         **         **         **
      *                                                          **         **         **         **         **         **         **         **         **         **
      *************************************************************************************************************************************************************/
 
     /**
-     * Update the selectedContent array with the filtered content.
+     * Update the rows in the table by content rows this should be currently visible.
      */
-    this.recalculateSelectedContent = function () {
-        console.log('recalculateSelectedContent TODO');
+    this.showCurrentContents = function () {
+        console.log('loadCurrentContent');
 
-        this.aoSelectedContent = this.aoContent;
-    };
+        console.log(this.limitedContents);
 
-    /**
-     * Update the limitedContent array with the actually visible content.
-     */
-    this.recalculateLimitedContent = function () {
-        console.log('recalculateLimitedContent TODO');
-
-        this.aoLimitedContent = this.aoSelectedContent;
-    };
-
-
-    /**************************************************************************************************************************************************************
-     *                                                          **         **         **         **         **         **         **         **         **         **
-     * Show content                                               **         **         **         **         **         **         **         **         **         **
-     *                                                          **         **         **         **         **         **         **         **         **         **
-     *************************************************************************************************************************************************************/
-
-    /**
-     * Update the rows in the table by content rows that should be currently visible.
-     */
-    this.loadCurrentContent = function () {
-        console.log('loadCurrentContent TODO');
-
-        var aeTableBodies = Egf.Elem.find(this.sContainerElemId + " > table > tbody");
-        if (aeTableBodies instanceof NodeList && typeof aeTableBodies[0] !== 'undefined') {
-            aeTableBodies[0].innerHTML = this.getTableContentHtml();
+        var tableBodyElements = Egf.Elem.find(this.containerElemId + " > table > tbody");
+        if (tableBodyElements instanceof NodeList && typeof tableBodyElements[0] !== 'undefined') {
+            tableBodyElements[0].innerHTML = this.getTableContentHtml();
         }
         else {
-            throw new Error("Table body not found! Searched for: " + this.sContainerElemId + " > table > tbody");
+            throw new Error("Table body not found! Searched for: " + this.containerElemId + " > table > tbody");
         }
     };
 
@@ -226,120 +283,242 @@ Egf.Table = function () {
      * @return {string}
      */
     this.getTableContentHtml = function () {
-        var sHtml = '';
-        Egf.Util.forEach(this.aoLimitedContent, function (oRow) {
-            sHtml += ctrl.getRowHtml(oRow);
+        var htmlResult = '';
+        Egf.Util.forEach(this.limitedContents, function (row) {
+            htmlResult += ctrl.getRowHtml(row);
         });
 
-        return sHtml;
+        return htmlResult;
     };
 
     /**
      * Get the HTML of one table row.
      * @return string
      */
-    this.getRowHtml = function (oRow) {
-        var oRowContent = {};
-        var iKey = 0;
+    this.getRowHtml = function (row) {
+        var rowContent = {};
+        var key        = 0;
 
-        Egf.Util.forEach(this.aoColumns, function (oColumn) {
+        Egf.Util.forEach(this.columns, function (column) {
             // Show property as simple data.
-            if (oColumn.hasOwnProperty('prop')) {
-                oRowContent[iKey++] = oRow[oColumn.prop];
+            if (column.hasOwnProperty('property')) {
+                rowContent[key++] = row[column.property];
             }
-            // Do some function mage on row and show the result.
-            else if (oColumn.hasOwnProperty('func')) {
-                if (typeof oColumn['func'] === 'function') {
-                    oRowContent[iKey++] = oColumn['func'](oRow);
+            // Call function with row data and show the result.
+            else if (column.hasOwnProperty('func')) {
+                if (typeof column['func'] === 'function') {
+                    rowContent[key++] = column['func'](row);
                 } else {
-                    throw new Error('Table content expects function, got ' + (typeof fn) + ' instead!');
+                    throw new Error('Table content expects function, got ' + (typeof column['func']) + ' instead!');
                 }
             } else {
-                throw new Error('Table header has to have "prop" or "func" to know what to do with cell content.');
+                throw new Error('Table header has to have "property" or "func" to know what to do with cell content.');
             }
         });
 
         return Egf.Template.getTemplateContent('js-template-egf-table-row', {
-            oRowContent: oRowContent
+            rowContent: rowContent
         });
     };
 
 
+    /**************************************************************************************************************************************************************
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     * Content Filter/Sorter                                      **         **         **         **         **         **         **         **         **         **
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     *************************************************************************************************************************************************************/
+
+    /**
+     * Remove rows from filteredByGlobalSearchContents which shouldn't be visible by global search.
+     * Works from rawContents.
+     * @return {Egf.Table}
+     */
+    this.calculateFilteredByGlobalSearchContents = function () {
+        console.log('calculateFilteredByGlobalSearchContents');
+
+        // If there is something to search.
+        if (typeof this.globalSearch === 'string' && this.globalSearch.length >= this.config.searchMinLength) {
+            // Reset filteredByGlobalSearchContents and load it from rawContents data.
+            this.filteredByGlobalSearchContents = [];
+
+            /** @type {string[]} Searched words, space separated. */
+            var searchFragments  = this.globalSearch.split(' ');
+            /** @type {string[]} Properties to search in. */
+            var searchProperties = [];
+
+            // Get properties to search in.
+            Egf.Util.forEach(this.columns, function (column) {
+                if (typeof column.search !== 'undefined') {
+                    // Search by property.
+                    if (typeof column.property !== 'undefined') {
+                        searchProperties.push(column.property);
+                    }
+                    // Search by function result.
+                    else if (typeof column.func === 'function') {
+                        searchProperties.push(column.func);
+                    }
+                }
+            });
+
+            // Iterate temporally stored filteredByGlobalSearchContents and update the real one by filter results.
+            Egf.Util.forEach(this.rawContents, function (row) {
+                // If row has the string in it then add to real filteredByGlobalSearchContents.
+                if (ctrl.isInObjectTextContent(row, searchProperties, searchFragments, ctrl.config.searchMinLength, false)) {
+                    ctrl.filteredByGlobalSearchContents.push(row);
+                }
+            });
+        }
+        // If there is no globalSearch.
+        else {
+            this.filteredByGlobalSearchContents = this.rawContents;
+        }
+
+        return this;
+    };
+
+    /**
+     * todo
+     * @return {Egf.Table}
+     */
+    this.calculateFilteredByColumnSearchContents = function () {
+        // console.log('calculateFilteredByColumnSearchContents TODO');
+
+        this.filteredByColumnSearchContents = this.filteredByGlobalSearchContents;
+
+        return this;
+    };
+
+    /**
+     * Reorder content rows.
+     * Works from filteredByGlobalSearchContents.
+     * @return {Egf.Table}
+     */
+    this.calculateSortedContents = function () {
+        console.log('calculateSortedContents');
+
+        // Copy content (sortObjects works with passed by reference).
+        this.sortedContents = this.filteredByColumnSearchContents;
+
+        // Do the sorting.
+        if (typeof this.config.orderByProperty === 'string' && this.config.orderByProperty.length) {
+            Egf.Util.sortObjects(this.sortedContents, this.config.orderByProperty, this.config.orderDirectionReversed)
+        }
+
+        return this;
+    };
 
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
-     * todo                                                       **         **         **         **         **         **         **         **         **         **
+     * Content Limit/Pagination                                   **         **         **         **         **         **         **         **         **         **
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     *************************************************************************************************************************************************************/
+
+    /**
+     * Update the limitedContents array with the actually visible content.
+     * @return {Egf.Table}
+     */
+    this.calculateLimitedContents = function () {
+        console.log('calculateLimitedContents TODO');
+
+        this.limitedContents = this.sortedContents;
+
+        return this;
+    };
+
+
+    /**************************************************************************************************************************************************************
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     * Search by string                                           **         **         **         **         **         **         **         **         **         **
      *                                                          **         **         **         **         **         **         **         **         **         **
      *************************************************************************************************************************************************************/
 
     /**
      * If the parameter is a string, then put the string in an array and give it back. Otherwise it gives back the variable.
-     * @param aVar {Array|Object|String} The string or the array object.
+     * @param value {Array|Object|String} The string or the array object.
      * @return {Array} An array itself or the array with the string value in it.
      */
-    this.ifStringToArrayAsValue = function (aVar) {
-        if (typeof aVar === "string") {
-            var sVar = aVar;
-            aVar = [];
-            aVar.push(sVar);
+    this.ifStringToArrayAsValue = function (value) {
+        if (typeof value === "string") {
+            var stringValue = value;
+            value           = [];
+            value.push(stringValue);
         }
-        else if (typeof aVar !== "object") {
-            console.error("Invalid variable for _func.ifStringToArrayAsValue()! It got a(n) " + (typeof aVar) + " but it accept only string or an array object! The variable is: ", aVar);
+        else if (typeof value !== "object") {
+            console.error("Invalid variable for _func.ifStringToArrayAsValue()! It got a(n) " + (typeof value) + " but it accept only string or an array object! The variable is: ", value);
         }
 
-        return aVar;
+        return value;
     };
 
     /**
      * Check if the object properties have any of the searched text.
-     * @param oHaystack {Object} The object where the text could be.
-     * @param aProperties {Array|String} The properties of the object, that could have the text as content.
-     * @param aNeedles {Array|String} The searched strings.
-     * @param iMinLength {Number} The minimum number that the length of searched text should be.
-     * @param bCaseSensitive {Boolean} If it's true, then it'll do a case sensitive search.
+     * @param haystack {Object} The object where the text could be.
+     * @param properties {Array|String} The properties of the object, this could have the text as content.
+     * @param needles {Array|String} The searched strings.
+     * @param minLength {Number} The minimum number this the length of searched text should be.
+     * @param caseSensitive {Boolean} If it's true, then it'll do a case sensitive search.
      * @return {boolean} Gives back true if there was at least one result, false otherwise.
      * @todo Right now it does OR search. +1 param to decide if it should do AND search instead?
      */
-    this.isInObjectTextContent = function (oHaystack, aProperties, aNeedles, iMinLength, bCaseSensitive) {
-        aProperties = this.ifStringToArrayAsValue(aProperties);
-        aNeedles = this.ifStringToArrayAsValue(aNeedles);
-        iMinLength = (typeof iMinLength === "undefined" ? 2 : iMinLength);
-        bCaseSensitive = (typeof bCaseSensitive === "undefined" ? false : bCaseSensitive);
+    this.isInObjectTextContent = function (haystack, properties, needles, minLength, caseSensitive) {
+        properties    = this.ifStringToArrayAsValue(properties);
+        needles       = this.ifStringToArrayAsValue(needles);
+        minLength     = (typeof minLength === "undefined" ? 2 : minLength);
+        caseSensitive = (typeof caseSensitive === "undefined" ? false : caseSensitive);
+        var result    = false;
 
-        var bResult = false;
-        Egf.Util.forEach(aNeedles, function (sWord) {
-            if (sWord.length >= iMinLength) {
-                Egf.Util.forEach(aProperties, function (sProperty) {
-                    if (oHaystack.hasOwnProperty(sProperty) || typeof sProperty === 'function') {
-                        var sHayStackPropertyValue = '';
-                        // Method of object.
-                        if (oHaystack[sProperty] === 'function') {
-                            sHayStackPropertyValue = oHaystack[sProperty]();
+        // Iterate searched words.
+        Egf.Util.forEach(needles, function (word) {
+            if (word.length >= minLength) {
+                // Iterate object properties.
+                Egf.Util.forEach(properties, function (property) {
+                    if (haystack.hasOwnProperty(property) || typeof property === 'function') {
+                        var haystackPropertyValue = '';
+                        // Method of object, call it and check result.
+                        if (haystack[property] === 'function') {
+                            haystackPropertyValue = haystack[property]();
                         }
                         // Function with object parameter.
-                        else if (typeof sProperty === 'function') {
-                            sHayStackPropertyValue = sProperty(oHaystack);
+                        else if (typeof property === 'function') {
+                            haystackPropertyValue = property(haystack);
                         }
                         // Number.
-                        else if (typeof oHaystack[sProperty] === 'number') {
-                            sHayStackPropertyValue = oHaystack[sProperty].toString();
+                        else if (typeof haystack[property] === 'number') {
+                            haystackPropertyValue = haystack[property].toString();
                         }
                         // String... probably.
                         else {
-                            sHayStackPropertyValue = oHaystack[sProperty];
+                            haystackPropertyValue = haystack[property];
                         }
-                        if (sHayStackPropertyValue && ((bCaseSensitive && sHayStackPropertyValue.search(sWord) >= 0) || (!bCaseSensitive && sHayStackPropertyValue.toLowerCase().search(sWord.toLowerCase()) >= 0))) {
-                            bResult = true;
+
+                        // Compare strings.
+                        if (ctrl.isWordFound(haystackPropertyValue, word, caseSensitive)) {
+                            result = true;
                         }
                     }
                     else {
-                        console.error("Object doesn't have the property: " + sProperty + "! The object is: ", oHaystack);
+                        console.error("Object doesn't have the property: " + property + "! The object is: ", haystack);
                     }
                 });
             }
         });
-        return bResult;
+        return result;
+    };
+
+    /**
+     * Check if the word exists in the property of object.
+     * @param haystackPropertyValue {string} Property value.
+     * @param word {string} Searched word.
+     * @param caseSensitive {boolean} Case sensitive search or not.
+     * @returns {boolean}
+     */
+    this.isWordFound = function (haystackPropertyValue, word, caseSensitive) {
+        return (haystackPropertyValue && (
+                (caseSensitive && haystackPropertyValue.search(word) >= 0) ||
+                (!caseSensitive && haystackPropertyValue.toLowerCase().search(word.toLowerCase()) >= 0)
+            )
+        );
     };
 
 };
