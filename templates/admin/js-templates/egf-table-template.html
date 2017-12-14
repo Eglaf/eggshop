@@ -3,7 +3,9 @@
     <table border="1">
         <thead>
             <% for (columnKey in this.columns) { %>
-                <th class="egf-table-head" data-property="<% this.columns[columnKey].property %>"><% this.columns[columnKey].text %></th>
+                <th class="egf-table-head" data-sortby="<% this.columns[columnKey]['_key'] %>">
+                    <% this.columns[columnKey].text %>
+                </th>
             <% } %>
         </thead>
         <tbody></tbody>

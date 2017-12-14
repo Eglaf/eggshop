@@ -8,10 +8,10 @@ if (typeof Egf.Util === 'undefined' || typeof Egf.Template === 'undefined') {
 /**
  * Egf table creator.
  *
- * Order of processing rows...
+ * Sort of processing rows...
  * - GlobalSearch
  * - ColumnSearch todo
- * - Order
+ * - Sort
  * - Limit
  */
 Egf.Table = function () {
@@ -28,16 +28,16 @@ Egf.Table = function () {
     /** @type {Object[]} Raw content of table. It contains everything. All the rows unfiltered and unsorted. */
     this.rawContents = [];
 
-    /** @type {Object[]} All the filtered by globalSearch contents of table. ColumnSearch, order and limit comes later. */
+    /** @type {Object[]} All the filtered by globalSearch contents of table. ColumnSearch, sort and limit comes later. */
     this.filteredByGlobalSearchContents = [];
 
-    /** @type {Object[]} All the filtered by globalSearch and columnSearch contents of table. Order and limit comes later. */
+    /** @type {Object[]} All the filtered by globalSearch and columnSearch contents of table. Sort and limit comes later. (Maybe this first?) */
     this.filteredByColumnSearchContents = [];
 
-    /** @type {Object[]} All the filtered (global and column) and ordered content of table. Limit comes later.*/
+    /** @type {Object[]} All the filtered (global and column) and sorted content of table. Limit comes later.*/
     this.sortedContents = [];
 
-    /** @type {Object[]} All the filtered (global and column), ordered and limited content of table. It'll be rendered into table body. */
+    /** @type {Object[]} All the filtered (global and column), sorted and limited content of table. It'll be rendered into table body. */
     this.limitedContents = [];
 
     /** @type {string} The globally searched string. */
@@ -52,17 +52,17 @@ Egf.Table = function () {
     /** @type {Object} Config of table. */
     this.config = {
         /** @var {number} Minimum length of search. */
-        searchMinLength:        2,
+        searchMinLength:       2,
         /** @type {number} Delay (in milliseconds) before doing the search.  */
-        delaySearch:            500,
-        /** @type {string} The property of order by. */
-        orderByProperty:        '',
-        /** @type {boolean} The direction of order by. */
-        orderDirectionReversed: false,
+        delaySearch:           500,
+        /** @type {int} The column key to sort by. */
+        sortByColumnKey:       void 0,
+        /** @type {boolean} The direction of sort by. */
+        sortByReversed:        false,
         /** @type {number} Number of visible rows. */
-        rowsOnPage:             10,
+        rowsOnPage:            10,
         /** @type {number} Number of visible pagination pages near to the current one. */
-        visibleNeighbourPages:  3
+        visibleNeighbourPages: 3
     };
 
     /** @type {Object} Translations. */
@@ -120,30 +120,32 @@ Egf.Table = function () {
 
     /**
      * Set columns with header data.
+     * Adds the _key property to column objects.
      * @param columns {Object[]}
      * @return {Egf.Table}
      */
     this.setColumns = function (columns) {
         console.log('Table setColumns({Object[]})', columns);
 
-        this.columns = columns;
+        var i = 0;
+        Egf.Util.forEach(columns, function (column) {
+            column['_key'] = i++;
+            ctrl.columns.push(column);
+        });
 
         return this;
     };
 
     /**
-     * Set the raw content. Array of objects or a Json string.
-     * @param xContent {string|Object[]}
+     * Set the raw content.
+     * It updates the content values to avoid repeating the same process on every event. To do that, it need columns header data first!
+     * @param passedContents {string|Object[]} Expects Array of objects or a Json string.
      * @return {Egf.Table}
      */
-    this.setContents = function (xContent) {
-        console.log('Table setContent({string|object}})', xContent);
+    this.setContents = function (passedContents) {
+        console.log('Table setContent({string|object}})', passedContents);
 
-        if (typeof xContent === 'string') {
-            this.rawContents = JSON.parse(xContent);
-        } else {
-            this.rawContents = xContent;
-        }
+        this.rawContents = (typeof passedContents === 'string' ? JSON.parse(passedContents) : passedContents);
 
         return this;
     };
@@ -166,9 +168,9 @@ Egf.Table = function () {
 
         // Add events.
         this.addGlobalSearchEvent()
-            .addTableOrderEvent();
+            .addTableSortEvent();
 
-        // Content filter/order/limit.
+        // Content filter/sort/limit.
         this.calculateFilteredByGlobalSearchContents()
             .calculateFilteredByColumnSearchContents()
             .calculateSortedContents()
@@ -229,26 +231,29 @@ Egf.Table = function () {
      * Add sorting events to headers.
      * @return {Egf.Table}
      */
-    this.addTableOrderEvent = function () {
-        console.log('addTableOrderEvent');
+    this.addTableSortEvent = function () {
+        console.log('addTableSortEvent');
 
         Egf.Elem.addEvent(this.containerElemId + ' .egf-table-head', 'click', function (event) {
-            var orderProperty = event.target.getAttribute('data-property');
+            var sortBy = parseInt(event.target.getAttribute('data-sortby'), 10);
+            var column = ctrl.getColumnByKey(sortBy);
 
-            // Secondary click on the column header set the direction to desc.
-            if (orderProperty === ctrl.config.orderByProperty) {
-                ctrl.config.orderDirectionReversed = !ctrl.config.orderDirectionReversed;
+            if (typeof column.sort !== 'undefined') {
+                // Secondary click on the column header set the direction to desc.
+                if (sortBy === ctrl.config.sortByColumnKey) {
+                    ctrl.config.sortByReversed = !ctrl.config.sortByReversed;
+                }
+                // If the clicked sortBy property is not the current, then make it current and set the direction to asc.
+                else {
+                    ctrl.config.sortByColumnKey = sortBy;
+                    ctrl.config.sortByReversed  = false;
+                }
+
+                ctrl.calculateSortedContents()
+                    .calculateLimitedContents();
+
+                ctrl.showCurrentContents();
             }
-            // If the clicked orderBy property is not the current, then make it current and set the direction to asc.
-            else {
-                ctrl.config.orderByProperty = orderProperty;
-                ctrl.config.orderDirectionReversed = false;
-            }
-
-            ctrl.calculateSortedContents()
-                .calculateLimitedContents();
-
-            ctrl.showCurrentContents();
         });
 
         return this;
@@ -296,35 +301,35 @@ Egf.Table = function () {
      * @return string
      */
     this.getRowHtml = function (row) {
-        var rowContent = {};
-        var key        = 0;
+        var rowContents = {};
 
         Egf.Util.forEach(this.columns, function (column) {
-            // Show property as simple data.
-            if (column.hasOwnProperty('property')) {
-                rowContent[key++] = row[column.property];
-            }
             // Call function with row data and show the result.
-            else if (column.hasOwnProperty('func')) {
-                if (typeof column['func'] === 'function') {
-                    rowContent[key++] = column['func'](row);
+            if (column.hasOwnProperty('func')) {
+                if (typeof column.func === 'function') {
+                    rowContents[column['_key']] = column.func(row);
                 } else {
-                    throw new Error('Table content expects function, got ' + (typeof column['func']) + ' instead!');
+                    throw new Error('Table column (' + column[_key] + ') expects function, got ' + (typeof column.func) + ' instead!');
                 }
-            } else {
+            }
+            // Show property as simple data.
+            else if (column.hasOwnProperty('property')) {
+                rowContents[column['_key']] = row[column.property];
+            }
+            else {
                 throw new Error('Table header has to have "property" or "func" to know what to do with cell content.');
             }
         });
 
         return Egf.Template.getTemplateContent('js-template-egf-table-row', {
-            rowContent: rowContent
+            rowContent: rowContents
         });
     };
 
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
-     * Content Filter/Sorter                                      **         **         **         **         **         **         **         **         **         **
+     * Content Filter                                             **         **         **         **         **         **         **         **         **         **
      *                                                          **         **         **         **         **         **         **         **         **         **
      *************************************************************************************************************************************************************/
 
@@ -388,23 +393,72 @@ Egf.Table = function () {
         return this;
     };
 
+
+    /**************************************************************************************************************************************************************
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     * Content Sorter                                             **         **         **         **         **         **         **         **         **         **
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     *************************************************************************************************************************************************************/
+
     /**
-     * Reorder content rows.
+     * Resort content rows.
      * Works from filteredByGlobalSearchContents.
      * @return {Egf.Table}
      */
     this.calculateSortedContents = function () {
         console.log('calculateSortedContents');
 
-        // Copy content (sortObjects works with passed by reference).
-        this.sortedContents = this.filteredByColumnSearchContents;
-
         // Do the sorting.
-        if (typeof this.config.orderByProperty === 'string' && this.config.orderByProperty.length) {
-            Egf.Util.sortObjects(this.sortedContents, this.config.orderByProperty, this.config.orderDirectionReversed)
+        if (typeof this.config.sortByColumnKey === 'number') {
+            this.sortedContents = this.getContentsWithSortValues(this.config.sortByColumnKey);
+
+            Egf.Util.sortObjects(this.sortedContents, '_sort_value', this.config.sortByReversed)
+        }
+        // No sorting is needed.
+        else {
+            this.sortedContents = this.filteredByColumnSearchContents;
         }
 
         return this;
+    };
+
+    /**
+     * Get the array of content objects, extended with a '_sort_value' property.
+     * @param columnKey {number}
+     * @return Object[]
+     */
+    this.getContentsWithSortValues = function (columnKey) {
+        /** @type {Object|null} Column header object. */
+        var column                 = this.getColumnByKey(columnKey);
+        /** @type {Object[]} Rows with sort value. */
+        var contentsWithSortValues = [];
+
+        // Check column.
+        if (column && typeof column.sort !== 'undefined') {
+            Egf.Util.forEach(this.filteredByColumnSearchContents, function (row) {
+                var extendedContentRow = row;
+
+                // Sort is a function... result of it will be the base of sorting.
+                if (typeof column.sort === 'function') {
+                    extendedContentRow['_sort_value'] = column['sort'](row);
+                }
+                // Sort is set to true... column property will be the base of sorting.
+                else if (column.sort === true && typeof column.property === 'string') {
+                    extendedContentRow['_sort_value'] = row[column.property];
+                }
+                // Sort is a string... the named property will be the base of sorting.
+                else if (typeof column.sort === 'string' && row.hasOwnProperty(column.sort)) {
+                    extendedContentRow['_sort_value'] = row[column.sort];
+                }
+
+                contentsWithSortValues.push(extendedContentRow);
+            });
+        }
+        else {
+            contentsWithSortValues = this.filteredByColumnSearchContents;
+        }
+
+        return contentsWithSortValues;
     };
 
 
@@ -519,6 +573,22 @@ Egf.Table = function () {
                 (!caseSensitive && haystackPropertyValue.toLowerCase().search(word.toLowerCase()) >= 0)
             )
         );
+    };
+
+
+    /**************************************************************************************************************************************************************
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     * Other                                                      **         **         **         **         **         **         **         **         **         **
+     *                                                          **         **         **         **         **         **         **         **         **         **
+     *************************************************************************************************************************************************************/
+
+    /**
+     * Find the column by the given key value.
+     * @param key {number}
+     * @return {Object|null}
+     */
+    this.getColumnByKey = function (key) {
+        return Egf.Util.findOneInArrayOfObjectsBy(this.columns, '_key', key);
     };
 
 };

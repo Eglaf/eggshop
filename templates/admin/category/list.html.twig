@@ -6,9 +6,9 @@
 
 {% block adminContent %}
     {# Template for egf table. #}
-    {% include 'admin/egf-table-template.html.twig' %}
-    {% include 'admin/egf-table-row-template.html.twig' %}
-    {% include 'admin/egf-pagination-template.html.twig' %}
+    {% include 'admin/js-templates/egf-table-template.html' %}
+    {% include 'admin/js-templates/egf-table-row-template.html' %}
+    {% include 'admin/js-templates/egf-pagination-template.html' %}
 
     {# Buttons #}
     <a href="{{ path('app_admin_category_create') }}">Kategoria letrehozas</a><br/><br/>
@@ -29,29 +29,34 @@
             .setContainerElemId('table-container')
             .setContents(JSON.parse('{{ listAsJson|raw }}'))
             .setConfig({
-                orderByProperty: 'label',
-                orderDirectionReversed: false,
+                sortByColumnKey: 0,
+                sortByReversed:  false,
                 rowsOnPage:      5
             })
             .setTranslations({
                 globalSearchPlaceholder: 'Kereses'
             })
             .setColumns([{
-                text:   'Megnevezes',
-                property:   'label',
-                search: 'string',
-                order:  true
+                text:     'Megnevezes',
+                property: 'label',
+                search:   'string',
+                sort:     true
             }, {
-                text:  'Active',
-                order: true,
-                func:  function (row) {
+                text: 'Active',
+                func: function (row) {
                     return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                },
+                sort: function (row) {
+                    // On sorting, put active first.
+                    return (row.active ? 1 : 2);
                 }
             }, {
-                text:  'Termekek',
-                order: true,
-                func:  function (row) {
+                text: 'Termekek',
+                func: function (row) {
                     return row.products.length;
+                },
+                sort: function (row) {
+                    return 0-(row.products.length);
                 }
             }, {
                 text: '',
