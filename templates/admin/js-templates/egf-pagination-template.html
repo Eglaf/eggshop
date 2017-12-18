@@ -1,13 +1,13 @@
 <script id="js-template-egf-pagination" type="text/template">
     <nav class="eg-pagination">
         <div class="egf-pagination-block egf-pagination-block-left">
-            <a class="<% this.elemReferrer.toFirst %>" href="#">
+            <a class="<% this.uniqueIdentifier %>-egf-pagination-button-to-first" href="#">
                 <span class=""></span>
                 <span class="">
                     <% this.text.first %>
                 </span>
             </a>
-            <a class="<% this.elemReferrer.toPrevious %>" href="#">
+            <a class="<% this.uniqueIdentifier %>-egf-pagination-button-to-previous" href="#">
                 <span class=""></span>
                 <span class="">
                     <% this.text.previous %>
@@ -18,13 +18,13 @@
             <% this.currentPage %> / <% this.maxPage %>
         </div>
         <div class="egf-pagination-block egf-pagination-block-right">
-            <a class="<% this.elemReferrer.toNext %>" href="#">
+            <a class="<% this.uniqueIdentifier %>-egf-pagination-button-to-next" href="#">
                 <span class="">
                     <% this.text.next %>
                 </span>
                 <span class=""></span>
             </a>
-            <a class="<% this.elemReferrer.toLast %>" href="#">
+            <a class="<% this.uniqueIdentifier %>-egf-pagination-button-to-last" href="#">
                 <span class="">
                     <% this.text.last %>
                 </span>

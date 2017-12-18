@@ -1,10 +1,5 @@
 "use strict";
 
-// Check requirements. TODO pagination
-if (typeof Egf.Util === 'undefined' || typeof Egf.Template === 'undefined') {
-    console.error('The files egf.js, egf-template.js and egf-pagination.js are required!');
-}
-
 /**
  * Egf table creator.
  *
@@ -16,8 +11,8 @@ if (typeof Egf.Util === 'undefined' || typeof Egf.Template === 'undefined') {
  */
 Egf.Table = function () {
 
-    /** @type {Egf.Table} The this. */
-    var ctrl = this;
+    /** @type {Egf.Table} That this. */
+    var that = this;
 
     /** @type {string} ElemId of the container. */
     this.containerElemId = '';
@@ -28,11 +23,8 @@ Egf.Table = function () {
     /** @type {Object[]} Raw content of table. It contains everything. All the rows unfiltered and unsorted. */
     this.rawContents = [];
 
-    /** @type {Object[]} All the filtered by globalSearch contents of table. ColumnSearch, sort and limit comes later. */
-    this.filteredByGlobalSearchContents = [];
-
-    /** @type {Object[]} All the filtered by globalSearch and columnSearch contents of table. Sort and limit comes later. (Maybe this first?) */
-    this.filteredByColumnSearchContents = [];
+    /** @type {Object[]} Filtered contents. */
+    this.filteredContents = [];
 
     /** @type {Object[]} All the filtered (global and column) and sorted content of table. Limit comes later.*/
     this.sortedContents = [];
@@ -42,12 +34,6 @@ Egf.Table = function () {
 
     /** @type {string} The globally searched string. */
     this.globalSearch = '';
-
-    /** @type {number} Currently visible page. */
-    this.currentPageNumber = 0;
-
-    /** @type {number} Max pages. */
-    this.maxPageNumber = 0;
 
     /** @type {Object} Config of table. */
     this.config = {
@@ -71,6 +57,9 @@ Egf.Table = function () {
         contentInfoFiltered:     'Showing %from% to %to% of %all% rows. Filtered from %total% rows.',
         globalSearchPlaceholder: 'Global search'
     };
+
+    /** @type {Egf.Pagination} Pagination handler object (It has the current and max page numbers). */
+    this.pagination = null;
 
 
     /**************************************************************************************************************************************************************
@@ -130,7 +119,7 @@ Egf.Table = function () {
         var i = 0;
         Egf.Util.forEach(columns, function (column) {
             column['_key'] = i++;
-            ctrl.columns.push(column);
+            that.columns.push(column);
         });
 
         return this;
@@ -163,16 +152,24 @@ Egf.Table = function () {
     this.init = function () {
         console.log('init');
 
+        // Check requirements.
+        if (typeof Egf.Util === 'undefined' || typeof Egf.Template === 'undefined' || typeof Egf.Pagination === 'undefined') {
+            throw new Error('The egf.js, egf-template.js and egf-pagination.js files are required!');
+        }
+
         // Init table frame.
         this.loadTableFrame();
 
         // Add events.
         this.addGlobalSearchEvent()
+            .addColumnSearchEvent()
             .addTableSortEvent();
 
+        // Pagination.
+        this.initPagination();
+
         // Content filter/sort/limit.
-        this.calculateFilteredByGlobalSearchContents()
-            .calculateFilteredByColumnSearchContents()
+        this.calculateFilteredContents()
             .calculateSortedContents()
             .calculateLimitedContents();
 
@@ -187,7 +184,7 @@ Egf.Table = function () {
         console.log('loadTableFrame');
 
         Egf.Template.toElementByTemplate(this.containerElemId, 'js-template-egf-table', {
-            columns:      ctrl.columns,
+            columns:      that.columns,
             translations: this.translations
         });
     };
@@ -205,26 +202,29 @@ Egf.Table = function () {
             clearTimeout(timeout);
 
             timeout = setTimeout(function () {
-                ctrl.globalSearch = event.target.value;
+                that.globalSearch = event.target.value;
 
-                ctrl.calculateFilteredByGlobalSearchContents()
-                    .calculateFilteredByColumnSearchContents()
+                that.calculateFilteredContents()
                     .calculateSortedContents()
                     .calculateLimitedContents();
 
-                ctrl.showCurrentContents();
-            }, ctrl.config.delaySearch);
+                that.showCurrentContents();
+            }, that.config.delaySearch);
         });
 
         return this;
     };
 
-    /** todo */
+    /**
+     * todo addColumnSearchEvent
+     */
     this.addColumnSearchEvent = function () {
         /*this
             .calculateFilteredByColumnSearchContents()
             .calculateSortedContents()
             .calculateLimitedContents();*/
+
+        return this;
     };
 
     /**
@@ -236,25 +236,69 @@ Egf.Table = function () {
 
         Egf.Elem.addEvent(this.containerElemId + ' .egf-table-head', 'click', function (event) {
             var sortBy = parseInt(event.target.getAttribute('data-sortby'), 10);
-            var column = ctrl.getColumnByKey(sortBy);
+            var column = that.getColumnByKey(sortBy);
 
             if (typeof column.sort !== 'undefined') {
                 // Secondary click on the column header set the direction to desc.
-                if (sortBy === ctrl.config.sortByColumnKey) {
-                    ctrl.config.sortByReversed = !ctrl.config.sortByReversed;
+                if (sortBy === that.config.sortByColumnKey) {
+                    that.config.sortByReversed = !that.config.sortByReversed;
                 }
                 // If the clicked sortBy property is not the current, then make it current and set the direction to asc.
                 else {
-                    ctrl.config.sortByColumnKey = sortBy;
-                    ctrl.config.sortByReversed  = false;
+                    that.config.sortByColumnKey = sortBy;
+                    that.config.sortByReversed  = false;
                 }
 
-                ctrl.calculateSortedContents()
+                that.calculateSortedContents()
                     .calculateLimitedContents();
 
-                ctrl.showCurrentContents();
+                that.showCurrentContents();
             }
         });
+
+        return this;
+    };
+
+    /**
+     * Add pagination to the table.
+     * @return {Egf.Table}
+     */
+    this.initPagination = function () {
+        this.pagination = new Egf.Pagination()
+            .setContainerElementsCssClass('egf-table-pagination')
+            .setToFirstEvent(function () {
+                if (that.pagination.currentPage > 1) {
+                    that.pagination.currentPage = 1;
+
+                    that.calculateLimitedContents()
+                        .showCurrentContents();
+                }
+            })
+            .setToPreviousEvent(function () {
+                if (that.pagination.currentPage > 1) {
+                    that.pagination.currentPage--;
+
+                    that.calculateLimitedContents()
+                        .showCurrentContents();
+                }
+            })
+            .setToNextEvent(function () {
+                if (that.pagination.currentPage < that.pagination.maxPage) {
+                    that.pagination.currentPage++;
+
+                    that.calculateLimitedContents()
+                        .showCurrentContents();
+                }
+            })
+            .setToLastEvent(function () {
+                if (that.pagination.currentPage < that.pagination.maxPage) {
+                    that.pagination.currentPage = that.pagination.maxPage;
+
+                    that.calculateLimitedContents()
+                        .showCurrentContents();
+                }
+            })
+            .init();
 
         return this;
     };
@@ -272,11 +316,11 @@ Egf.Table = function () {
     this.showCurrentContents = function () {
         console.log('loadCurrentContent');
 
-        console.log(this.limitedContents);
-
         var tableBodyElements = Egf.Elem.find(this.containerElemId + " > table > tbody");
         if (tableBodyElements instanceof NodeList && typeof tableBodyElements[0] !== 'undefined') {
             tableBodyElements[0].innerHTML = this.getTableContentHtml();
+
+            this.pagination.refresh();
         }
         else {
             throw new Error("Table body not found! Searched for: " + this.containerElemId + " > table > tbody");
@@ -290,7 +334,7 @@ Egf.Table = function () {
     this.getTableContentHtml = function () {
         var htmlResult = '';
         Egf.Util.forEach(this.limitedContents, function (row) {
-            htmlResult += ctrl.getRowHtml(row);
+            htmlResult += that.getRowHtml(row);
         });
 
         return htmlResult;
@@ -334,18 +378,35 @@ Egf.Table = function () {
      *************************************************************************************************************************************************************/
 
     /**
-     * Remove rows from filteredByGlobalSearchContents which shouldn't be visible by global search.
-     * Works from rawContents.
+     * Remove rows from contents which shouldn't be visible.
      * @return {Egf.Table}
      */
-    this.calculateFilteredByGlobalSearchContents = function () {
+    this.calculateFilteredContents = function () {
+        console.log('calculateFilteredContents');
+
+        var filteredContents = this.getFilteredByGlobalSearchContents(this.rawContents);
+        filteredContents     = this.getFilteredByColumnSearchContents(filteredContents);
+
+        this.filteredContents = filteredContents;
+
+        this.resetPaginationCurrentPage()
+            .calculatePaginationMaxPage();
+
+        return this;
+    };
+
+    /**
+     * Get the rows from given contents which should be visible by the current global search.
+     * @param contents {Object[]}
+     * @return {Object[]}
+     */
+    this.getFilteredByGlobalSearchContents = function (contents) {
         console.log('calculateFilteredByGlobalSearchContents');
+
+        var filteredByGlobalSearchContents = [];
 
         // If there is something to search.
         if (typeof this.globalSearch === 'string' && this.globalSearch.length >= this.config.searchMinLength) {
-            // Reset filteredByGlobalSearchContents and load it from rawContents data.
-            this.filteredByGlobalSearchContents = [];
-
             /** @type {string[]} Searched words, space separated. */
             var searchFragments  = this.globalSearch.split(' ');
             /** @type {string[]} Properties to search in. */
@@ -366,31 +427,31 @@ Egf.Table = function () {
             });
 
             // Iterate temporally stored filteredByGlobalSearchContents and update the real one by filter results.
-            Egf.Util.forEach(this.rawContents, function (row) {
+            Egf.Util.forEach(contents, function (row) {
                 // If row has the string in it then add to real filteredByGlobalSearchContents.
-                if (ctrl.isInObjectTextContent(row, searchProperties, searchFragments, ctrl.config.searchMinLength, false)) {
-                    ctrl.filteredByGlobalSearchContents.push(row);
+                if (that.isInObjectTextContent(row, searchProperties, searchFragments, that.config.searchMinLength, false)) {
+                    filteredByGlobalSearchContents.push(row);
                 }
             });
         }
         // If there is no globalSearch.
         else {
-            this.filteredByGlobalSearchContents = this.rawContents;
+            filteredByGlobalSearchContents = contents;
         }
 
-        return this;
+        return filteredByGlobalSearchContents;
     };
 
     /**
+     * Get the rows from given contents which should be visible by the current column search.
      * todo
-     * @return {Egf.Table}
+     * @param contents {Object[]}
+     * @return {Object[]}
      */
-    this.calculateFilteredByColumnSearchContents = function () {
-        // console.log('calculateFilteredByColumnSearchContents TODO');
+    this.getFilteredByColumnSearchContents = function (contents) {
+        console.log('calculateFilteredByColumnSearchContents TODO');
 
-        this.filteredByColumnSearchContents = this.filteredByGlobalSearchContents;
-
-        return this;
+        return contents;
     };
 
 
@@ -402,7 +463,6 @@ Egf.Table = function () {
 
     /**
      * Resort content rows.
-     * Works from filteredByGlobalSearchContents.
      * @return {Egf.Table}
      */
     this.calculateSortedContents = function () {
@@ -416,7 +476,7 @@ Egf.Table = function () {
         }
         // No sorting is needed.
         else {
-            this.sortedContents = this.filteredByColumnSearchContents;
+            this.sortedContents = this.filteredContents;
         }
 
         return this;
@@ -435,7 +495,7 @@ Egf.Table = function () {
 
         // Check column.
         if (column && typeof column.sort !== 'undefined') {
-            Egf.Util.forEach(this.filteredByColumnSearchContents, function (row) {
+            Egf.Util.forEach(this.filteredContents, function (row) {
                 var extendedContentRow = row;
 
                 // Sort is a function... result of it will be the base of sorting.
@@ -455,7 +515,7 @@ Egf.Table = function () {
             });
         }
         else {
-            contentsWithSortValues = this.filteredByColumnSearchContents;
+            contentsWithSortValues = this.filteredContents;
         }
 
         return contentsWithSortValues;
@@ -473,13 +533,50 @@ Egf.Table = function () {
      * @return {Egf.Table}
      */
     this.calculateLimitedContents = function () {
-        console.log('calculateLimitedContents TODO');
+        console.log('calculateLimitedContents');
 
-        this.limitedContents = this.sortedContents;
+        that.limitedContents = [];
+        Egf.Util.forEach(this.sortedContents, function (key, row) {
+            if (that.isRowInLimit(key)) {
+                that.limitedContents.push(row);
+            }
+        });
 
         return this;
     };
 
+    /**
+     * Check if the row should be visible in the limited contents, by it's key.
+     * @param key {number}
+     * @returns {boolean}
+     */
+    this.isRowInLimit = function (key) {
+        return (key >= ((that.pagination.currentPage - 1) * that.config.rowsOnPage) && key < (((that.pagination.currentPage - 1) * that.config.rowsOnPage) + that.config.rowsOnPage));
+    };
+
+    /**
+     * Set the current page number of pagination to one.
+     * @return {Egf.Table}
+     */
+    this.resetPaginationCurrentPage = function () {
+        console.log('resetPaginationCurrentPage');
+
+        this.pagination.currentPage = 1;
+
+        return this;
+    };
+
+    /**
+     * Calculate the max page number from row number and set it to pagination.
+     * @return {Egf.Table}
+     */
+    this.calculatePaginationMaxPage = function () {
+        console.log('calculatePaginationMaxPage');
+
+        this.pagination.maxPage = Math.ceil(this.filteredContents.length / this.config.rowsOnPage);
+
+        return this;
+    };
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
@@ -547,7 +644,7 @@ Egf.Table = function () {
                         }
 
                         // Compare strings.
-                        if (ctrl.isWordFound(haystackPropertyValue, word, caseSensitive)) {
+                        if (that.isWordFound(haystackPropertyValue, word, caseSensitive)) {
                             result = true;
                         }
                     }

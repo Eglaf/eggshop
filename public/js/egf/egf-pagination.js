@@ -4,27 +4,19 @@
  * Pagination.
  * @todo setToPageEvent
  */
-function Pagination() {
+Egf.Pagination = function Pagination() {
 
-    /** @type {Pagination} */
+    /** @type {Egf.Pagination} That this. */
     var that = this;
 
-    /** @type {object} Id and class referrers to Html elements. */
-    this.oElementReferrer = {
-        // The pagination container's css class. There can be more than one.
-        containers: '?',
-        // Elem id of button to first.
-        toFirst:    '_pagination-to-first',
-        // Elem id of button to previous.
-        toPrevious: '_pagination-to-previous',
-        // Elem id of button to next.
-        toNext:     '_pagination-to-next',
-        // Elem id of button to last.
-        toLast:     '_pagination-to-last'
-    };
+    /** @type {string} The cssClass of container elements. */
+    this.containerElementsCssClass = '';
+
+    /** @type {string} Unique identifier of pagination block. */
+    this.uniqueIdentifier = '';
 
     /** @type {object} Translations. */
-    this.oTranslations = {
+    this.translations = {
         first:    'First',
         previous: 'Previous',
         next:     'Next',
@@ -32,65 +24,65 @@ function Pagination() {
     };
 
     /** @type {object} */
-    this.oContainers = [];
+    this.containerElements = [];
 
     /** @type {number} The current page. */
-    this.iCurrentPage = 1;
+    this.currentPage = 1;
 
     /** @type {number} The max page. */
-    this.iMaxPage = 1;
+    this.maxPage = 1;
 
     /** @type {object} The event functions on clicking pagination buttons. */
-    this.oEvents = {
-        toFirst:    function () {},
-        toPrevious: function () {},
-        toNext:     function () {},
-        toLast:     function () {}
+    this.events = {
+        toFirst:    function () {
+        },
+        toPrevious: function () {
+        },
+        toNext:     function () {
+        },
+        toLast:     function () {
+        }
     };
 
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
-     * Init                                                       **         **         **         **         **         **         **         **         **         **
+     * Setters/Init                                               **         **         **         **         **         **         **         **         **         **
      *                                                          **         **         **         **         **         **         **         **         **         **
      *************************************************************************************************************************************************************/
 
     /**
-     * Set element referrers.
-     * @param oElementReferrer {object}
-     * @return {Pagination}
+     * Set element referrers. Adds dot prefix if it's not there.
+     * @param containerElementsCssClass {string}
+     * @return {Egf.Pagination}
      */
-    this.setElementReferrer = function (oElementReferrer) {
-        Egf.Cl.log(arguments);
+    this.setContainerElementsCssClass = function (containerElementsCssClass) {
+        this.containerElementsCssClass = (Egf.Util.startsWith(containerElementsCssClass, '.') ? containerElementsCssClass : '.' + containerElementsCssClass);
 
-        this.oElementReferrer = Egf.Util.objectAssign(this.oElementReferrer, oElementReferrer);
-
-        return that;
+        return this;
     };
 
     /**
      * Set translations.
-     * @param oTranslations {object}
-     * @return {Pagination}
+     * @param translations {object}
+     * @return {Egf.Pagination}
      */
-    this.setTranslations = function (oTranslations) {
-        Egf.Cl.log(arguments);
+    this.setTranslations = function (translations) {
+        this.translations = Egf.Util.objectAssign(this.translations, translations);
 
-        this.oTranslations = Egf.Util.objectAssign(this.oTranslations, oTranslations);
-
-        return that;
+        return this;
     };
+
 
     /**
      * Initialize.
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.init = function () {
-        Egf.Cl.log(arguments);
+        this.containerElements = Egf.Elem.find(this.containerElementsCssClass);
+        this.uniqueIdentifier  = Egf.Util.getRandomString(8, 'alpha');
 
-        that.oContainers = document.getElementsByClassName(that.oElementReferrer.containers);
-
-        return that;
+        return this;
     };
 
 
@@ -101,62 +93,27 @@ function Pagination() {
      *************************************************************************************************************************************************************/
 
     /**
-     * Set the current page.
-     * @param iCurrentPage {number}
-     * @return {Pagination}
-     */
-    this.setCurrentPage = function (iCurrentPage) {
-        Egf.Cl.log(arguments);
-
-        that.iCurrentPage = iCurrentPage;
-
-        return that;
-    };
-
-    /**
-     * Set the max page.
-     * @param iMaxPage {number}
-     * @return {Pagination}
-     */
-    this.setMaxPage = function (iMaxPage) {
-        Egf.Cl.log(arguments);
-
-        that.iMaxPage = iMaxPage;
-
-        return that;
-    };
-
-    /**
      * Refresh the content of pagination containers.
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.refresh = function () {
-        Egf.Cl.log(arguments);
-
-        for (var iKey in that.oContainers) {
-            if (that.oContainers.hasOwnProperty(iKey) && iKey !== 'length') {
-                Egf.Template.toElementByTemplate(that.oContainers[iKey], 'js-template-egf-pagination', {
-                    text:         {
-                        first:    that.oTranslations.first,
-                        previous: that.oTranslations.previous,
-                        next:     that.oTranslations.next,
-                        last:     that.oTranslations.last
-                    },
-                    elemReferrer: {
-                        toFirst:    that.oElementReferrer.toFirst,
-                        toPrevious: that.oElementReferrer.toPrevious,
-                        toNext:     that.oElementReferrer.toNext,
-                        toLast:     that.oElementReferrer.toLast
-                    },
-                    currentPage:  that.iCurrentPage,
-                    maxPage:      that.iMaxPage
-                });
-            }
-        }
+        Egf.Util.forEach(this.containerElements, function (containerElement) {
+            Egf.Template.toElementByTemplate(containerElement, 'js-template-egf-pagination', {
+                uniqueIdentifier: that.uniqueIdentifier,
+                currentPage:      that.currentPage,
+                maxPage:          that.maxPage,
+                text:             {
+                    first:    that.translations.first,
+                    previous: that.translations.previous,
+                    next:     that.translations.next,
+                    last:     that.translations.last
+                }
+            });
+        });
 
         that.addEvents();
 
-        return that;
+        return this;
     };
 
 
@@ -168,88 +125,80 @@ function Pagination() {
 
     /**
      * Add events to buttons.
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.addEvents = function () {
-        Egf.Cl.log(arguments);
+        console.log('pagination addEvents');
 
         // To first.
-        Egf.Util.elementsEvent(that.oElementReferrer.toFirst, 'click', function (e) {
+        Egf.Elem.addEvent('.' + this.uniqueIdentifier + '-egf-pagination-button-to-first', 'click', function (e) {
             e.preventDefault();
-            that.oEvents.toFirst();
+            that.events.toFirst();
         });
 
         // To previous.
-        Egf.Util.elementsEvent(that.oElementReferrer.toPrevious, 'click', function (e) {
+        Egf.Elem.addEvent('.' + this.uniqueIdentifier + '-egf-pagination-button-to-previous', 'click', function (e) {
             e.preventDefault();
-            that.oEvents.toPrevious();
+            that.events.toPrevious();
         });
 
         // To next.
-        Egf.Util.elementsEvent(that.oElementReferrer.toNext, 'click', function (e) {
+        Egf.Elem.addEvent('.' + this.uniqueIdentifier + '-egf-pagination-button-to-next', 'click', function (e) {
             e.preventDefault();
-            that.oEvents.toNext();
+            that.events.toNext();
         });
 
         // To last.
-        Egf.Util.elementsEvent(that.oElementReferrer.toLast, 'click', function (e) {
+        Egf.Elem.addEvent('.' + this.uniqueIdentifier + '-egf-pagination-button-to-last', 'click', function (e) {
             e.preventDefault();
-            that.oEvents.toLast();
+            that.events.toLast();
         });
 
-        return that;
+        return this;
     };
 
     /**
      * Set the event of clicking first button.
      * @param fnToFirst {function}
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.setToFirstEvent = function (fnToFirst) {
-        Egf.Cl.log(arguments);
+        that.events.toFirst = fnToFirst;
 
-        that.oEvents.toFirst = fnToFirst;
-
-        return that;
-    }
+        return this;
+    };
 
     /**
      * Set the event of clicking previous button.
      * @param fnToPrevious {function}
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.setToPreviousEvent = function (fnToPrevious) {
-        Egf.Cl.log(arguments);
+        that.events.toPrevious = fnToPrevious;
 
-        that.oEvents.toPrevious = fnToPrevious;
-
-        return that;
-    }
+        return this;
+    };
 
     /**
      * Set the event of clicking next button.
      * @param fnToNext {function}
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.setToNextEvent = function (fnToNext) {
-        Egf.Cl.log(arguments);
+        that.events.toNext = fnToNext;
 
-        that.oEvents.toNext = fnToNext;
-
-        return that;
-    }
+        return this;
+    };
 
     /**
      * Set the event of clicking last button.
      * @param fnToLast {function}
-     * @return {Pagination}
+     * @return {Egf.Pagination}
      */
     this.setToLastEvent = function (fnToLast) {
-        Egf.Cl.log(arguments);
+        that.events.toLast = fnToLast;
 
-        that.oEvents.toLast = fnToLast;
-
-        return that;
+        return this;
     }
 
 }

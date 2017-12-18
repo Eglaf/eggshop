@@ -1113,6 +1113,41 @@ Egf.Util = new function () {
         return sText;
     };
 
+    /**
+     * Get a random string.
+     * @param [length] {string}
+     * @param [type] {string}
+     * @return {string}
+     */
+    this.getRandomString = function (length, type) {
+        length     = this.default(length, 8);
+        type       = this.default(type, 'alnum');
+
+        var pool   = '';
+        if (type === 'alnum') {
+            pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        } else if (type === 'alpha') {
+            pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        } else if (type === 'hexdec') {
+            pool = '0123456789abcdef';
+        } else if (type === 'numeric') {
+            pool = '0123456789';
+        } else if (type === 'nozero') {
+            pool = '123456789';
+        } else if (type === 'distinct') {
+            pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
+        } else {
+            throw new Error('Invalid pool type for Egf.Util.getRandomString()! Got: ' + type);
+        }
+
+        var result = "";
+        for (var i = 0; i < length; i++) {
+            result += pool.charAt(Math.floor(Math.random() * pool.length));
+        }
+
+        return result;
+    };
+
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
      * Array/Object                                               **         **         **         **         **         **         **         **         **         **
