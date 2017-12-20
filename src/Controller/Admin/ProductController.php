@@ -53,7 +53,7 @@ class ProductController extends AbstractController {
 	 * Update a Product Product.
 	 *
 	 * RouteName: app_admin_product_update
-	 * @Route("/admin/product/update/{product}", requirements={"product"="\d+"})
+	 * @Route("/admin/product/update/{product}", requirements={"product"="\d+|_id_"})
 	 * @Template("admin/product/form.html.twig")
 	 *
 	 * @param Product $product

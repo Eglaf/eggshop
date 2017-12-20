@@ -9,6 +9,7 @@
     {% include 'admin/js-templates/egf-table-template.html' %}
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
+    {% include 'admin/js-templates/egf-pagination-template.html' %}
 
     {# Buttons #}
     <a href="{{ path('app_admin_product_create') }}">Termek letrehozas</a><br/><br/>
@@ -21,6 +22,7 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/egf/egf-pagination.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-sf-route.js') }}"></script>
 {% endblock %}
 
 {% block postScripts %}
@@ -52,20 +54,22 @@
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: 'Termekek',
+                text: 'Category',
                 func: function (row) {
-                    return "todo";
-                }
-                /*func: function (row) {
-                    return row.products.length;
+                    return row.category.label;
                 },
-                sort: function (row) {
-                    return 0-(row.products.length);
-                }*/
+                sort: true
             }, {
                 text: '',
                 func: function (row) {
-                    return 'TODO buttons (' + row.id + ')'; // %id% ?
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_product_update', {'product':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>Modosit</a>";
                 }
             }])
             .init();

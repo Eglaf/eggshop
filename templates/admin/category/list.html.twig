@@ -21,6 +21,7 @@
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/egf/egf-pagination.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-sf-route.js') }}"></script>
 {% endblock %}
 
 {% block postScripts %}
@@ -62,7 +63,14 @@
             }, {
                 text: '',
                 func: function (row) {
-                    return 'TODO buttons (' + row.id + ')'; // %id% ?
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_category_update', {'category':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>Modosit</a>";
                 }
             }])
             .init();

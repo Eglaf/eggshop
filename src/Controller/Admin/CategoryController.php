@@ -53,7 +53,7 @@ class CategoryController extends AbstractController {
 	 * Update a Product Category.
 	 *
 	 * RouteName: app_admin_category_update
-	 * @Route("/admin/category/update/{category}", requirements={"category"="\d+"})
+	 * @Route("/admin/category/update/{category}", requirements={"category"="\d+|_id_"})
 	 * @Template("admin/category/form.html.twig")
 	 *
 	 * @param Category $category
