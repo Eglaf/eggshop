@@ -72,7 +72,7 @@ class Product {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(name="description", type="string", length=255, options={"fixed" = true})
+	 * @ORM\Column(name="description", type="string", length=255, nullable=true, options={"fixed" = true})
 	 */
 	private $description;
 	

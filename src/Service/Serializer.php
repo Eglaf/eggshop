@@ -21,19 +21,20 @@ class Serializer {
 	
 	/**
 	 * Convert objects into json.
-	 * @param $data object|array
+	 * @param $data    object|array
+	 * @param $context array To filter properties, pass: ['attributes' => ['id', 'label', 'active', 'category' => ['label']]]
 	 * @return string
 	 */
-	public function toJson($data) {
+	public function toJson($data, $context = []) {
 		$normalizer = (new ObjectNormalizer())
 			->setCircularReferenceLimit(1)
-			->setCircularReferenceHandler(function ($object) {
+			->setCircularReferenceHandler(function($object) {
 				return (Util::hasObjectMethod($object, $this->referenceMethod) ? Util::callObjectMethod($object, $this->referenceMethod) : $this->valueWithoutReferenceMethod);
 			});
 		
 		$serializer = new SfSerializer([$normalizer], [new JsonEncoder()]);
 		
-		return $serializer->serialize($data, 'json');
+		return $serializer->serialize($data, 'json', $context);
 	}
 	
 	
@@ -62,7 +63,6 @@ class Serializer {
 		
 		return $this;
 	}
-
 	
 	
 }

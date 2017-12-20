@@ -2,7 +2,7 @@
 
 namespace App\Repository\SimpleShop;
 
-use App\Entity\SimpleShop\Category as CategoryEntity;
+use App\Entity\SimpleShop\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -13,7 +13,7 @@ class CategoryRepository extends ServiceEntityRepository {
 	
 	/**
 	 * Find all the categories with joined products.
-	 * @return CategoryEntity[]
+	 * @return Category[]
 	 */
 	public function findAllWithProducts() {
 		return $this
@@ -29,7 +29,7 @@ class CategoryRepository extends ServiceEntityRepository {
 	 * @param RegistryInterface $registry
 	 */
 	public function __construct(RegistryInterface $registry) {
-		parent::__construct($registry, CategoryEntity::class);
+		parent::__construct($registry, Category::class);
 	}
 	
 }

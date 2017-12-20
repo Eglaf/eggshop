@@ -7,8 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
-use App\Entity\SimpleShop\Category as CategoryEntity;
-use App\Repository\SimpleShop\CategoryRepository as CategoryRepository;
+use App\Entity\SimpleShop\Category;
+use App\Repository\SimpleShop\CategoryRepository;
 use App\Form\Admin\SimpleShop\CategoryType as CategoryFormType;
 use App\Service\Serializer;
 
@@ -46,36 +46,36 @@ class CategoryController extends AbstractController {
 	 * @return array|RedirectResponse
 	 */
 	public function createAction() {
-		return $this->form(new CategoryEntity());
+		return $this->form(new Category());
 	}
 	
 	/**
 	 * Update a Product Category.
 	 *
 	 * RouteName: app_admin_category_update
-	 * @Route("/admin/category/update/{enCategory}", requirements={"enCategory"="\d+"})
+	 * @Route("/admin/category/update/{category}", requirements={"category"="\d+"})
 	 * @Template("admin/category/form.html.twig")
 	 *
-	 * @param CategoryEntity $categoryEntity
+	 * @param Category $category
 	 * @return array|RedirectResponse
 	 */
-	public function updateAction(CategoryEntity $categoryEntity) {
-		return $this->form($categoryEntity);
+	public function updateAction(Category $category) {
+		return $this->form($category);
 	}
 	
 	/**
 	 * Generate form view to Product Category.
-	 * @param CategoryEntity $categoryEntity
+	 * @param Category $category
 	 * @return array|RedirectResponse
 	 */
-	protected function form(CategoryEntity $categoryEntity) {
+	protected function form(Category $category) {
 		// Create form.
-		$form = $this->createForm(CategoryFormType::class, $categoryEntity);
+		$form = $this->createForm(CategoryFormType::class, $category);
 		$form->handleRequest($this->getRq());
 		
 		// Save form.
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDm()->persist($categoryEntity);
+			$this->getDm()->persist($category);
 			$this->getDm()->flush();
 			
 			return $this->redirectToRoute('app_admin_category_list');
@@ -83,7 +83,7 @@ class CategoryController extends AbstractController {
 		
 		// Form view.
 		return [
-			"categoryEntity" => $categoryEntity,
+			"category" => $category,
 			"formView"       => $form->createView(),
 		];
 	}
