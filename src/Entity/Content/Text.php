@@ -19,12 +19,6 @@ class Text {
 	private $id;
 	
 	/**
-	 * @var boolean
-	 * @ORM\Column(name="active", type="boolean")
-	 */
-	private $active;
-	
-	/**
 	 * @var string Admin can identify the content text by this code.
 	 * @ORM\Column(name="code", type="string", length=128, options={"fixed" = true})
 	 */
@@ -41,23 +35,6 @@ class Text {
 	 */
 	public function getId() {
 		return $this->id;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function isActive() {
-		return $this->active;
-	}
-	
-	/**
-	 * @param bool $active
-	 * @return Text
-	 */
-	public function setActive($active) {
-		$this->active = $active;
-		
-		return $this;
 	}
 	
 	/**

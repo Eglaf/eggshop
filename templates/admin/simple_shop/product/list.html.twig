@@ -1,0 +1,80 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    Termekek - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+    {# Template for egf table. #}
+    {% include 'admin/js-templates/egf-table-template.html' %}
+    {% include 'admin/js-templates/egf-table-row-template.html' %}
+    {% include 'admin/js-templates/egf-pagination-template.html' %}
+
+    {# Buttons #}
+    <a href="{{ path('app_admin_simpleshop_product_create') }}">Termek letrehozas</a><br/><br/>
+
+    {# Content #}
+    <div id="table-container"></div>
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-pagination.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-sf-route.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        new Egf.Table()
+            .setContainerElemId('table-container')
+            .setContents(JSON.parse('{{ listAsJson|raw }}'))
+            .setConfig({
+                sortByColumnKey: 0,
+                sortByReversed:  false,
+                rowsOnPage:      5
+            })
+            .setTranslations({
+                globalSearchPlaceholder: 'Kereses'
+            })
+            .setColumns([{
+                text:     'Megnevezes',
+                property: 'label',
+                search:   'string',
+                sort:     true
+            }, {
+                text: 'Active',
+                func: function (row) {
+                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                },
+                sort: function (row) {
+                    // On sorting, put active first.
+                    return (row.active ? 1 : 2);
+                }
+            }, {
+                text: 'Category',
+                func: function (row) {
+                    return row.category.label;
+                },
+                sort: true
+            }, {
+                text: '',
+                func: function (row) {
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_simpleshop_product_update', {'product':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>Modosit</a>";
+                }
+            }])
+            .init();
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

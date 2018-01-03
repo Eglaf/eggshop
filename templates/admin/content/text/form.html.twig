@@ -1,0 +1,53 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    Szoveges tartalom ({{ text.code }}) modositas - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="{{ path('app_admin_content_text_list') }}">Vissza a tartalmak listahoz</a>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        CKEDITOR.replace('text_text', {
+            filebrowserBrowseUrl: '/browser/browse.php',
+            filebrowserUploadUrl: '/uploader/upload.php'
+        });
+
+
+        /*
+
+        function setLink(url) {
+        window.opener.CKEDITOR.tools.callFunction(1, url);
+        window.close();
+        }
+
+        https://ckeditor.com/old/forums/CKEditor-3.x/How-insert-selected-image-custom-image-browser
+
+        google: javascript select ckeditor image url input
+
+         */
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

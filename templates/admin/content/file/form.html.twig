@@ -1,0 +1,39 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% if file.id %}
+        File ({{ file.label }}) modositas
+    {% else %}
+        File feltoltes
+    {% endif %}
+{% endblock %}
+
+{% block adminContent %}
+
+    {% if file.storageName is not null and file.storageName is not empty %}
+        <img src="{{ uploadsDir ~ file.storageName }}" style='max-height:200px;' />
+        <br />
+    {% endif %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="{{ path('app_admin_content_file_list') }}">Vissza a filek listahoz</a>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

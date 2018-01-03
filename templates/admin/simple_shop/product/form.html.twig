@@ -1,0 +1,35 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% if product.label %}
+        Termek ({{ product.label }}) modositas
+    {% else %}
+        Termek letrehozas
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="{{ path('app_admin_simpleshop_product_list') }}">Vissza a termekek listahoz</a>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

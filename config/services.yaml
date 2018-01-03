@@ -2,6 +2,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    app.uploads_save_directory: '%kernel.project_dir%/public/uploads'
+    app.uploads_load_directory: '/uploads'
 
 services:
     # default configuration for services in *this* file
