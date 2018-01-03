@@ -2,16 +2,16 @@
 
 namespace App\Controller\Admin\Content;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use App\Egf\Util;
 use App\Egf\Ancient\AbstractController;
+use App\Egf\Util;
 use App\Entity\Content\File;
 use App\Form\Admin\Content\FileType as FileFormType;
 use App\Service\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class FileController
@@ -38,6 +38,54 @@ class FileController extends AbstractController {
 	}
 	
 	/**
+	 * Browse for CkEditor.
+	 *
+	 * RouteName: app_admin_content_file_browse
+	 * @Route("/admin/file/browse")
+	 * @Template
+	 *
+	 * @return Response|array
+	 */
+	public function browseAction() {
+		return [
+			'path'   => Util::slashing($this->getParameter('app.uploads_load_directory'), Util::slashingAddRight),
+			'images' => $this->getDm()->getRepository(File::class)->findAll(),
+		];
+	}
+	
+	/**
+	 * Upload a via CkEditor form.
+	 *
+	 * RouteName: app_admin_content_file_upload
+	 * @Route("/admin/file/upload")
+	 * @Template
+	 *
+	 * @return Response|array
+	 */
+	public function uploadAction() {
+		try {
+			$uploadedFile = $this->getRq()->files->get('upload');
+			$fileName     = $this->saveUploadedFile($uploadedFile);
+			
+			$file = (new File())
+				->setActive(TRUE)
+				->setStorageName($fileName)
+				->setMimeType($uploadedFile->getClientMimeType());
+			
+			$this->getDm()->persist($file);
+			$this->getDm()->flush();
+			
+			// Response for CkEditor.
+			return [
+				'file' => Util::slashing($this->getParameter('app.uploads_load_directory'), Util::slashingAddRight) . $fileName,
+			];
+		}
+		catch (\Exception $ex) {
+			throw $ex;
+		}
+	}
+	
+	/**
 	 * Create a File.
 	 *
 	 * RouteName: app_admin_content_file_create
@@ -61,6 +109,8 @@ class FileController extends AbstractController {
 	 * @return array|RedirectResponse
 	 */
 	public function updateAction(File $file) {
+		$file->setFile(new \Symfony\Component\HttpFoundation\File\File("{$this->getParameter('app.uploads_save_directory')}/{$file->getStorageName()}"));
+		
 		return $this->form($file);
 	}
 	
@@ -76,19 +126,17 @@ class FileController extends AbstractController {
 		
 		// Save form.
 		if ($form->isSubmitted() && $form->isValid()) {
-			/** @var \Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile */
-			$uploadedFile = $file->getStorageName();
+			/** @var UploadedFile $uploadedFile */
+			$uploadedFile = $file->getFile();
 			
-			// Generate a unique name for the file before saving it
-			$fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
-			
-			// Move the file to the uploads directory.
-			$uploadedFile->move($this->getParameter('app.uploads_save_directory'), $fileName);
-			
-			// Set the real storage file name.
-			$file->setStorageName($fileName)
-			     ->setOriginalName($uploadedFile->getClientOriginalName())
-			     ->setMimeType($uploadedFile->getClientMimeType());
+			if ($uploadedFile instanceof UploadedFile) {
+				/** @var string $fileName Storage name of file. */
+				$fileName = $this->saveUploadedFile($uploadedFile);
+				
+				// Set the real storage file name.
+				$file->setStorageName($fileName)
+				     ->setMimeType($uploadedFile->getClientMimeType());
+			}
 			
 			$this->getDm()->persist($file);
 			$this->getDm()->flush();
@@ -105,20 +153,18 @@ class FileController extends AbstractController {
 	}
 	
 	/**
-	 * Upload a via CkEditor form.
-	 *
-	 * RouteName: app_admin_file_upload
-	 * @Route("/admin/file/upload")
-	 *
-	 * @return Response
+	 * Save the uploaded file and gives back the storageName.
+	 * @param UploadedFile $uploadedFile
+	 * @return string Storage name of uploaded file.
 	 */
-	public function uploadAction() {
-		/** @var \Symfony\Component\HttpFoundation\Request $rq */
-		$rq = $this->getRq();
+	protected function saveUploadedFile(UploadedFile $uploadedFile) {
+		// Generate a unique name for the file before saving it
+		$fileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
 		
-		$rq->files->get('file');
+		// Move the file to the uploads directory.
+		$uploadedFile->move($this->getParameter('app.uploads_save_directory'), $fileName);
 		
-		return new Response("lol?");
+		return $fileName;
 	}
 	
 }

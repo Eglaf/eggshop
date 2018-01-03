@@ -23,7 +23,7 @@ class FileType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		// Upload only on create.
 		if ( ! Egf\Util::isNaturalNumber($builder->getData()->getId())) {
-			$builder->add('storageName', Type\FileType::class, [
+			$builder->add('file', Type\FileType::class, [
 				'label' => 'File',
 			]);
 		}

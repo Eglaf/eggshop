@@ -20,18 +20,17 @@ class File {
 	private $id;
 	
 	/**
-	 * @var string Storage name of the file in the uploads directory.
-	 * @ORM\Column(name="path", type="string", length=255, options={"fixed" = true})
+	 * @var \Symfony\Component\HttpFoundation\File\File The file itself.
 	 * @Assert\NotBlank(message="Please upload a file.")
 	 * @Assert\File(mimeTypes={"image/jpeg", "image/png"})
 	 */
-	private $storageName;
+	private $file;
 	
 	/**
-	 * @var string
-	 * @ORM\Column(name="original_name", type="string", length=255, options={"fixed" = true})
+	 * @var string Storage name of the file in the uploads directory.
+	 * @ORM\Column(name="path", type="string", length=255, options={"fixed" = true})
 	 */
-	private $originalName;
+	private $storageName;
 	
 	/**
 	 * @var string
@@ -65,6 +64,23 @@ class File {
 	}
 	
 	/**
+	 * @return mixed
+	 */
+	public function getFile() {
+		return $this->file;
+	}
+	
+	/**
+	 * @param mixed $file
+	 * @return File
+	 */
+	public function setFile($file) {
+		$this->file = $file;
+		
+		return $this;
+	}
+	
+	/**
 	 * @return string
 	 */
 	public function getStorageName() {
@@ -77,23 +93,6 @@ class File {
 	 */
 	public function setStorageName($storageName) {
 		$this->storageName = $storageName;
-		
-		return $this;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getOriginalName() {
-		return $this->originalName;
-	}
-	
-	/**
-	 * @param string $originalName
-	 * @return File
-	 */
-	public function setOriginalName($originalName) {
-		$this->originalName = $originalName;
 		
 		return $this;
 	}

@@ -1,0 +1,18 @@
+{% for file in images %}
+
+    <img onclick="clickImg('{{ path }}{{ file.storageName }}')" src="{{ path }}{{ file.storageName }}" style="max-height:100px;"/>
+
+{% endfor %}
+
+<script type="text/javascript">
+
+    /**
+     * Clicking on image will load it into the text.
+     * @param imagePath
+     */
+    function clickImg(imagePath) {
+        window.parent.opener.CKEDITOR.tools.callFunction(1, imagePath, '');
+        self.close();
+    }
+
+</script>

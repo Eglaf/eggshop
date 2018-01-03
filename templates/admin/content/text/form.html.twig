@@ -27,24 +27,12 @@
     {{ parent() }}
 
     <script type="text/javascript">
+
         CKEDITOR.replace('text_text', {
-            filebrowserBrowseUrl: '/browser/browse.php',
-            filebrowserUploadUrl: '/uploader/upload.php'
+            filebrowserBrowseUrl: '{{ path("app_admin_content_file_browse") }}',
+            filebrowserUploadUrl: '{{ path("app_admin_content_file_upload") }}'
         });
 
-
-        /*
-
-        function setLink(url) {
-        window.opener.CKEDITOR.tools.callFunction(1, url);
-        window.close();
-        }
-
-        https://ckeditor.com/old/forums/CKEditor-3.x/How-insert-selected-image-custom-image-browser
-
-        google: javascript select ckeditor image url input
-
-         */
     </script>
 {% endblock %}
 
