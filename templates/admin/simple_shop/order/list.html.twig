@@ -1,7 +1,7 @@
 {% extends 'admin/admin.html.twig' %}
 
 {% block title %}
-    Termekek - {{ parent() }}
+    Rendelesek - {{ parent() }}
 {% endblock %}
 
 {% block adminContent %}
@@ -11,7 +11,7 @@
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
     {# Buttons #}
-    <a href="{{ path('app_admin_simpleshop_product_create') }}">Termek letrehozas</a><br/><br/>
+    <a href="{{ path('app_admin_simpleshop_order_create') }}">Uj rendeles</a><br/><br/>
 
     {# Content #}
     <div id="table-container"></div>
@@ -31,41 +31,37 @@
             .setContainerElemId('table-container')
             .setContents(JSON.parse('{{ listAsJson|raw }}'))
             .setConfig({
-                sortByColumnKey: 0,
-                sortByReversed:  false,
+                sortByColumnKey: 1,
+                sortByReversed:  true,
                 rowsOnPage:      5
             })
             .setTranslations({
                 globalSearchPlaceholder: 'Kereses'
             })
             .setColumns([{
-                text:     'Megnevezes',
-                property: 'label',
+                text: 'Status',
                 search:   'string',
-                sort:     true
-            }, {
-                text: 'Active',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                    return row.status.label;
                 },
                 sort: function (row) {
-                    // On sorting, put active first.
-                    return (row.active ? 1 : 2);
+                    return row.id;
                 }
             }, {
-                text: 'Category',
+                text: 'Date',
                 func: function (row) {
-                    return row.category.label;
+                    return row.date;
                 },
                 sort: true
             }, {
-                text: 'Price (HUF)',
-                property: 'price'
+                text: 'Price summarized',
+                property: 'priceSum',
+                sort: true
             }, {
                 text: '',
                 func: function (row) {
                     var url = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_simpleshop_product_update', {'product':'_id_'}) }}')
+                        .setRoute('{{ path('app_admin_simpleshop_order_update', {'order':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })

@@ -1,0 +1,97 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% if order.id %}
+        Rendeles ({{ order.date|date('y-m-d H:i:s') }}) modositas
+    {% else %}
+        Rendeles letrehozas
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView.comment) }}
+
+    <br />
+    <ul id="items-field-list" data-prototype="{{ form_widget(formView.items.vars.prototype)|e }}">
+        {% for orderItem in formView.items %}
+            <li>
+                {{ form_errors(orderItem) }}
+                {{ form_widget(orderItem) }}
+            </li>
+        {% endfor %}
+    </ul>
+    <br />
+
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="#" id="add-another-item">Add another item</a>
+
+    <a href="{{ path('app_admin_simpleshop_order_list') }}">Vissza a rendelesek listahoz</a>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        // Add item.
+        var itemsCount = '{{ formView.items|length }}';
+        jQuery(document).ready(function() {
+            jQuery('#add-another-item').click(function(e) {
+                e.preventDefault();
+
+                var emailList = jQuery('#items-field-list');
+
+                var newWidget = emailList.attr('data-prototype');
+
+                newWidget = newWidget.replace(/__name__/g, itemsCount);
+                itemsCount++;
+
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(emailList);
+            });
+        });
+
+
+        // Remove item.
+        jQuery(document).ready(function() {
+            var collectionHolder = jQuery('#items-field-list');
+
+            collectionHolder.find('li').each(function() {
+                addTagFormDeleteLink(jQuery(this));
+            });
+        });
+
+        /**
+         * Do the remove element part of removing form item.
+         * @param tagFormLi
+         */
+        function addTagFormDeleteLink(tagFormLi) {
+            var removeFormA = jQuery('<a href="#">delete this tag</a>');
+            tagFormLi.append(removeFormA);
+
+            removeFormA.on('click', function(e) {
+                e.preventDefault();
+
+                tagFormLi.remove();
+            });
+        }
+
+    </script>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

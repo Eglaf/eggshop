@@ -22,7 +22,7 @@ class OrderItem {
 	 * The product that was ordered... although the price is stored to avoid changes in the price of order.
 	 * @var Product
 	 * @ORM\ManyToOne(targetEntity="Product", inversedBy="orderItems")
-	 * @ORM\JoinColumn(name="item_id", onDelete="SET NULL")
+	 * @ORM\JoinColumn(name="product_id", onDelete="SET NULL")
 	 */
 	private $product;
 	

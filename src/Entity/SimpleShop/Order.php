@@ -54,13 +54,30 @@ class Order {
 	 * @param OrderItem $item
 	 * @return Order
 	 */
-	public function addItems($item) {
+	public function addItem(OrderItem $item) {
 		if ( ! $this->items->contains($item)) {
 			$this->items[] = $item;
 		}
 		
 		if ($item->getOrder() !== $this) {
 			$item->setOrder($this);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Remove an OrderItem from Order.
+	 * @param OrderItem $item
+	 * @return $this
+	 */
+	public function removeItem(OrderItem $item) {
+		if ($this->items->contains($item)) {
+			$this->items->removeElement($item);
+		}
+		
+		if ($item->getOrder() === $this) {
+			$item->setOrder(NULL);
 		}
 		
 		return $this;
@@ -85,6 +102,26 @@ class Order {
 	 * @ORM\Column(name="comment", type="text", nullable=true)
 	 */
 	private $comment;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Custom methods                                             **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
+	
+	/**
+	 * Get the price summarized of the order.
+	 * @return int
+	 */
+	public function getPriceSum() {
+		$finalPrice = 0;
+		foreach ($this->items as $item) {
+			$finalPrice += $item->getCount() * $item->getPrice();
+		}
+		
+		return $finalPrice;
+	}
 	
 	
 	/**************************************************************************************************************************************************************

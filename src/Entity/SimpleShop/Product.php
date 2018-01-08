@@ -76,6 +76,12 @@ class Product {
 	 */
 	private $description;
 	
+	/**
+	 * @var int
+	 * @ORM\Column(type="integer", name="price")
+	 */
+	private $price;
+	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
@@ -154,6 +160,23 @@ class Product {
 	 */
 	public function setCategory($category) {
 		$this->category = $category;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getPrice() {
+		return $this->price;
+	}
+	
+	/**
+	 * @param int $price
+	 * @return Product
+	 */
+	public function setPrice($price) {
+		$this->price = $price;
 		
 		return $this;
 	}

@@ -8,13 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use App\Entity\SimpleShop\Product;
+use App\Entity\SimpleShop\Order;
 use App\Entity\SimpleShop\Category;
 
 /**
  * Class CategoryType
  */
-class ProductType extends AbstractType {
+class OrderType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -23,19 +23,14 @@ class ProductType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('label')
-			->add('description', Type\TextareaType::class, [
+			->add('comment', Type\TextareaType::class, [
 				'required' => FALSE,
 			])
-			->add('active', Type\CheckboxType::class, [
-				'required' => FALSE,
-			])
-			->add('category', EntityType::class, [
-				'class'        => Category::class,
-				'choice_label' => 'label',
-			])
-			->add('price', Type\NumberType::class, [
-				'label' => 'Price (HUF)'
+			->add('items', Type\CollectionType::class, [
+				'entry_type' => OrderItemType::class,
+				'allow_add' => true,
+				'allow_delete' => true,
+				//'by_reference' => false, // TODO with addItem() Exception: Order has no addItem method... with setItems()... doesn't do shit...
 			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'Mentes',
@@ -48,7 +43,7 @@ class ProductType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Product::class,
+			'data_class' => Order::class,
 		]);
 	}
 	

@@ -20,7 +20,7 @@ class ProductController extends AbstractController {
 	/**
 	 * List of Product Categories.
 	 *
-	 * RouteName: app_admin_product_list
+	 * RouteName: app_admin_simpleshop_product_list
 	 * @Route("/admin/product/list")
 	 * @Template
 	 *
@@ -32,7 +32,7 @@ class ProductController extends AbstractController {
 		$productRows = $productRepository->findAllWithCategory();
 		
 		return [
-			'listAsJson' => $serializer->toJson($productRows, ['attributes' => ['id', 'label', 'active', 'category' => ['label']]]),
+			'listAsJson' => $serializer->toJson($productRows, ['attributes' => ['id', 'label', 'active', 'price', 'category' => ['label']]]),
 		];
 	}
 	
@@ -78,7 +78,7 @@ class ProductController extends AbstractController {
 			$this->getDm()->persist($product);
 			$this->getDm()->flush();
 			
-			return $this->redirectToRoute('app_admin_product_list');
+			return $this->redirectToRoute('app_admin_simpleshop_product_list');
 		}
 		
 		// Form view.

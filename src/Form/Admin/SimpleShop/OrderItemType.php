@@ -8,13 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use App\Entity\SimpleShop\OrderItem;
 use App\Entity\SimpleShop\Product;
-use App\Entity\SimpleShop\Category;
 
 /**
  * Class CategoryType
  */
-class ProductType extends AbstractType {
+class OrderItemType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -23,23 +23,12 @@ class ProductType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('label')
-			->add('description', Type\TextareaType::class, [
-				'required' => FALSE,
-			])
-			->add('active', Type\CheckboxType::class, [
-				'required' => FALSE,
-			])
-			->add('category', EntityType::class, [
-				'class'        => Category::class,
+			->add('product', EntityType::class, [
+				'class'        => Product::class,
 				'choice_label' => 'label',
 			])
-			->add('price', Type\NumberType::class, [
-				'label' => 'Price (HUF)'
-			])
-			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
-			]);
+			->add('count', Type\NumberType::class)
+			->add('price', Type\NumberType::class);
 	}
 	
 	/**
@@ -48,7 +37,7 @@ class ProductType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Product::class,
+			'data_class' => OrderItem::class,
 		]);
 	}
 	
