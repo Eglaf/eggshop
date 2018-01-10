@@ -6,35 +6,24 @@
 
 {% block body %}
 
-    <hr />
-    <a href="{{ path('app_admin_dashboard_index') }}">Kezdooldal</a>
-    <a href="{{ path('app_admin_simpleshop_order_list') }}">Megrendelesek</a>
-    <a href="{{ path('app_admin_simpleshop_category_list') }}">Kategoriak</a>
-    <a href="{{ path('app_admin_simpleshop_product_list') }}">Termekek</a>
-    <a href="{{ path('app_admin_content_text_list') }}">Szoveges tartalmak</a>
-    <a href="{{ path('app_admin_content_file_list') }}">Filek</a>
-    <hr />
+    <div id="admin-menu-container">
+        {% include 'admin/adminMenu.html.twig' %}
+    </div><!-- #admin-menu-container -->
 
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-{{ type }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+    <div id="admin-flashmessages-container">
+        {% include 'admin/adminFlashMessages.html.twig' %}
+    </div><!-- #admin-flashmessages-container -->
 
-    <div id="admin-content">
-
+    <div id="admin-content-container">
         {% block adminContent %}{% endblock %}
-
-    </div><!-- #admin-content -->
+    </div><!-- #admin-content-container -->
 
 {% endblock %}
 
 {% block preScripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/egf/egf.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script> {#Ez miert itt van?#}
 {% endblock %}
 
 {% block postScripts %}

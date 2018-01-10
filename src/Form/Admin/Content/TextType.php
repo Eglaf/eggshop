@@ -24,6 +24,7 @@ class TextType extends AbstractType {
 			->add('code', Type\TextType::class, [
 				'disabled' => true,
 			])
+			->add('title', Type\TextType::class)
 			->add('text', Type\TextareaType::class)
 			->add('save', Type\SubmitType::class, [
 				'label' => 'Mentes',

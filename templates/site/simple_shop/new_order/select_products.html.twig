@@ -1,0 +1,19 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    Termekek listaja - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+    <br />
+    {{ beforeProductsTextEntity.getText()|raw }}
+    <br /><br />
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <br /><br />
+    {{ afterProductsTextEntity.getText()|raw }}
+    <br />
+{% endblock %}

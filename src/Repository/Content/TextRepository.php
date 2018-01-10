@@ -6,23 +6,13 @@ use App\Entity\Content\Text;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class TextRepository extends ServiceEntityRepository
-{
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Text::class);
-    }
-
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+class TextRepository extends ServiceEntityRepository {
+	
+	/**
+	 * TextRepository constructor.
+	 */
+	public function __construct(RegistryInterface $registry) {
+		parent::__construct($registry, Text::class);
+	}
+	
 }

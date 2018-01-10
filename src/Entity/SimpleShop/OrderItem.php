@@ -42,7 +42,7 @@ class OrderItem {
 	
 	/**
 	 * @var int The price of product when it was bought by the user.
-	 * @ORM\Column(type="integer", name="price")
+	 * @ORM\Column(type="integer", name="price", nullable=true)
 	 */
 	private $price;
 	

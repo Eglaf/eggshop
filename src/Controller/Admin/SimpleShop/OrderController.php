@@ -77,7 +77,7 @@ class OrderController extends AbstractController {
 	 * @return array|RedirectResponse
 	 */
 	protected function form(Order $order) {
-		// Compare for removing.
+		// Original items.
 		$originalItems = [];
 		foreach ($order->getItems() as $originalItem) {
 			$originalItems[] = $originalItem;
@@ -89,9 +89,14 @@ class OrderController extends AbstractController {
 		
 		// Save form.
 		if ($form->isSubmitted() && $form->isValid()) {
-			// Add item.
+			// Add new item.
 			foreach ($order->getItems() as $item) {
 				$item->setOrder($order);
+				
+				// Set price of product.
+				if ($item->getPrice() === NULL) {
+					$item->setPrice($item->getProduct()->getPrice());
+				}
 			}
 			
 			// Remove item.

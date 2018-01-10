@@ -1,0 +1,9 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    {{ textEntity.getTitle() }} - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+    {{ textEntity.getText()|raw }}
+{% endblock %}

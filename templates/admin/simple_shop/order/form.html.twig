@@ -12,9 +12,16 @@
 {% block adminContent %}
 
     {{ form_start(formView) }}
+    {{ form_label(formView.status) }}
+    {{ form_widget(formView.status) }}
+    <br />
+    {{ form_label(formView.comment) }}
     {{ form_widget(formView.comment) }}
+    <br />
 
     <br />
+
+    {{ form_label(formView.items) }}
     <ul id="items-field-list" data-prototype="{{ form_widget(formView.items.vars.prototype)|e }}">
         {% for orderItem in formView.items %}
             <li>
@@ -23,12 +30,13 @@
             </li>
         {% endfor %}
     </ul>
+
+    <br />
+    <a href="#" id="add-another-item">Add another item</a>
     <br />
 
-    {{ form_widget(formView) }}
+    <!--{{ form_widget(formView) }}-->
     {{ form_end(formView) }}
-
-    <a href="#" id="add-another-item">Add another item</a>
 
     <a href="{{ path('app_admin_simpleshop_order_list') }}">Vissza a rendelesek listahoz</a>
 
@@ -56,10 +64,13 @@
                 var newWidget = emailList.attr('data-prototype');
 
                 newWidget = newWidget.replace(/__name__/g, itemsCount);
-                itemsCount++;
 
                 var newLi = jQuery('<li></li>').html(newWidget);
                 newLi.appendTo(emailList);
+
+                jQuery('#order_items_' + itemsCount + '_count').val(1);
+
+                itemsCount++;
             });
         });
 

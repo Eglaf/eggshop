@@ -1,14 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 
-    Fejlec<hr />
-    Menu<hr/>
+    <div id="site-header-container">
+        {% include 'site/header.html.twig' %}
+    </div><!-- #site-header-container -->
 
-    <div id="site-content">
+    <div id="site-menu-container">
+        {% include 'site/siteMenu.html.twig' %}
+    </div><!-- #site-menu-container -->
 
+    <div id="site-content-container">
         {% block siteContent %}{% endblock %}
+    </div><!-- #site-content-container -->
 
-    </div><!-- #site-content -->
+    <div id="site-footer-container">
+        {% include 'site/footer.html.twig' %}
+    </div><!-- #site-footer-container -->
 
 {% endblock %}

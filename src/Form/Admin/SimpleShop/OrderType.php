@@ -9,10 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\SimpleShop\Order;
-use App\Entity\SimpleShop\Category;
+use App\Entity\SimpleShop\OrderStatus;
 
 /**
- * Class CategoryType
+ * Class OrderType
  */
 class OrderType extends AbstractType {
 	
@@ -23,13 +23,17 @@ class OrderType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
+			->add('status', EntityType::class, [
+				'class'        => OrderStatus::class,
+				'choice_label' => 'label',
+			])
 			->add('comment', Type\TextareaType::class, [
 				'required' => FALSE,
 			])
 			->add('items', Type\CollectionType::class, [
-				'entry_type' => OrderItemType::class,
-				'allow_add' => true,
-				'allow_delete' => true,
+				'entry_type'   => OrderItemType::class,
+				'allow_add'    => TRUE,
+				'allow_delete' => TRUE,
 				//'by_reference' => false, // TODO with addItem() Exception: Order has no addItem method... with setItems()... doesn't do shit...
 			])
 			->add('save', Type\SubmitType::class, [

@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Form\Admin\SimpleShop;
+namespace App\Form\Site\SimpleShop;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
-use App\Entity\SimpleShop\OrderItem;
-use App\Entity\SimpleShop\Product;
+// use Doctrine\ORM\EntityManager;
 
 /**
- * Class CategoryType
+ * Class NewOrderType
  */
-class OrderItemType extends AbstractType {
+class NewOrderType extends AbstractType {
+	
+	/** @var EntityManager $dm */
+	protected $dm;
+	
+	// public function __construct(EntityManager $dm) {
+	// 	$this->dm = $dm;
+	// }
 	
 	/**
 	 * Build form.
@@ -22,14 +26,13 @@ class OrderItemType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		foreach ($options['productIds'] as $productId) {
+			var_dump($productId);
+		}
+		
 		$builder
-			->add('product', EntityType::class, [
-				'class'        => Product::class,
-				'choice_label' => 'label',
-			])
-			->add('count', Type\NumberType::class)
-			->add('price', Type\NumberType::class, [
-				'required' => false,
+			->add('save', Type\SubmitType::class, [
+				'label' => 'Mentes',
 			]);
 	}
 	
@@ -39,7 +42,7 @@ class OrderItemType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => OrderItem::class,
+			'productIds' => [],
 		]);
 	}
 	
