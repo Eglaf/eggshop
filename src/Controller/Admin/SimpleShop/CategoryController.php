@@ -6,16 +6,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use App\Egf\Ancient\AbstractController;
+use App\Controller\AbstractEggShopController;
 use App\Entity\SimpleShop\Category;
-use App\Repository\SimpleShop\CategoryRepository;
 use App\Form\Admin\SimpleShop\CategoryType as CategoryFormType;
 use App\Service\Serializer;
 
 /**
  * Class CategoryController
  */
-class CategoryController extends AbstractController {
+class CategoryController extends AbstractEggShopController {
 	
 	/**
 	 * List of Product Categories.
@@ -25,11 +24,10 @@ class CategoryController extends AbstractController {
 	 * @Template
 	 *
 	 * @param Serializer         $serializer         Service to convert entities into json.
-	 * @param CategoryRepository $categoryRepository Repository service of categories.
 	 * @return array
 	 */
-	public function listAction(Serializer $serializer, CategoryRepository $categoryRepository) {
-		$categoryRows = $categoryRepository->findAllWithProducts();
+	public function listAction(Serializer $serializer) {
+		$categoryRows = $this->getSimpleShopCategoryRepository()->findAllWithProducts();
 		
 		return [
 			'listAsJson' => $serializer->toJson($categoryRows),
@@ -45,6 +43,7 @@ class CategoryController extends AbstractController {
 	 *
 	 * @return array|RedirectResponse
 	 */
+	
 	public function createAction() {
 		return $this->form(new Category());
 	}

@@ -25,6 +25,20 @@ class CategoryRepository extends ServiceEntityRepository {
 	}
 	
 	/**
+	 * Find all the categories with joined products.
+	 * @return Category[]
+	 */
+	public function findAllWithActiveProducts() {
+		return $this
+			->createQueryBuilder('c')
+			->addSelect('p')
+			->leftJoin('c.products', 'p')
+			->where('p.active = true')
+			->getQuery()
+			->getResult();
+	}
+	
+	/**
 	 * CategoryRepository constructor.
 	 * @param RegistryInterface $registry
 	 */

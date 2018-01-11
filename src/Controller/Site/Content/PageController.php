@@ -5,14 +5,14 @@ namespace App\Controller\Site\Content;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use App\Egf\Ancient\AbstractController;
+use App\Controller\AbstractEggShopController;
 use App\Entity;
-use App\Repository\Content\TextRepository;
+use App\Service\Content\TextEntityFinder;
 
 /**
  * Class PageController
  */
-class PageController extends AbstractController {
+class PageController extends AbstractEggShopController {
 	
 	/**
 	 * Index page... it uses the TextPage template.
@@ -21,12 +21,12 @@ class PageController extends AbstractController {
 	 * @Route("/")
 	 * @Template("site/content/page/text.html.twig")
 	 *
-	 * @param TextRepository $textRepository
+	 * @param TextEntityFinder $textFinder
 	 * @return array
 	 */
-	public function indexAction(TextRepository $textRepository) {
+	public function indexAction(TextEntityFinder $textFinder) {
 		return [
-			'textEntity' => $textRepository->findOneBy(['code' => 'index']),
+			'textEntity' => $textFinder->find('index'),
 		];
 	}
 	
@@ -38,12 +38,12 @@ class PageController extends AbstractController {
 	 * @Template
 	 *
 	 * @param string $code
-	 * @param TextRepository $textRepository
+	 * @param TextEntityFinder $textFinder
 	 * @return array
 	 */
-	public function textAction($code, TextRepository $textRepository) {
+	public function textAction($code, TextEntityFinder $textFinder) {
 		return [
-			'textEntity' => $textRepository->findOneBy(['code' => $code]),
+			'textEntity' => $textFinder->find($code),
 		];
 		
 	}

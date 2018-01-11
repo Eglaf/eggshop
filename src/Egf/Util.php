@@ -41,19 +41,13 @@ class Util {
 		return mt_rand($fMin * $fScale, $fMax * $fScale) / $fScale;
 	}
 	
-	/**
-	 * It gives back true with a percentage.
-	 * @param integer $iPercent The percent to be true.
-	 * @return bool Sometimes true.
-	 */
-	public static function percentChance($iPercent) {
-		return (mt_rand(0, 100) <= $iPercent);
-	}
+	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 * String                                                     **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
+	
 	/**
 	 * Generate a random string.
 	 * @param   int    $iLength Length of string. Default: 8.
@@ -357,11 +351,14 @@ class Util {
 		
 		return preg_replace("/\\{$sSep}+/", $sSep, $sText);
 	}
+	
+	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 * Array                                                      **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
+	
 	/**
 	 * Check for in_array but does not throw an error if it's not an array.
 	 * @param array $aHaystack  The array that can have the searched element.
@@ -550,11 +547,14 @@ class Util {
 	public static function getRandomArrayElem(array $array) {
 		return $array[mt_rand(0, count($array) - 1)];
 	}
+	
+	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 * DateTime                                                   **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
+	
 	/**
 	 * Gives back the given DateTime or convert the string to DateTime and gives back that. It accepts much more date formats. Integer is used as timestamp.
 	 * @param \DateTime|string|integer|null $xDateTime A DateTime or string to convert to DateTime.
@@ -614,11 +614,14 @@ class Util {
 	public static function isDateTimeStringValid($sDateString) {
 		return boolval(strtotime($sDateString));
 	}
+	
+	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 * Object                                                     **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
+	
 	/**
 	 * Check if a method exists.
 	 * @param object $oObject
@@ -702,11 +705,14 @@ class Util {
 			throw new \Exception("Object doesn't have getter! \n Class: " . get_class($oEntity) . " \n Method: get" . ucfirst($sMethod) . " \n\n ");
 		}
 	}
+	
+	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 * Private methods                                            **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
+	
 	/**
 	 * Recursively iterate on related entities until it get the final data.
 	 * It's used in static::callObjectGetMethod() method.

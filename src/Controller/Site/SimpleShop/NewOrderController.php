@@ -3,50 +3,66 @@
 namespace App\Controller\Site\SimpleShop;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use App\Egf\Ancient\AbstractController;
-use App\Repository\Content\TextRepository;
-use App\Form\Site\SimpleShop\NewOrderType;
+use App\Egf\Util;
 use App\Entity;
+use App\Controller\AbstractEggShopController;
+use App\Form\Site\SimpleShop as NewOrderFormType;
+use App\Service\Content\TextEntityFinder;
 
 /**
  * Class NewOrderController
  */
-class NewOrderController extends AbstractController {
+class NewOrderController extends AbstractEggShopController {
 	
 	/**
 	 * RouteName: app_site_simpleshop_neworder_selectproducts
 	 * @Route("/online-rendeles/termekek", methods={"GET"})
 	 * @Template
 	 *
-	 * @param TextRepository $textRepository
+	 * @param TextEntityFinder $textFinder
+	 * @param SessionInterface $session
 	 * @return array
 	 */
-	public function selectProductsAction(TextRepository $textRepository) {
-		
-		$form = $this->createForm(NewOrderType::class, NULL, [
-			'action'     => $this->generateUrl('app_site_simpleshop_neworder_submitproducts'),
-			'method'     => 'POST',
-			'productIds' => [1, 2, 3],
+	public function selectProductsAction(TextEntityFinder $textFinder, SessionInterface $session) {
+		$productsForm = $this->createForm(NewOrderFormType\NewOrderType::class, NULL, [
+			'method'          => 'POST',
+			'action'          => $this->generateUrl('app_site_simpleshop_neworder_submitproducts'),
+			'productEntities' => $this->getSimpleShopProductRepository()->findBy(['active' => TRUE]),
+			'cart'            => $session->get('cart'),
 		]);
 		
 		return [
-			'formView'                 => $form->createView(),
-			'beforeProductsTextEntity' => $textRepository->findOneBy(['code' => 'public_order_select_products_before']),
-			'afterProductsTextEntity'  => $textRepository->findOneBy(['code' => 'public_order_select_products_after']),
+			'categories'               => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
+			'form'                     => $productsForm->createView(),
+			'beforeProductsTextEntity' => $textFinder->find('new_order_select_products_before'),
+			'afterProductsTextEntity'  => $textFinder->find('new_order_select_products_after'),
 		];
 	}
 	
 	/**
 	 * RouteName: app_site_simpleshop_neworder_submitproducts
-	 * @Route("/online-rendeles/temekek-rogiztes", methods={"POST"})
+	 * @Route("/online-rendeles/termekek-rogiztes", methods={"POST"})
 	 *
+	 * @param SessionInterface $session
 	 * @return RedirectResponse
 	 */
-	public function submitProductsAction() {
-		die("TODO " . __LINE__);
+	public function submitProductsAction(SessionInterface $session) {
+		$formData = $this->getRq()->request->get('new_order');
+		$products = $this->getSimpleShopProductRepository()->findBy(['active' => TRUE]);
+		$cart     = [];
+		
+		/** @var Entity\SimpleSHop\Product $product */
+		foreach ($products as $product) {
+			if (isset($formData["product{$product->getId()}"]) && Util::isNaturalNumber($formData["product{$product->getId()}"])) {
+				$cart[$product->getId()] = intval($formData["product{$product->getId()}"]);
+			}
+		}
+		
+		$session->set('cart', $cart);
 		
 		return $this->redirectToRoute('app_site_simpleshop_neworder_selectaddresses');
 	}
@@ -56,10 +72,13 @@ class NewOrderController extends AbstractController {
 	 * @Route("/online-rendeles/cimvalasztas", methods={"GET"})
 	 * @Template
 	 *
-	 * @param TextRepository $textRepository
+	 * @param TextEntityFinder $textFinder
+	 * @param SessionInterface $session
 	 * @return array
 	 */
-	public function selectAddressesAction(TextRepository $textRepository) {
+	public function selectAddressesAction(TextEntityFinder $textFinder, SessionInterface $session) {
+		var_dump($session->get('cart'));
+		
 		die("TODO " . __LINE__);
 		
 		return [];
@@ -74,7 +93,7 @@ class NewOrderController extends AbstractController {
 	public function submitAddressesAction() {
 		die("TODO " . __LINE__);
 		
-		return $this->redirectToRoute('');
+		return $this->redirectToRoute('app_site_simpleshop_neworder_confirmbeforeorder');
 	}
 	
 	/**
@@ -82,10 +101,11 @@ class NewOrderController extends AbstractController {
 	 * @Route("online-rendeles/megerosites", methods={"GET"})
 	 * @Template
 	 *
-	 * @param TextRepository $textRepository
+	 * @param TextEntityFinder $textFinder
+	 * @param SessionInterface $session
 	 * @return array
 	 */
-	public function confirmBeforeOrderAction(TextRepository $textRepository) {
+	public function confirmBeforeOrderAction(TextEntityFinder $textFinder, SessionInterface $session) {
 		die("TODO " . __LINE__);
 		
 		return [];
@@ -108,10 +128,9 @@ class NewOrderController extends AbstractController {
 	 * @Route("/online-rendeles/mentve", methods={"GET"})
 	 * @Template
 	 *
-	 * @param TextRepository $textRepository
 	 * @return array
 	 */
-	public function orderConfirmedAction(TextRepository $textRepository) {
+	public function orderConfirmedAction(TextEntityFinder $textFinder) {
 		die("TODO " . __LINE__);
 		
 		return [];

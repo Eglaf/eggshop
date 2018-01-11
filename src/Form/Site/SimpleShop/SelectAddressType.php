@@ -6,13 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use App\Entity;
+use App\Entity\User\Address;
 
 /**
- * Class NewOrderType
+ * Class SelectAddressType
  */
-class NewOrderType extends AbstractType {
+class SelectAddressType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -20,19 +21,20 @@ class NewOrderType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		/** @var Entity\SimpleShop\Product $product */
-		foreach ($options['productEntities'] as $product) {
-			$builder->add("product{$product->getId()}", Type\NumberType::class, [
-				'label'    => $product->getLabel(),
-				'required' => FALSE,
-				'mapped'   => FALSE,
-				'data'     => (isset($options['cart'][$product->getId()]) ? $options['cart'][$product->getId()] : null),
+		$builder
+			->add('deliveryAddress', EntityType::class, [
+				'class'        => Address::class,
+				'choice_label' => 'title',
+				'mapped'       => FALSE,
+			])
+			->add('billingAddress', EntityType::class, [
+				'class'        => Address::class,
+				'choice_label' => 'title',
+				'mapped'       => FALSE,
+			])
+			->add('save', Type\SubmitType::class, [
+				'label' => 'Mentes',
 			]);
-		}
-		
-		$builder->add('save', Type\SubmitType::class, [
-			'label' => 'Tovabb',
-		]);
 	}
 	
 	/**
@@ -41,8 +43,6 @@ class NewOrderType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'productEntities' => [],
-			'cart'            => [],
 		]);
 	}
 	

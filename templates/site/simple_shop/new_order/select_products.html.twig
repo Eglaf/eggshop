@@ -5,15 +5,38 @@
 {% endblock %}
 
 {% block siteContent %}
-    <br />
+    <br/>
     {{ beforeProductsTextEntity.getText()|raw }}
-    <br /><br />
+    <br/><br/>
 
-    {{ form_start(formView) }}
-    {{ form_widget(formView) }}
-    {{ form_end(formView) }}
+    {{ form_start(form) }}
 
-    <br /><br />
+    {% for category in categories %}
+        <hr/>
+        <b>{{ category.label }}</b>
+        {% for product in category.products %}
+            <table border="1">
+                <tr>
+                    <td>
+                        {{ product.label }}
+                    </td>
+                    <td>
+                        {{ product.description }}
+                    </td>
+                    <td>
+                        {{ product.price }} HUF
+                    </td>
+                    <td>
+                        {{ form_widget(attribute(form, 'product' ~ product.id)) }} db
+                    </td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_end(form) }}
+
+    <br/><br/>
     {{ afterProductsTextEntity.getText()|raw }}
-    <br />
+    <br/>
 {% endblock %}

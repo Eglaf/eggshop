@@ -26,7 +26,7 @@ class Text {
 	
 	/**
 	 * @var string Page title.
-	 * @ORM\Column(name="title", type="string", length=255, options={"fixed" = true})
+	 * @ORM\Column(name="title", type="string", length=255, nullable=true, options={"fixed" = true})
 	 */
 	private $title;
 	
