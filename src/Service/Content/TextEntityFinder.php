@@ -28,7 +28,7 @@ class TextEntityFinder {
 	 * @param string $code Identifier string.
 	 * @return Entity\Content\Text|object
 	 */
-	public function find($code) {
+	public function get($code) {
 		$textEntity = $this->dm->getRepository(Text::class)->findOneBy(['code' => $code]);
 		
 		// Creates if it doesn't exist.

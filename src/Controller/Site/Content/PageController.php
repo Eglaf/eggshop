@@ -26,7 +26,7 @@ class PageController extends AbstractEggShopController {
 	 */
 	public function indexAction(TextEntityFinder $textFinder) {
 		return [
-			'textEntity' => $textFinder->find('index'),
+			'textEntity' => $textFinder->get('index'),
 		];
 	}
 	
@@ -43,7 +43,7 @@ class PageController extends AbstractEggShopController {
 	 */
 	public function textAction($code, TextEntityFinder $textFinder) {
 		return [
-			'textEntity' => $textFinder->find($code),
+			'textEntity' => $textFinder->get($code),
 		];
 		
 	}

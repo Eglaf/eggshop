@@ -22,16 +22,12 @@ class AddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('title', Type\TextType::class, [
-				'required' => FALSE,
+				'required'   => FALSE,
 			])
-			->add('city', Type\TextType::class, [
-			])
-			->add('zipCode', Type\NumberType::class, [
-			])
-			->add('street', Type\TextType::class, [
-			])
-			->add('houseNumber', Type\TextType::class, [
-			])
+			->add('city', Type\TextType::class)
+			->add('zipCode', Type\TextType::class)
+			->add('street', Type\TextType::class)
+			->add('houseNumber', Type\TextType::class)
 			->add('floor', Type\TextType::class, [
 				'required' => FALSE,
 			])
@@ -40,10 +36,13 @@ class AddressType extends AbstractType {
 			])
 			->add('doorBell', Type\TextType::class, [
 				'required' => FALSE,
-			])
-			->add('save', Type\SubmitType::class, [
+			]);
+		
+		if ($options['showSubmit'] === TRUE) {
+			$builder->add('save', Type\SubmitType::class, [
 				'label' => 'Mentes',
 			]);
+		}
 	}
 	
 	/**
@@ -52,7 +51,8 @@ class AddressType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Address::class,
+			// 'data_class' => Address::class,
+			'showSubmit' => FALSE,
 		]);
 	}
 	

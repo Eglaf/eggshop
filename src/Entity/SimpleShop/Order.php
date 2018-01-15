@@ -179,7 +179,7 @@ class Order {
 	}
 	
 	/**
-	 * @param OrderStatus $status
+	 * @param OrderStatus|object $status
 	 * @return Order
 	 */
 	public function setStatus($status) {
@@ -203,7 +203,7 @@ class Order {
 	}
 	
 	/**
-	 * @param \App\Entity\User\Address $shippingAddress
+	 * @param \App\Entity\User\Address|object $shippingAddress
 	 * @return Order
 	 */
 	public function setShippingAddress($shippingAddress) {
@@ -220,7 +220,7 @@ class Order {
 	}
 	
 	/**
-	 * @param \App\Entity\User\Address $billingAddress
+	 * @param \App\Entity\User\Address|object $billingAddress
 	 * @return Order
 	 */
 	public function setBillingAddress($billingAddress) {

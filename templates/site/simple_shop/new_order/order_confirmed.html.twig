@@ -1,0 +1,13 @@
+{% extends 'site/site.html.twig' %}
+
+{% import _self as self %}
+
+{% block title %}
+    Rendeles feladva - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    {{ orderSubmittedTextEntity.getText()|raw }}
+
+{% endblock %}

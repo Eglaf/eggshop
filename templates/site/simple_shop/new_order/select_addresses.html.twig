@@ -1,0 +1,63 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    Cim kivalasztas - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+    {{ beforeAddressesTextEntity.getText()|raw }}
+    <br/>
+
+    {{ form_start(addressesForm, {'attr':{'id':'address-form'}}) }}
+
+    {{ form_row(addressesForm.askingForDeliveryCheckbox) }}
+    <div id="delivery-address">
+        {{ form_row(addressesForm.deliveryAddress) }}
+        {{ form_row(addressesForm.newDeliveryAddressCheckbox) }}
+        <div id="new-delivery-address">
+            {{ form_row(addressesForm.newDeliveryAddress) }}
+        </div>
+    </div>
+
+    {{ form_row(addressesForm.askingForBillingCheckbox) }}
+    <div id="billing-address">
+        {{ form_row(addressesForm.billingAddress) }}
+        {{ form_row(addressesForm.newBillingAddressCheckbox) }}
+        <div id="new-billing-address">
+            {{ form_row(addressesForm.newBillingAddress) }}
+        </div>
+    </div>
+
+    {{ form_end(addressesForm) }}
+
+    <br/>
+    {{ afterAddressesTextEntity.getText()|raw }}
+    <br/>
+{% endblock %}
+
+{% block preScripts %}
+    <script type="text/javascript" src="{{ asset('js/egf/egf.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/site/new-order-select-create-addresses.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    <script type="text/javascript">
+
+        new AddressSelectorCreator()
+            .setType('delivery')
+            .init();
+
+        new AddressSelectorCreator()
+            .setType('billing')
+            .init();
+
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        .hidden {
+            display: none;
+        }
+    </style>
+{% endblock %}

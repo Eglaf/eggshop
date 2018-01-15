@@ -1,0 +1,129 @@
+{% extends 'site/site.html.twig' %}
+
+{% import _self as self %}
+
+{% block title %}
+    Megerisitese - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    {{ beforeTextEntity.getText()|raw }}
+
+    <table>
+        <tr>
+            <td>prod</td>
+            <td>price</td>
+            <td>count</td>
+            <td>sum</td>
+        </tr>
+
+        {% set tableSum = 0 %}
+        {% for product in productsInCart %}
+            {% set rowSum =  product.price * app.session.get('cart')[product.id] %}
+            {% set tableSum = tableSum + rowSum %}
+
+            <tr>
+                <td>{{ product.label }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ app.session.get('cart')[product.id] }}</td>
+                <td>{{ rowSum }}</td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br/>
+    BigSum: {{ tableSum }}
+    <br/>
+    <hr/>
+
+    Addresses
+
+    {% if deliveryAddress or app.session.get('newDeliveryAddress') %} {# Delivery address #}
+        {% if deliveryAddress %} {# Selected #}
+            {% set delivery = deliveryAddress %}
+        {% elseif app.session.newDeliveryAddress %} {# New #}
+            {% set delivery = app.session.get('newDeliveryAddress') %}
+        {% endif %}
+
+        {{ self.printAddress('delivery address', delivery.title, delivery.city, delivery.zipCode, delivery.street, delivery.houseNumber, delivery.doorBell, delivery.floor, delivery.door) }}
+    {% else %}
+        No delivery address
+    {% endif %}
+
+    {% if billingAddress or app.session.get('newBillingAddress') %} {# Billing address #}
+        {% if billingAddress %} {# Selected #}
+            {% set billing = billingAddress %}
+        {% elseif app.session.get('newBillingAddress') %} {# New #}
+            {% set billing = app.session.get('newBillingAddress') %}
+        {% endif %}
+
+        {{ self.printAddress('billing address', billing.title, billing.city, billing.zipCode, billing.street, billing.houseNumber, billing.doorBell, billing.floor, billing.door) }}
+    {% else %}
+        No billing address
+    {% endif %}
+
+    <a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}">Vissza a termekekhez</a>
+    <br/>
+    <a href="{{ path('app_site_simpleshop_neworder_selectaddresses') }}">Vissza a cimekhez</a>
+    <br/>
+    <br/>
+    <a href="{{ path('app_site_simpleshop_neworder_submitorder') }}">Rendeles feladasa</a>
+
+    {{ afterTextEntity.getText()|raw }}
+
+{% endblock %}
+
+{% block preScripts %}
+{% endblock %}
+
+{% block postScripts %}
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{#
+ # Show delivery or billing address table.
+ #}
+{% macro printAddress(type, title, city, zipCode, street, houseNumber, doorBell, floor, door) %}
+    <table>
+        <tr>
+            <td colspan="2">{{ type }}</td>
+        </tr>
+        <tr>
+            <td>megnevezes</td>
+            <td>{{ title }}</td>
+        </tr>
+        <tr>
+            <td>city</td>
+            <td>{{ city }}</td>
+        </tr>
+        <tr>
+            <td>zipCode</td>
+            <td>{{ zipCode }}</td>
+        </tr>
+        <tr>
+            <td>street</td>
+            <td>{{ street }}</td>
+        </tr>
+        <tr>
+            <td>houseNumber</td>
+            <td>{{ houseNumber }}</td>
+        </tr>
+        <tr>
+            <td>doorBell</td>
+            <td>{{ doorBell }}</td>
+        </tr>
+        <tr>
+            <td>floor</td>
+            <td>{{ floor }}</td>
+        </tr>
+        <tr>
+            <td>door</td>
+            <td>{{ door }}</td>
+        </tr>
+    </table>
+{% endmacro %}
