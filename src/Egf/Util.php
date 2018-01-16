@@ -301,6 +301,48 @@ class Util {
 		}
 	}
 	
+	/**
+	 * Find multiple offsets of the needle in the haystack.
+	 * The fourth (third too) parameters are used for the recursion.
+	 * @param string $haystack Search in.
+	 * @param string $needle   Search that.
+	 * @param int    $offset   Starting position. Used by recursion too.
+	 * @param array  $results  Used by recursion. Passed by reference.
+	 * @return int[] Needle positions.
+	 */
+	protected function strposRecursive($haystack, $needle, $offset = 0, &$results = []) {
+		$offset = strpos($haystack, $needle, $offset);
+		if ($offset === FALSE) {
+			return $results;
+		}
+		else {
+			$results[] = $offset;
+			
+			return $this->strposRecursive($haystack, $needle, ($offset + 1), $results);
+		}
+	}
+	
+	/**
+	 * Similar to strpos, but the needle is an array and look for all the values.
+	 * @param string $sHaystack Search in.
+	 * @param array  $aNeedle   Search one of those.
+	 * @param int    $iOffset   Search from char position.
+	 * @return bool|int False if none of the needles were found... or the position of the first found needle.
+	 */
+	public static function strPosByArray($sHaystack, $aNeedle, $iOffset = 0) {
+		if ( ! is_array($aNeedle)) {
+			$aNeedle = [$aNeedle];
+		}
+		foreach ($aNeedle as $sNeedle) {
+			$xPos = strpos($sHaystack, $sNeedle, $iOffset);
+			if ($xPos !== FALSE) {
+				return $xPos;
+			}
+		}
+		
+		return FALSE;
+	}
+	
 	/** @const Flags to work with the slashing method. */
 	const
 		slashingBackslash = 1,

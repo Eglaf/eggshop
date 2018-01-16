@@ -161,6 +161,8 @@ class NewOrderController extends AbstractEggShopController {
 		
 		$this->getDm()->flush();
 		
+		$session->set('cart', []);
+		
 		return $this->redirectToRoute('app_site_simpleshop_neworder_orderconfirmed');
 	}
 	
