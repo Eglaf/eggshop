@@ -1,0 +1,33 @@
+security:
+    providers:
+        our_db_provider:
+            entity:
+                class: App\Entity\User\User
+                property: username
+
+    encoders:
+        App\Entity\User\User:
+            algorithm: bcrypt
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            provider: our_db_provider
+            pattern:    ^/
+            anonymous: ~
+
+            form_login:
+                login_path: app_security_login
+                check_path: app_security_login
+            logout:
+                path:   /logout
+                target: /
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
