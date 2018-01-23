@@ -34,7 +34,7 @@ class PageController extends AbstractEggShopController {
 	 * Text page.
 	 *
 	 * RouteName: app_site_content_page_text
-	 * @Route("/{code}")
+	 * @Route("/page/{code}")
 	 * @Template
 	 *
 	 * @param string $code

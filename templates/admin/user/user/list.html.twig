@@ -1,0 +1,86 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    Felhasznalok - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+    {% include 'admin/js-templates/egf-table-template.html' %}
+    {% include 'admin/js-templates/egf-table-row-template.html' %}
+    {% include 'admin/js-templates/egf-pagination-template.html' %}
+
+    {# Buttons #}
+    <a href="{{ path('app_admin_user_user_create') }}">Felhasznalo letrehozas</a>
+    <br/><br/>
+
+    {# Content #}
+    <div id="table-container"></div>
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-pagination.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-sf-route.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        new Egf.Table()
+            .setContainerElemId('table-container')
+            .setContents(JSON.parse('{{ listAsJson|raw }}'))
+            .setConfig({
+                sortByColumnKey: 0,
+                sortByReversed:  false,
+                rowsOnPage:      5
+            })
+            .setTranslations({
+                globalSearchPlaceholder: 'Kereses'
+            })
+            .setColumns([{
+                text:     'Nev',
+                property: 'username',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     'Email',
+                property: 'email',
+                search:   'string',
+                sort:     true
+            }, {
+                text: 'Aktiv',
+                func: function (row) {
+                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                },
+                sort: function (row) {
+                    return (row.active ? 1 : 2);
+                }
+            }, {
+                text: 'Jogosultsag',
+                func: function (row) {
+                    return row.role === 'ROLE_ADMIN' ? 'Admin' : '';
+                },
+                sort: function (row) {
+                    return row.role === 'ROLE_ADMIN' ? 1 : 2;
+                }
+            }, {
+                text: '',
+                func: function (row) {
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_user_user_update', {'user':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>Modosit</a>";
+                }
+            }])
+            .init();
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

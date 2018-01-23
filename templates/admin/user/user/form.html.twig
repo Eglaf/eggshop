@@ -1,0 +1,35 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title %}
+    {% if user.username %}
+        Felhasznalo ({{ user.username }}) modositas
+    {% else %}
+        Felhasznalo letrehozas
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block adminContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="{{ path('app_admin_user_user_list') }}">Vissza a felhasznalok listahoz</a>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    Regisztracio - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    {{ beforeTextEntity.getText()|raw }}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword.first) }}
+    {{ form_row(form.plainPassword.second) }}
+
+    {{ form_end(form) }}
+
+    {{ afterTextEntity.getText()|raw }}
+
+{% endblock %}

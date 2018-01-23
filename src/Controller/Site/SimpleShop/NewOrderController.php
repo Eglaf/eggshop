@@ -47,8 +47,8 @@ class NewOrderController extends AbstractEggShopController {
 		return [
 			'categories'               => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
 			'form'                     => $productsForm->createView(),
-			'beforeProductsTextEntity' => $textFinder->get('new_order_select_products_before'),
-			'afterProductsTextEntity'  => $textFinder->get('new_order_select_products_after'),
+			'beforeProductsTextEntity' => $textFinder->get('new-order-select-products-before'),
+			'afterProductsTextEntity'  => $textFinder->get('new-order-select-products-after'),
 		];
 	}
 	
@@ -104,8 +104,8 @@ class NewOrderController extends AbstractEggShopController {
 		
 		return [
 			'addressesForm'             => $addressesForm->createView(),
-			'beforeAddressesTextEntity' => $textFinder->get('new_order_select_addresses_before'),
-			'afterAddressesTextEntity'  => $textFinder->get('new_order_select_addresses_after'),
+			'beforeAddressesTextEntity' => $textFinder->get('new-order-select-addresses-before'),
+			'afterAddressesTextEntity'  => $textFinder->get('new-order-select-addresses-after'),
 		];
 	}
 	
@@ -127,8 +127,8 @@ class NewOrderController extends AbstractEggShopController {
 				$this->getUserAddressRepository()->find($session->get('deliveryAddressId')) : NULL),
 			'billingAddress'   => (Util::isNaturalNumber($session->get('billingAddressId')) ?
 				$this->getUserAddressRepository()->find($session->get('billingAddressId')) : NULL),
-			'beforeTextEntity' => $textFinder->get('new_order_confirm_before'),
-			'afterTextEntity'  => $textFinder->get('new_order_confirm_after'),
+			'beforeTextEntity' => $textFinder->get('new-order-confirm-before'),
+			'afterTextEntity'  => $textFinder->get('new-order-confirm-after'),
 		];
 	}
 	
@@ -178,7 +178,7 @@ class NewOrderController extends AbstractEggShopController {
 	 */
 	public function orderConfirmedAction(TextEntityFinder $textFinder) {
 		return [
-			'orderSubmittedTextEntity' => $textFinder->get('new_order_submit_confirmed'),
+			'orderSubmittedTextEntity' => $textFinder->get('new-order-submit-confirmed'),
 		];
 	}
 	
