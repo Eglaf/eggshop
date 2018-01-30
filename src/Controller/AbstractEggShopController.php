@@ -40,5 +40,4 @@ class AbstractEggShopController extends AbstractController {
 		return $this->getDm()->getRepository(Entity\User\Address::class);
 	}
 	
-	
 }

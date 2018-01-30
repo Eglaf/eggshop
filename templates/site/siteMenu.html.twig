@@ -1,27 +1,23 @@
-<a href="{{ path('app_site_content_page_index') }}">
-    Kezdo oldal
-</a>
+{# Home page #}
+<a href="{{ path('app_site_content_page_index') }}">{{ "site.menu.home_page"|trans }}</a>
+{# Text pages #}
+<a href="{{ path('app_site_content_page_text', {'code': 'fustolt-furjtojas'}) }}">{{ "site.menu.smoked_egg"|trans }}</a>
+{# Shopping #}
+<a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}">{{ "site.menu.buy_eggs"|trans }}</a>
 
-<a href="{{ path('app_site_content_page_text', {'code': 'fustolt-furjtojas'}) }}">
-    Furjtojasrol
-</a>
+{% if is_granted('ROLE_USER') %}
+    {# Profile page #}
+    <a href="{{ path('app_site_user_profile_main') }}">{{ "site.menu.profile_page"|trans }}</a>
+    {# Logout #}
+    <a href="{{ path('logout') }}">{{ "site.menu.logout"|trans }}</a>
+{% else %}
+    {# Registration #}
+    <a href="{{ path('app_site_user_registration_registration') }}">{{ "site.menu.registration"|trans }}</a>
+    {# Login #}
+    <a href="{{ path('app_site_user_login_login') }}">{{ "site.menu.login"|trans }}</a>
+{% endif %}
 
-<a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}">
-    Tojas vasarlas
-</a>
-
-<a href="{{ path('app_admin_dashboard_index') }}" target="_blank">
-    Admin
-</a>
-
-<a href="{{ path('app_site_user_registration_registration') }}">
-    Regisztralas
-</a>
-
-<a href="{{ path('app_site_user_login_login') }}">
-    Login
-</a>
-
-<a href="{{ path('logout') }}">
-    Logout
-</a>
+{% if is_granted('ROLE_ADMIN') %}
+    {# Admin #}
+    <a href="{{ path('app_admin_dashboard_index') }}" target="_blank">{{ "site.menu.admin"|trans }}</a>
+{% endif %}

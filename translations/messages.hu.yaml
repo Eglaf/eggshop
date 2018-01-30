@@ -1,0 +1,14 @@
+site:
+  menu:
+    home_page: Kezdő oldal
+    smoked_egg: Füstölt fűrjtojásról
+    buy_eggs: Tojás vásárlás
+    profile_page: Profil oldal
+    logout: Kijelentkezés
+    registration: Regisztrálás
+    login: Bejelentkezés
+    admin: Admin felület
+
+  title:
+    profile:
+      main: Profile oldal
