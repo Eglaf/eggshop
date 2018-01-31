@@ -1,0 +1,91 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    {{ 'site.title.profile.earlier_orders'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+    {# Template for egf table. #}
+    {% include 'admin/js-templates/egf-table-template.html' %}
+    {% include 'admin/js-templates/egf-table-row-template.html' %}
+    {% include 'admin/js-templates/egf-pagination-template.html' %}
+
+    {# Buttons #}
+    <a href="{{ path('app_site_user_address_create') }}">{{ 'site.content.profile.link.address_create'|trans }}</a>
+
+    {# Content #}
+    <div id="table-container"></div>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/egf/egf.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-table.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-pagination.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/egf/egf-sf-route.js') }}"></script>
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        new Egf.Table()
+            .setContainerElemId('table-container')
+            .setContents(JSON.parse('{{ listAsJson|raw }}'))
+            .setConfig({
+                sortByColumnKey: 0,
+                sortByReversed:  true,
+                rowsOnPage:      5
+            })
+            .setTranslations({
+                globalSearchPlaceholder: 'Kereses'
+            })
+            .setColumns([{
+                text:     "{{ 'site.content.profile.address.title'|trans }}",
+                property: 'title',
+                sort:     true
+            }, {
+                text:     "{{ 'site.content.profile.address.city'|trans }}",
+                property: 'city',
+                sort:     true
+            }, {
+                text:     "{{ 'site.content.profile.address.zip_code'|trans }}",
+                property: 'zipCode',
+                sort:     true
+            }, {
+                text:     "{{ 'site.content.profile.address.street'|trans }}",
+                property: 'street',
+                sort:     true
+            }, {
+                text:     "{{ 'site.content.profile.address.house_number'|trans }}",
+                property: 'houseNumber'
+            }, {
+                text:     "{{ 'site.content.profile.address.floor'|trans }}",
+                property: 'floor'
+            }, {
+                text:     "{{ 'site.content.profile.address.door'|trans }}",
+                property: 'door'
+            }, {
+                text:     "{{ 'site.content.profile.address.door_bell'|trans }}",
+                property: 'door_bell'
+            }, {
+                text: '',
+                func: function (row) {
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_site_user_address_update', {'address':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>{{ 'site.content.profile.link.address_update'|trans }}</a>";
+                }
+            }])
+            .init();
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

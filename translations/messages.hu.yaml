@@ -10,10 +10,14 @@ site:
     admin: Admin felület
 
   title:
-    profile:
+    base: Fürjtojás - Japán fürj
+    priofile:
       main: Profile oldal
       earlier_orders: Korábbi rendelések
       earlier_order_details: Korábbi rendelés részletei
+      address_list: Címek
+      address_create: Cím létrehozás
+      address_update: Cím szerkesztés
 
   content:
     profile:
@@ -22,6 +26,7 @@ site:
         earlier_order_details: Részletek
         user_update: Adatok változtatás
         address_list: Címek
+        back_to_address_list: Vissza a címekhez
         address_create: Új cím hozzáadása
         address_update: Cím módosítás
 
@@ -34,3 +39,13 @@ site:
         price: Ár
         count: Dartabszám
         price_sum: Összesen
+
+      address:
+        title: Megnevezés
+        city: Város
+        zip_code: Irányítószám
+        street: Utca
+        house_number: Házszám
+        floor: Emelet
+        door: Ajtó
+        door_bell: Ajtócsengő

@@ -1,0 +1,35 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    {% if address.id %}
+        {{ 'site.title.profile.address_update'|trans }}
+    {% else %}
+        {{ 'site.title.profile.address_create'|trans }}
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <a href="{{ path('app_site_user_address_list') }}">{{ 'site.content.profile.link.back_to_address_list'|trans }}</a>
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

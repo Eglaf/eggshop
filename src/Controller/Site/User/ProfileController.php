@@ -8,8 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Service\Serializer;
 use App\Controller\AbstractEggShopController;
 use App\Entity\User\User,
-	App\Entity\SimpleShop\Order,
-	App\Entity\SimpleShop\OrderItem;
+	App\Entity\SimpleShop\Order;
 
 /**
  * Class ProfileController
@@ -41,7 +40,7 @@ class ProfileController extends AbstractEggShopController {
 	 * @return array
 	 *
 	 * RouteName: app_site_user_profile_earlierorders
-	 * @Route("/user/earlier-orders")
+	 * @Route("/user/korabbi-rendelesek")
 	 * @Template
 	 */
 	public function earlierOrdersAction(Serializer $serializer) {
@@ -62,7 +61,7 @@ class ProfileController extends AbstractEggShopController {
 	 * @return array
 	 *
 	 * RouteName: app_site_user_profile_earlierorderdetails
-	 * @Route("/user/earlier-order-detail/{order}", requirements={"order"="\d+|_id_"})
+	 * @Route("/user/korabbi-rendeles-reszletek/{order}", requirements={"order"="\d+|_id_"})
 	 * @Template
 	 */
 	public function earlierOrderDetailsAction(Order $order) {
@@ -86,7 +85,7 @@ class ProfileController extends AbstractEggShopController {
 	 * Details of an earlier order.
 	 *
 	 * RouteName: app_site_user_profile_userupdate
-	 * @Route("/user/update-data")
+	 * @Route("/user/adatok-modositas")
 	 * @Template
 	 */
 	public function userUpdateAction() { // userName & email & pw // todo ask for old pw all the time!
