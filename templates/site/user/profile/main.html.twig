@@ -6,6 +6,11 @@
 
 {% block siteContent %}
 
-    profile main
+    <br />
+    <a href="{{ path('app_site_user_profile_earlierorders') }}">{{ 'site.content.profile.link.earlier_orders'|trans }}</a>
+    <br />
+    <a href="{{ path('app_site_user_profile_earlierorders') }}">{{ 'site.content.profile.link.address_list'|trans }}</a>
+    <br />
+    <a href="{{ path('app_site_user_profile_userupdate') }}">{{ 'site.content.profile.link.user_update'|trans }}</a>
 
 {% endblock %}

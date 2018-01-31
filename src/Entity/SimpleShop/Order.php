@@ -6,11 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use App\Entity\User\User;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\OrderRepository")
  * @ORM\Table(name="simpleshop_order")
  */
 class Order {
+	
+	/**
+	 * @var User
+	 * @ORM\ManyToOne(targetEntity="App\Entity\User\User", inversedBy="orders")
+	 * @ORM\JoinColumn(name="user_id", onDelete="SET NULL")
+	 */
+	private $user;
 	
 	/**
 	 * @var OrderStatus
@@ -225,6 +234,23 @@ class Order {
 	 */
 	public function setBillingAddress($billingAddress) {
 		$this->billingAddress = $billingAddress;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return User
+	 */
+	public function getUser() {
+		return $this->user;
+	}
+	
+	/**
+	 * @param User $user
+	 * @return Order
+	 */
+	public function setUser($user) {
+		$this->user = $user;
 		
 		return $this;
 	}

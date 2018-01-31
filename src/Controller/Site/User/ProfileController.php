@@ -5,11 +5,14 @@ namespace App\Controller\Site\User;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use App\Service\Serializer;
 use App\Controller\AbstractEggShopController;
+use App\Entity\User\User,
+	App\Entity\SimpleShop\Order,
+	App\Entity\SimpleShop\OrderItem;
 
 /**
  * Class ProfileController
- *
  * todo remove username? email only? or not?
  */
 class ProfileController extends AbstractEggShopController {
@@ -26,46 +29,68 @@ class ProfileController extends AbstractEggShopController {
 	}
 	
 	
-	public function earlierOrdersAction() {
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Earlier orders                                             **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
+	/**
+	 * List of earlier orders.
+	 * @param Serializer $serializer
+	 * @return array
+	 *
+	 * RouteName: app_site_user_profile_earlierorders
+	 * @Route("/user/earlier-orders")
+	 * @Template
+	 */
+	public function earlierOrdersAction(Serializer $serializer) {
+		$orders = $this->getSimpleShopOrderRepository()->findExtendedByUser($this->getUser());
+		
+		return [
+			'listAsJson' => $serializer->toJson($orders, [
+				'attributes' => ['id', 'comment', 'date', 'priceSum', 'status' => ['label']],
+			], [
+				'date' => ['date'],
+			]),
+		];
+	}
+	
+	/**
+	 * Details of an earlier order.
+	 * @param Order $order
+	 * @return array
+	 *
+	 * RouteName: app_site_user_profile_earlierorderdetails
+	 * @Route("/user/earlier-order-detail/{order}", requirements={"order"="\d+|_id_"})
+	 * @Template
+	 */
+	public function earlierOrderDetailsAction(Order $order) {
+		if ($order->getUser() !== $this->getUser()) {
+			throw new \Exception('Relationship is missing between User and Order!');
+		}
+		
+		return [
+			'order' => $order,
+		];
 	}
 	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 * Login change                                               **         **         **         **         **         **         **         **         **         **
+	 * Update user data                                            **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
 	
-	public function userUpdateAction() { // userName & email
-	
-	}
-	
-	public function passwordUpdateAction() {
-	
-	}
-	
-	
-	/**************************************************************************************************************************************************************
-	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 * Addresses                                                  **         **         **         **         **         **         **         **         **         **
-	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 *************************************************************************************************************************************************************/
-	
-	public function addressListAction() {
-	
-	}
-	
-	public function createAddressAction() {
-	
-	}
-	
-	public function updateAddressAction() {
-	
-	}
-	
-	public function addressForm() {
-	
+	/**
+	 * Details of an earlier order.
+	 *
+	 * RouteName: app_site_user_profile_userupdate
+	 * @Route("/user/update-data")
+	 * @Template
+	 */
+	public function userUpdateAction() { // userName & email & pw // todo ask for old pw all the time!
+		return [];
 	}
 	
 }

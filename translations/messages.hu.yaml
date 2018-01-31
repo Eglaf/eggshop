@@ -12,3 +12,25 @@ site:
   title:
     profile:
       main: Profile oldal
+      earlier_orders: Korábbi rendelések
+      earlier_order_details: Korábbi rendelés részletei
+
+  content:
+    profile:
+      link:
+        earlier_orders: Korábbi rendelések
+        earlier_order_details: Részletek
+        user_update: Adatok változtatás
+        address_list: Címek
+        address_create: Új cím hozzáadása
+        address_update: Cím módosítás
+
+      order:
+        id: Azonosító
+        date: Dátum
+        status: Státusz
+        items: Termékek
+        item: Termék
+        price: Ár
+        count: Dartabszám
+        price_sum: Összesen

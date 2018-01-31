@@ -7,6 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use App\Entity\SimpleShop\Order;
+
 /**
  * User entity.
  * @ORM\Entity(repositoryClass="App\Repository\User\UserRepository")
@@ -17,10 +19,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 class User implements UserInterface, \Serializable {
 	
 	/**
+	 * @var Order[]|ArrayCollection
+	 * @ORM\OneToMany(targetEntity="App\Entity\SimpleShop\Order", mappedBy="user", cascade={"persist"})
+	 */
+	private $orders;
+	
+	/**
 	 * @var Address[]|ArrayCollection
+	 * @ORM\OneToMany(targetEntity="Address", mappedBy="user", cascade={"persist"})
 	 */
 	private $addresses;
-	
 	
 	/**
 	 * @ORM\Column(type="integer")
@@ -77,13 +85,92 @@ class User implements UserInterface, \Serializable {
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 * Advanced methods                                           **         **         **         **         **         **         **         **         **         **
+	 * Advanced methods - entity relations                        **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
 	
+	/**
+	 * User constructor.
+	 */
 	public function __construct() {
+		$this->orders    = new ArrayCollection();
 		$this->addresses = new ArrayCollection();
 	}
+	
+	/**
+	 * Add an Order.
+	 * @param Order $order
+	 * @return User
+	 */
+	public function addOrder(Order $order) {
+		if ( ! $this->orders->contains($order)) {
+			$this->orders[] = $order;
+		}
+		
+		if ($order->getUser() !== $this) {
+			$order->setUser($this);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Remove an Order.
+	 * @param Order $order
+	 * @return $this
+	 */
+	public function removeOrder(Order $order) {
+		if ($this->orders->contains($order)) {
+			$this->orders->removeElement($order);
+		}
+		
+		if ($order->getUser() === $this) {
+			$order->setUser(NULL);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Add an Order.
+	 * @param Address $address
+	 * @return User
+	 */
+	public function addAddress(Address $address) {
+		if ( ! $this->addresses->contains($address)) {
+			$this->addresses[] = $address;
+		}
+		
+		if ($address->getUser() !== $this) {
+			$address->setUser($this);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Remove an Order.
+	 * @param Address $address
+	 * @return $this
+	 */
+	public function removeAddress(Address $address) {
+		if ($this->addresses->contains($address)) {
+			$this->addresses->removeElement($address);
+		}
+		
+		if ($address->getUser() === $this) {
+			$address->setUser(NULL);
+		}
+		
+		return $this;
+	}
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Advanced methods - users                                   **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * Would give back the salt, but it uses bcrypt... no salt needed.
@@ -97,9 +184,6 @@ class User implements UserInterface, \Serializable {
 		return [$this->role];
 	}
 	
-	/**
-	 * Wtf?
-	 */
 	public function eraseCredentials() {
 	}
 	
@@ -120,7 +204,6 @@ class User implements UserInterface, \Serializable {
 			$this->password,
 			) = unserialize($serialized);
 	}
-	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
@@ -277,5 +360,22 @@ class User implements UserInterface, \Serializable {
 		
 		return $this;
 	}
-
+	
+	/**
+	 * @return Order[]|ArrayCollection
+	 */
+	public function getOrders() {
+		return $this->orders;
+	}
+	
+	/**
+	 * @param Order[]|ArrayCollection $orders
+	 * @return User
+	 */
+	public function setOrders($orders) {
+		$this->orders = $orders;
+		
+		return $this;
+	}
+	
 }

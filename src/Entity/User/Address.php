@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Address {
 	
+	/**
+	 * @var User
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="addresses")
+	 * @ORM\JoinColumn(name="user_id", onDelete="SET NULL")
+	 */
 	private $user;
 	
 	/**
@@ -215,6 +220,23 @@ class Address {
 	 */
 	public function setDoorBell($doorBell) {
 		$this->doorBell = $doorBell;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return User
+	 */
+	public function getUser() {
+		return $this->user;
+	}
+	
+	/**
+	 * @param User $user
+	 * @return Address
+	 */
+	public function setUser($user) {
+		$this->user = $user;
 		
 		return $this;
 	}
