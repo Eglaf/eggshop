@@ -6,20 +6,34 @@
 
 {% block body %}
 
-    <div id="site-header-container">
-        {% include 'site/header.html.twig' %}
-    </div><!-- #site-header-container -->
+    <div id="wrapper">
 
-    <div id="site-menu-container">
-        {% include 'site/siteMenu.html.twig' %}
-    </div><!-- #site-menu-container -->
+        <header>
+        {#<div id="site-header-container">#}
+            {% include 'site/header.html.twig' %}
+        {#</div><!-- #site-header-container -->#}
 
-    <div id="site-content-container">
-        {% block siteContent %}{% endblock %}
-    </div><!-- #site-content-container -->
+        {#<div id="site-menu-container">#}
+            {% include 'site/siteMenu.html.twig' %}
+        {#</div><!-- #site-menu-container -->#}
+        </header>
 
-    <div id="site-footer-container">
-        {% include 'site/footer.html.twig' %}
-    </div><!-- #site-footer-container -->
+        {#<div id="site-content-container" class="body">#}
+            {% block siteContent %}{% endblock %}
+        {#</div><!-- #site-content-container -->#}
+
+        {#<div id="site-footer-container">#}
+            {% include 'site/footer.html.twig' %}
+        {#</div><!-- #site-footer-container -->#}
+
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/site.css') }}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/reset.css') }}" />
+
+
 
 {% endblock %}
