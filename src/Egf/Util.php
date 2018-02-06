@@ -354,7 +354,7 @@ class Util {
 		slashingAddRight = 64;
 	
 	/**
-	 * Do some slashing stuff with a string. The slashing constants are verbose enough. One of the slashingNs or slashingDir is required.
+	 * Do some slashing stuff with a string. The slashing constants are verbose enough.
 	 * @param string $sText  String to work with.
 	 * @param int    $iFlags Bitwise operators.
 	 * @return string
