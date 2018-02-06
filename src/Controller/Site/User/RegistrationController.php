@@ -14,10 +14,6 @@ use App\Egf\Util;
 
 /**
  * Class RegistrationController
- *
- * https://symfony.com/doc/current/security.html
- * https://symfony.com/doc/current/security/entity_provider.html todo
- * https://symfony.com/doc/current/doctrine/registration_form.html todo
  */
 class RegistrationController extends AbstractEggShopController {
 	

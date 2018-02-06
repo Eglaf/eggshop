@@ -18,6 +18,7 @@ site:
       address_list: Címek
       address_create: Cím létrehozás
       address_update: Cím szerkesztés
+      email_password_update: Bejelentkezési adatok szerkesztése
 
   content:
     profile:

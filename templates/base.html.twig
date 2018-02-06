@@ -5,7 +5,9 @@
 
         <title>{% block title %}{{ 'site.title.base'|trans }}{% endblock %}</title>
 
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/reset.css') }}" />
+        {% endblock %}
 
         {% block preScripts %}{% endblock %}
 

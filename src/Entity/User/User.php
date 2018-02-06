@@ -39,11 +39,18 @@ class User implements UserInterface, \Serializable {
 	
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
-	 * @Assert\Length(min=4, max=64)
-	 * @ORM\Column(type="string", length=64, unique=true, options={"fixed" = true})
+	 * Assert\NotBlank()
+	 * Assert\Length(min=4, max=64)
+	 * ORM\Column(type="string", length=64, unique=true, options={"fixed" = true})
 	 */
 	private $username;
+	
+	/**
+	 * @var string
+	 * @Assert\Email
+	 * @ORM\Column(type="string", length=128, unique=true, options={"fixed" = true})
+	 */
+	private $email;
 	
 	/**
 	 * @Assert\NotBlank()
@@ -62,13 +69,6 @@ class User implements UserInterface, \Serializable {
 	 * @ORM\Column(type="string", length=32, options={"fixed" = true})
 	 */
 	private $role;
-	
-	/**
-	 * @var string
-	 * @Assert\Email
-	 * @ORM\Column(type="string", length=128, unique=true, options={"fixed" = true})
-	 */
-	private $email;
 	
 	/**
 	 * @var boolean
@@ -191,7 +191,7 @@ class User implements UserInterface, \Serializable {
 	public function serialize() {
 		return serialize([
 			$this->id,
-			$this->username,
+			$this->email,
 			$this->password,
 		]);
 	}
@@ -200,9 +200,28 @@ class User implements UserInterface, \Serializable {
 	public function unserialize($serialized) {
 		list (
 			$this->id,
-			$this->username,
+			$this->email,
 			$this->password,
 			) = unserialize($serialized);
+	}
+	
+	/**
+	 * Email is the username here.
+	 * @return string
+	 */
+	public function getUsername() {
+		return $this->email;
+	}
+	
+	/**
+	 * Email is the username here.
+	 * @param string $username
+	 * @return User
+	 */
+	public function setUsername($username) {
+		// $this->username = $username;
+		
+		return $this;
 	}
 	
 	/**************************************************************************************************************************************************************
@@ -210,23 +229,6 @@ class User implements UserInterface, \Serializable {
 	 * Basic methods                                              **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
-	
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
-	}
-	
-	/**
-	 * @param string $username
-	 * @return User
-	 */
-	public function setUsername($username) {
-		$this->username = $username;
-		
-		return $this;
-	}
 	
 	/**
 	 * @return string

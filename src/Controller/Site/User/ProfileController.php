@@ -7,12 +7,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Service\Serializer;
 use App\Controller\AbstractEggShopController;
-use App\Entity\User\User,
-	App\Entity\SimpleShop\Order;
+use App\Form\Site\User\EmailPasswordType;
+use App\Entity\SimpleShop\Order;
 
 /**
  * Class ProfileController
- * todo remove username? email only? or not?
+ * todo remove username! email only!
  */
 class ProfileController extends AbstractEggShopController {
 	
@@ -88,8 +88,24 @@ class ProfileController extends AbstractEggShopController {
 	 * @Route("/user/adatok-modositas")
 	 * @Template
 	 */
-	public function userUpdateAction() { // userName & email & pw // todo ask for old pw all the time!
-		return [];
+	public function emailPasswordFormAction() {
+		$user = $this->getUser();
+		
+		// Create form.
+		$form = $this->createForm(EmailPasswordType::class, $user);
+		$form->handleRequest($this->getRq());
+		
+		// Save form.
+		if ($form->isSubmitted() && $form->isValid()) {
+			$this->getDm()->flush();
+			
+			return $this->redirectToRoute('app_site_user_profile_userupdate');
+		}
+		
+		// Form view.
+		return [
+			"formView" => $form->createView(),
+		];
 	}
 	
 }

@@ -9,31 +9,21 @@
     <div id="wrapper">
 
         <header>
-        {#<div id="site-header-container">#}
             {% include 'site/header.html.twig' %}
-        {#</div><!-- #site-header-container -->#}
-
-        {#<div id="site-menu-container">#}
             {% include 'site/siteMenu.html.twig' %}
-        {#</div><!-- #site-menu-container -->#}
         </header>
 
-        {#<div id="site-content-container" class="body">#}
+        <div class="body">
             {% block siteContent %}{% endblock %}
-        {#</div><!-- #site-content-container -->#}
+        </div>
 
-        {#<div id="site-footer-container">#}
-            {% include 'site/footer.html.twig' %}
-        {#</div><!-- #site-footer-container -->#}
+        {% include 'site/footer.html.twig' %}
 
     </div>
 
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/site.css') }}" />
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/reset.css') }}" />
-
-
-
 {% endblock %}

@@ -10,9 +10,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\User\User;
 
 /**
- * Class AddressType
+ * Class UserUpdateType
  */
-class RegistrationType extends AbstractType {
+class EmailPasswordType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -22,12 +22,15 @@ class RegistrationType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('email', Type\EmailType::class)
-			// ->add('username', Type\TextType::class)
-			->add('plainPassword', Type\RepeatedType::class, [
+			->add('oldPassword', Type\PasswordType::class, [
+				'mapped' => FALSE,
+			])
+			->add('newPassword', Type\RepeatedType::class, [
+				'required'        => FALSE,
+				'mapped'          => FALSE,
 				'type'            => Type\PasswordType::class,
 				'invalid_message' => 'The password fields must match.',
 				'options'         => ['attr' => ['class' => 'password-field']],
-				'required'        => TRUE,
 				'first_options'   => ['label' => 'Password'],
 				'second_options'  => ['label' => 'Repeat Password'],
 			])
@@ -43,7 +46,6 @@ class RegistrationType extends AbstractType {
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
 			'data_class' => User::class,
-			'validation_groups' => ['registration'],
 		]);
 	}
 	
