@@ -28,7 +28,7 @@ class File {
 	
 	/**
 	 * @var string Storage name of the file in the uploads directory.
-	 * @ORM\Column(name="path", type="string", length=255, options={"fixed" = true})
+	 * @ORM\Column(name="storage_name", type="string", length=255, options={"fixed" = true})
 	 */
 	private $storageName;
 	

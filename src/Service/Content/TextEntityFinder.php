@@ -33,12 +33,13 @@ class TextEntityFinder {
 		
 		// Creates if it doesn't exist.
 		if ( ! $textEntity instanceof Text) {
-			$textEntity = (new Text())
+			throw new \Exception("Invalid text content code: {$code}");
+			/*$textEntity = (new Text())
 				->setCode($code)
 				->setText('');
 			
 			$this->dm->persist($textEntity);
-			$this->dm->flush();
+			$this->dm->flush();*/
 		}
 		
 		return $textEntity;

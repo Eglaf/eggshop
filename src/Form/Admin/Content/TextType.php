@@ -22,9 +22,11 @@ class TextType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('code', Type\TextType::class, [
-				'disabled' => true,
+				'disabled' => TRUE,
 			])
-			->add('title', Type\TextType::class)
+			->add('title', Type\TextType::class, [
+				'required' => FALSE,
+			])
 			->add('text', Type\TextareaType::class)
 			->add('save', Type\SubmitType::class, [
 				'label' => 'Mentes',

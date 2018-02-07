@@ -1,9 +1,13 @@
 {% extends 'site/site.html.twig' %}
 
 {% block title %}
-    {{ textEntity.getTitle() }} - {{ parent() }}
+    {% if textEntity.getTitle() is not null %}
+        {{ textEntity.getTitle() }} -
+    {% endif %}
+    {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
     {{ textEntity.getText()|raw }}
+    <div class="clear"></div>
 {% endblock %}
