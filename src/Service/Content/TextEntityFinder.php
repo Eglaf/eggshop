@@ -31,15 +31,8 @@ class TextEntityFinder {
 	public function get($code) {
 		$textEntity = $this->dm->getRepository(Text::class)->findOneBy(['code' => $code]);
 		
-		// Creates if it doesn't exist.
 		if ( ! $textEntity instanceof Text) {
 			throw new \Exception("Invalid text content code: {$code}");
-			/*$textEntity = (new Text())
-				->setCode($code)
-				->setText('');
-			
-			$this->dm->persist($textEntity);
-			$this->dm->flush();*/
 		}
 		
 		return $textEntity;

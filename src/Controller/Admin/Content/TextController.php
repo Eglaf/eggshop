@@ -39,7 +39,7 @@ class TextController extends AbstractController {
 	/**
 	 * Update a Product Text.
 	 *
-	 * RouteName: app_admin_text_update
+	 * RouteName: app_admin_content_text_update
 	 * @Route("/admin/text/update/{code}")
 	 * @Template("admin/content/text/form.html.twig")
 	 *

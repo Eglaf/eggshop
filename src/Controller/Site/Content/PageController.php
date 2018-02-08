@@ -12,7 +12,6 @@ use App\Service\Content\TextEntityFinder;
 /**
  * Class PageController
  *
- * todo page template + share + admin edit link
  * todo https://developers.facebook.com/docs/plugins/like-button
  * todo https://developers.google.com/+/web/+1button/
  */

@@ -9,5 +9,11 @@
 
 {% block siteContent %}
     {{ textEntity.getText()|raw }}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_admin_content_text_update', {code: textEntity.code}) }}" target="_blank">(e)</a>
+    {% endif %}
+
     <div class="clear"></div>
+
 {% endblock %}
