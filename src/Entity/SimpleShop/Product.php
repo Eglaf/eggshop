@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use App\Entity\Content\File;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SimpleShop\ProductRepository")
  * @ORM\Table(name="simpleshop_product")
@@ -20,11 +22,17 @@ class Product {
 	private $category;
 	
 	/**
-	 * Ordered items. TwoWayRelation because who knows... maybe it'll be needed.
-	 * @var Collection|OrderItem[]
+	 * @var Collection|OrderItem[] Ordered item entities of this Product.
 	 * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="product", cascade={"persist"})
 	 */
 	private $orderItems;
+	
+	/**
+	 * @var File The image file.
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Content\File")
+	 * @ORM\JoinColumn(name="image_id", onDelete="SET NULL")
+	 */
+	private $image;
 	
 	/**
 	 * Product constructor.
@@ -39,7 +47,7 @@ class Product {
 	 * @return Product
 	 */
 	public function addOrderItem(OrderItem $orderItem) {
-		if (!$this->orderItems->contains($orderItem)) {
+		if ( ! $this->orderItems->contains($orderItem)) {
 			$this->orderItems[] = $orderItem;
 		}
 		
@@ -177,6 +185,40 @@ class Product {
 	 */
 	public function setPrice($price) {
 		$this->price = $price;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return OrderItem[]|Collection
+	 */
+	public function getOrderItems() {
+		return $this->orderItems;
+	}
+	
+	/**
+	 * @param OrderItem[]|Collection $orderItems
+	 * @return Product
+	 */
+	public function setOrderItems($orderItems) {
+		$this->orderItems = $orderItems;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return File
+	 */
+	public function getImage() {
+		return $this->image;
+	}
+	
+	/**
+	 * @param File $image
+	 * @return Product
+	 */
+	public function setImage(File $image) {
+		$this->image = $image;
 		
 		return $this;
 	}

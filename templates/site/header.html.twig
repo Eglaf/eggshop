@@ -3,16 +3,46 @@
 </a>
 <nav class="small">
     <ul id="menu-legfelso" class="menu">
-        <li id="menu-item-179" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-179">
-            <a href="http://www.furjtojas.eu/cegunkrol/">
+        <li>
+            <a href="#">
                 CÉGÜNKRŐL
             </a>
         </li>
-        <li id="menu-item-178" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-178">
-            <a href="http://www.furjtojas.eu/kapcsolat/">
+        <li>
+            <a href="#">
                 Kapcsolat
             </a>
         </li>
+
+
+        {% if is_granted('ROLE_USER') %}
+            {# Profile page #}
+            <li>
+                <a href="{{ path('app_site_user_profile_main') }}">{{ "site.menu.profile_page"|trans }}</a>
+            </li>
+            {# Logout #}
+            <li>
+                <a href="{{ path('logout') }}">{{ "site.menu.logout"|trans }}</a>
+            </li>
+        {% else %}
+            {# Registration #}
+            <li>
+                <a href="{{ path('app_site_user_registration_registration') }}">{{ "site.menu.registration"|trans }}</a>
+            </li>
+            {# Login #}
+            <li>
+                <a href="{{ path('app_site_user_login_login') }}">{{ "site.menu.login"|trans }}</a>
+            </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            {# Admin #}
+            <li>
+                <a href="{{ path('app_admin_dashboard_index') }}" target="_blank">{{ "site.menu.admin"|trans }}</a>
+            </li>
+        {% endif %}
+
+
     </ul>
 </nav>
 <div class="contact">

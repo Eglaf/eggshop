@@ -73,6 +73,18 @@
 
                     return "<a href='" + url + "'>Modosit</a>";
                 }
+            }, {
+                text: '',
+                func: function (row) {
+                    var url = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_simpleshop_product_selectimagelist', {'product':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    return "<a href='" + url + "'>Kep csere</a>";
+                }
             }])
             .init();
     </script>

@@ -35,6 +35,11 @@ class AbstractEggShopController extends AbstractController {
 		return $this->getDm()->getRepository(Entity\Content\Text::class);
 	}
 	
+	/** @return \App\Repository\Content\FileRepository|\Doctrine\ORM\EntityRepository */
+	protected function getContentFileRepository() {
+		return $this->getDm()->getRepository(Entity\Content\File::class);
+	}
+	
 	/** @return \App\Repository\User\AddressRepository|\Doctrine\ORM\EntityRepository */
 	protected function getUserAddressRepository() {
 		return $this->getDm()->getRepository(Entity\User\Address::class);

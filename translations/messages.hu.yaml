@@ -1,8 +1,5 @@
 site:
   menu:
-    home_page: Kezdő oldal
-    smoked_egg: Füstölt fűrjtojásról
-    buy_eggs: Tojás vásárlás
     profile_page: Profil oldal
     logout: Kijelentkezés
     registration: Regisztrálás
@@ -11,6 +8,7 @@ site:
 
   title:
     base: Fürjtojás - Japán fürj
+    registration: Regisztrálás
     priofile:
       main: Profile oldal
       earlier_orders: Korábbi rendelések
@@ -19,6 +17,14 @@ site:
       address_create: Cím létrehozás
       address_update: Cím szerkesztés
       email_password_update: Bejelentkezési adatok szerkesztése
+
+  form:
+    reg:
+      name: Név
+      email: Email cím
+      password: Jelszó
+      repeat_password: Jelszó mégegyszer
+      submit: Regisztrálás
 
   content:
     profile:

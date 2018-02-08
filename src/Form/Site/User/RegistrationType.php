@@ -21,18 +21,22 @@ class RegistrationType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('email', Type\EmailType::class)
-			// ->add('username', Type\TextType::class)
+			->add('name', Type\TextType::class, [
+				'label' => 'site.form.reg.name',
+			])
+			->add('email', Type\EmailType::class, [
+				'label' => 'site.form.reg.email',
+			])
 			->add('plainPassword', Type\RepeatedType::class, [
 				'type'            => Type\PasswordType::class,
 				'invalid_message' => 'The password fields must match.',
 				'options'         => ['attr' => ['class' => 'password-field']],
 				'required'        => TRUE,
-				'first_options'   => ['label' => 'Password'],
-				'second_options'  => ['label' => 'Repeat Password'],
+				'first_options'   => ['label' => 'site.form.reg.password'],
+				'second_options'  => ['label' => 'site.form.reg.repeat_password'],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'site.form.reg.submit',
 			]);
 	}
 	
@@ -42,7 +46,7 @@ class RegistrationType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => User::class,
+			'data_class'        => User::class,
 			'validation_groups' => ['registration'],
 		]);
 	}

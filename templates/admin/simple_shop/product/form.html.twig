@@ -15,7 +15,13 @@
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
 
-    <a href="{{ path('app_admin_simpleshop_product_list') }}">Vissza a termekek listahoz</a>
+    <a href="{{ path('app_admin_simpleshop_product_selectimagelist', {product: product.id}) }}">
+        Kep valasztas
+    </a>
+
+    <a href="{{ path('app_admin_simpleshop_product_list') }}">
+        Vissza a termekek listahoz
+    </a>
 
     <script type="text/javascript">
     </script>

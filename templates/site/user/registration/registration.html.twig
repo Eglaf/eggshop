@@ -1,16 +1,27 @@
 {% extends 'site/site.html.twig' %}
 
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     Regisztracio - {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin/bootstrap.min.css') }}" />
+
+    {{ parent() }}
+{% endblock %}
+
 {% block siteContent %}
 
+    <h1>{{ 'site.title.registration'|trans }}</h1>
+
     {{ beforeTextEntity.getText()|raw }}
+    <br /><br />
 
     {{ form_start(form) }}
 
-    {{ form_row(form.username) }}
+    {{ form_row(form.name) }}
     {{ form_row(form.email) }}
     {{ form_row(form.plainPassword.first) }}
     {{ form_row(form.plainPassword.second) }}

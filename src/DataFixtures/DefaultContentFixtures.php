@@ -44,6 +44,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 */
 	protected function loadUsers() {
 		$this->newEntity(User::class, [
+			'name'     => 'kovacs attila',
 			'email'    => 'admin@admin.ad',
 			'password' => '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC',
 			'role'     => 'ROLE_ADMIN',
@@ -140,16 +141,16 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 * @return array [code => text, code2 => text2]
 	 */
 	protected function getShortTextContents() {
-		return ['registration-form-before'          => 'Regisztrációs form.',
-		        'registration-form-after'           => 'Kérjük töltse ki.',
-		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldve.',
-		        'new-order-select-products-before'  => 'Válassza ki a termékeket.',
-		        'new-order-select-products-after'   => 'Majd kattintson a tovább gombra.',
-		        'new-order-select-addresses-before' => 'Válassza ki a címeket.',
-		        'new-order-select-addresses-after'  => 'Majd kattintson a tovább gombra.',
+		return ['registration-form-before'          => 'Kérjük töltse ki az adatokat.',
+		        'registration-form-after'           => 'Gombra kattintás után egy emailt fog kapni az aktiváló linkkel.',
+		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.',
+		        'new-order-select-products-before'  => 'Válassza ki a kívánt termékeket.',
+		        'new-order-select-products-after'   => '',
+		        'new-order-select-addresses-before' => 'Amennyiben kér kiszállítást vagy számlázást, adja meg a címeket.',
+		        'new-order-select-addresses-after'  => '',
 		        'new-order-confirm-before'          => 'Kérjük ellenőrizze a megadott adatokat.',
-		        'new-order-confirm-after'           => 'Ha minden rendben, adja fel a megrendelését.',
-		        'new-order-submit-confirmed'        => 'Megrendelését rögzítettük. Köszönjük a vásárlást.',
+		        'new-order-confirm-after'           => 'Ha mindent rendben talál, a gombra kattintva feladhatja megrendelését.',
+		        'new-order-submit-confirmed'        => 'Rendelését rögzítettük. Köszönjük a vásárlást.',
 		];
 	}
 	
