@@ -29,7 +29,9 @@ class AddressController extends AbstractEggShopController {
 		$addresses = $this->getUserAddressRepository()->findBy(['user' => $this->getUser()]);
 		
 		return [
-			'listAsJson' => $serializer->toJson($addresses),
+			'listAsJson' => $serializer->toJson($addresses, [
+				'attributes' => ['id', 'title', 'city', 'zipCode', 'street', 'houseNumber', 'floor', 'door', 'doorBell'],
+			]),
 		];
 	}
 	

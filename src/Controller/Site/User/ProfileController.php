@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Service\Serializer;
 use App\Controller\AbstractEggShopController;
-use App\Form\Site\User\EmailPasswordType;
+use App\Form\Site\User\UserUpdateType;
 use App\Entity\SimpleShop\Order;
 
 /**
@@ -88,18 +88,18 @@ class ProfileController extends AbstractEggShopController {
 	 * @Route("/user/adatok-modositas")
 	 * @Template
 	 */
-	public function emailPasswordFormAction() {
+	public function userUpdateFormAction() {
 		$user = $this->getUser();
 		
 		// Create form.
-		$form = $this->createForm(EmailPasswordType::class, $user);
+		$form = $this->createForm(UserUpdateType::class, $user);
 		$form->handleRequest($this->getRq());
 		
 		// Save form.
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->getDm()->flush();
 			
-			return $this->redirectToRoute('app_site_user_profile_userupdate');
+			return $this->redirectToRoute('app_site_user_profile_userupdateform');
 		}
 		
 		// Form view.

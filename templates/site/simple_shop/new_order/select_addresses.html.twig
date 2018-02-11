@@ -1,7 +1,9 @@
 {% extends 'site/site.html.twig' %}
 
+{% form_theme addressesForm 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
-    Cim kivalasztas - {{ parent() }}
+    {{ 'site.title.new_order.select_addresses'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
@@ -55,9 +57,12 @@
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
+
     <style type="text/css">
         .hidden {
             display: none;
         }
     </style>
+
 {% endblock %}

@@ -1,17 +1,27 @@
 {% extends 'site/site.html.twig' %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
-    {{ 'site.title.profile.email_password_update'|trans }}
+    {{ 'site.title.profile.user_update'|trans }}
     - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
 
+    <h1>{{ 'site.title.profile.user_update'|trans }}</h1>
+
     {{ form_start(formView) }}
+    {{ form_row(formView.name) }}
     {{ form_row(formView.email) }}
-    {{ form_row(formView.oldPassword) }}
     <hr />
     {{ form_row(formView.newPassword) }}
+    <hr />
+    {{ form_row(formView.oldPassword) }}
+    <div class="input_comment">
+        {{'site.form.profile.comment.old_password'|trans }}
+    </div>
+
     {{ form_end(formView) }}
 
     <script type="text/javascript">

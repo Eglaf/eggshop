@@ -6,11 +6,18 @@
 
 {% block siteContent %}
 
-    <br />
-    <a href="{{ path('app_site_user_profile_earlierorders') }}">{{ 'site.content.profile.link.earlier_orders'|trans }}</a>
-    <br />
-    <a href="{{ path('app_site_user_address_list') }}">{{ 'site.content.profile.link.address_list'|trans }}</a>
-    <br />
-    <a href="{{ path('app_site_user_profile_userupdate') }}">{{ 'site.content.profile.link.user_update'|trans }}</a>
+    <h1>{{ 'site.title.profile.main'|trans }}</h1>
+
+    <a href="{{ path('app_site_user_profile_earlierorders') }}" class="btn btn-default main_button">
+        {{ 'site.content.profile.link.earlier_orders'|trans }}
+    </a>
+
+    <a href="{{ path('app_site_user_address_list') }}" class="btn btn-default main_button">
+        {{ 'site.content.profile.link.address_list'|trans }}
+    </a>
+
+    <a href="{{ path('app_site_user_profile_userupdateform') }}" class="btn btn-default main_button">
+        {{ 'site.content.profile.link.user_update'|trans }}
+    </a>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'site/site.html.twig' %}
 
 {% block title %}
-    {{ 'site.title.profile.earlier_orders'|trans }} - {{ parent() }}
+    {{ 'site.title.profile.address_list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
@@ -10,8 +10,12 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
+    <h1>{{ 'site.title.profile.address_list'|trans }}</h1>
+
     {# Buttons #}
-    <a href="{{ path('app_site_user_address_create') }}">{{ 'site.content.profile.link.address_create'|trans }}</a>
+    <a href="{{ path('app_site_user_address_create') }}" class="btn btn-default">
+        {{ 'site.content.profile.link.address_create'|trans }}
+    </a>
 
     {# Content #}
     <div id="table-container"></div>
@@ -36,7 +40,7 @@
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  true,
-                rowsOnPage:      5
+                rowsOnPage:      10
             })
             .setTranslations({
                 globalSearchPlaceholder: 'Kereses'

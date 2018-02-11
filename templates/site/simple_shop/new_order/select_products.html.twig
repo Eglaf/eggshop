@@ -1,42 +1,60 @@
 {% extends 'site/site.html.twig' %}
 
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
-    Termekek listaja - {{ parent() }}
+    {{ 'site.title.new_order.select_products'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
-    <br/>
     {{ beforeProductsTextEntity.getText()|raw }}
-    <br/><br/>
 
-    {{ form_start(form) }}
+    <div id="new_order_select_products_form">
+        {{ form_start(form) }}
 
-    {% for category in categories %}
-        <hr/>
-        <b>{{ category.label }}</b>
-        {% for product in category.products %}
-            <table border="1">
+        <table class="table">
+            {% for category in categories %}
+                <tr class="category_spacer"></tr>
                 <tr>
-                    <td>
-                        {{ product.label }}
-                    </td>
-                    <td>
-                        {{ product.description }}
-                    </td>
-                    <td>
-                        {{ product.price }} HUF
-                    </td>
-                    <td>
-                        {{ form_widget(attribute(form, 'product' ~ product.id)) }} db
-                    </td>
+                    <td colspan="4" class="category_title">{{ category.label }}</td>
                 </tr>
-            </table>
-        {% endfor %}
-    {% endfor %}
+                {% for product in category.products %}
+                    <tr>
+                        <td class="image">
+                            {% if product.image is not null %}
+                                <img src="{{ imagePath }}{{ product.image.storageName }}" />
+                            {% endif %}
+                        </td>
+                        <td class="product">
+                            <div class="title">
+                                {{ product.label }}
+                            </div>
+                            <div class="description">
+                                {{ product.description }}
+                            </div>
+                        </td>
+                        <td class="price">
+                            <span class="value">
+                                {{ product.price }}
+                            </span>
+                            <span class="postfix">
+                                {{ 'site.form.new_order.price_short'|trans }}
+                            </span>
+                        </td>
+                        <td class="piece">
+                            {{ form_widget(attribute(form, 'product' ~ product.id)) }}
+                            <span>
+                                {{ 'site.form.new_order.piece_short'|trans }}
+                            </span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
 
-    {{ form_end(form) }}
+        {{ form_end(form) }}
 
-    <br/><br/>
+    </div>
+
     {{ afterProductsTextEntity.getText()|raw }}
-    <br/>
 {% endblock %}

@@ -25,5 +25,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/site.css') }}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/eggshop.css') }}" />
 {% endblock %}

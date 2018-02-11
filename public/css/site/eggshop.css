@@ -1,0 +1,126 @@
+/*** Bootstrap ***/
+
+body #wrapper div.body a.btn-default {
+    background: #f9f9f9;
+    color: #543818;
+}
+
+/*** Header ***/
+
+header .contact span {
+    font-size: 24px;
+}
+
+header .contact li {
+    font-size: 20px;
+}
+
+/*** Global form ***/
+
+.input_comment {
+    padding: 0 0 15px 160px;
+    color: #888;
+    font-style: italic;
+}
+
+
+/*** New order - select products ***/
+
+#new_order_select_products_form {
+    padding-top: 5px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr.category_spacer {
+    height:20px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.category_title {
+    background: #f9f9f9;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.image {
+    width: 120px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.image > img {
+    max-height: 100px;
+    max-width: 120px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.product > div.title{
+    font-weight: bolder;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.product > div.description {
+    font-size: 14px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.price {
+    padding-top: 20px;
+    width: 80px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.price > .value {
+    font-weight: bold;
+    color: #900;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.price > .postfix {
+    font-weight: bold;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.piece {
+    padding-top: 15px;
+    width: 100px;
+}
+
+#new_order_select_products_form > form > .table > tbody > tr > td.piece > input.form-control {
+    display: inline-block;
+    width: 60px;
+}
+
+/*** New order - select addresses ***/
+
+#new_order_select_addresses_form {
+    padding-top: 5px;
+}
+
+/*** Profile ***/
+
+.main_button {
+    display: block;
+    width: 200px;
+    margin-top:15px;
+}
+
+/*** Table ***/
+
+.egf-table-global-search {
+    float: right;
+    clear: both;
+}
+
+.egf-pagination-block {
+    display: inline-block;
+    padding: 5px;
+    width: 160px;
+    text-align: center;
+}
+
+.egf-pagination-block a {
+    margin: 0 8px;
+    padding: 2px 5px;
+    border: solid 1px #ccc;
+    border-radius: 4px;
+    color: #333 !important;
+    background-color: #fff;
+}
+
+.egf-pagination-block a:hover {
+    margin: 0 8px;
+    padding: 2px 5px;
+    border: solid 1px #adadad;
+    background-color: #e6e6e6;
+    color: #333;
+    text-decoration: none;
+}

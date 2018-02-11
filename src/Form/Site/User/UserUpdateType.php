@@ -12,7 +12,7 @@ use App\Entity\User\User;
 /**
  * Class UserUpdateType
  */
-class EmailPasswordType extends AbstractType {
+class UserUpdateType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -21,8 +21,14 @@ class EmailPasswordType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('email', Type\EmailType::class)
+			->add('name', Type\TextType::class, [
+				'label' => 'site.form.profile.input.name',
+			])
+			->add('email', Type\EmailType::class, [
+				'label' => 'site.form.profile.input.email',
+			])
 			->add('oldPassword', Type\PasswordType::class, [
+				'label'  => 'site.form.profile.input.old_password',
 				'mapped' => FALSE,
 			])
 			->add('newPassword', Type\RepeatedType::class, [
@@ -31,11 +37,11 @@ class EmailPasswordType extends AbstractType {
 				'type'            => Type\PasswordType::class,
 				'invalid_message' => 'The password fields must match.',
 				'options'         => ['attr' => ['class' => 'password-field']],
-				'first_options'   => ['label' => 'Password'],
-				'second_options'  => ['label' => 'Repeat Password'],
+				'first_options'   => ['label' => 'site.form.profile.input.new_password'],
+				'second_options'  => ['label' => 'site.form.profile.input.new_password_again'],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'site.form.profile.input.submit',
 			]);
 	}
 	

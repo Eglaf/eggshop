@@ -32,9 +32,13 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	public function loadData() {
 		$this
 			->loadUsers()
+			->loadImages();
+		
+		$this->om->flush();
+		
+		$this
 			->loadTexts()
 			->loadPages()
-			->loadImages()
 			->loadSimpleShop();
 	}
 	
@@ -122,6 +126,9 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					'description' => $productData['description'],
 					'price'       => $productData['price'],
 					'active'      => TRUE,
+					'image'       => $this->om->getRepository(File::class)->findOneBy([
+						'storageName' => $productData['image'],
+					]),
 				]);
 			}
 		}
@@ -144,7 +151,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		return ['registration-form-before'          => 'Kérjük töltse ki az adatokat.',
 		        'registration-form-after'           => 'Gombra kattintás után egy emailt fog kapni az aktiváló linkkel.',
 		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.',
-		        'new-order-select-products-before'  => 'Válassza ki a kívánt termékeket.',
+		        'new-order-select-products-before'  => 'Válassza ki a kívánt termékeket és adja meg a mennyiséget.',
 		        'new-order-select-products-after'   => '',
 		        'new-order-select-addresses-before' => 'Amennyiben kér kiszállítást vagy számlázást, adja meg a címeket.',
 		        'new-order-select-addresses-after'  => '',
@@ -156,22 +163,30 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	
 	protected function getImageContents() {
 		return [
-			'image_1.jpg'                      => 'Fürjtojás',
-			'furjtojasok.jpg'                  => 'Japán fürj tojása',
-			'fustolt-furjtojas.jpg'            => 'Nyers fürjtojás',
-			'fustolt-furjtojas-50db1.jpg'      => 'Füstölt fürjtojás',
-			'natur-konzerv-furjtojas-10db.jpg' => 'Főtt füstölt fürjtojás',
-			'zold-szojabab.jpg'                => 'Zöld szójabab',
-			'szojabab-edamame.jpg'             => 'Szójabab edamame',
-			'shiso-level.jpg'                  => 'Shiso levél',
-			'friss-tojas.jpg'                  => 'Friss tojás',
-			'tojas-etel.jpg'                   => 'Tojás étel',
-			'furjtojas-recept.jpg'             => 'Fürjtojás recept',
-			'furj-recept.jpg'                  => 'Fürj recept',
-			'japan-furj.jpg'                   => 'Japán fürj',
-			'furjtojas_15_darabos.jpg'         => 'Fürjtojás 15 darabos',
-			'furjtojas-kura-300x200.jpg'       => 'Fürjtojás kúra',
-			'furjtojas.jpg'                    => 'Fürjtojás',
+			'image_1.jpg'                                 => 'Fürjtojás',
+			'furjtojasok.jpg'                             => 'Japán fürj tojása',
+			'fustolt-furjtojas.jpg'                       => 'Nyers fürjtojás',
+			'fustolt-furjtojas-50db1.jpg'                 => 'Füstölt fürjtojás',
+			'natur-konzerv-furjtojas-10db.jpg'            => 'Főtt füstölt fürjtojás',
+			'zold-szojabab.jpg'                           => 'Zöld szójabab',
+			'szojabab-edamame.jpg'                        => 'Szójabab edamame',
+			'shiso-level.jpg'                             => 'Shiso levél',
+			'friss-tojas.jpg'                             => 'Friss tojás',
+			'tojas-etel.jpg'                              => 'Tojás étel',
+			'furjtojas-recept.jpg'                        => 'Fürjtojás recept',
+			'furj-recept.jpg'                             => 'Fürj recept',
+			'japan-furj.jpg'                              => 'Japán fürj',
+			'furjtojas_15_darabos.jpg'                    => 'Fürjtojás 15 darabos',
+			'furjtojas-kura-300x200.jpg'                  => 'Fürjtojás kúra',
+			'furjtojas.jpg'                               => 'Fürjtojás',
+			'fustolt-furjtojas-10darabos-300x169.jpg'     => 'füstölt fürjtojás 10 darabos',
+			'fustolt-furjtojas-50darabos-300x169.jpg'     => 'Főtt, füstölt fürjtojás 50 darabos',
+			'natur-fott-furjtojas-300x169.jpg'            => 'Natúr főtt fürjtojás sólében (Himalája sóval)',
+			'natur-konzerv-furjtojas-10db-260x300.jpg'    => 'Főtt fürjtojás konzerv - 10 darabos',
+			'natur-konzerv-furjtojas-35db-205x300.jpg'    => 'Főtt fürjtojás konzerv - 35 darabos',
+			'nyers-furjtojas-15db-265x300.jpg'            => 'Nyers fürjtojás - 15 darabos',
+			'furj-tenyesztojas-300x210.jpg'                    => 'Fürj tenyésztojás - 15 darabo',
+			'TamagoKFT-furjtojas-feldolgozas-169x300.jpg' => 'Tamago Kft. Fürjtojás feldolgozás',
 		];
 	}
 	
@@ -722,6 +737,60 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>&nbsp;</p>
 					<p>„Egy kontroll orvosi vérképvizsgálaton derült fény arra, hogy vércukor szintem a megengedett érték négyszerese. Teljesen letaglózott a hír, hisz nem vagyok gyógyszerpárti, ezért örültem nagyon, amikor egy internetes fórumon rátaláltam a fürjtojás kúrára. Kapva a lehetőségen nekiláttam a 240 tojásos fürjtojás kúrának. Olvastam, hogy a fürjtojás kúra a cukorbetegség mellett számos egyéb baj esetén megoldást hozhat és megelőző céllal is alkalmazható. Nagyon érdekelt a dolog, bár nem tudtam mit várhatok tőle. Reggelente, éhgyomorra, nyersen, ízesítés nélkül megittam a napi öt darab fürjtojást, és betartottam, hogy csak 1,5-2 óra múlva reggelizhetek. Sokszor azt vettem észre, hogy egyáltalán nem vagyok éhes, annyira eltelített ez a tojásmennyiség, és csak délben éreztem éhségérzetet. Már egy hónap után felére csökkent a vércukor értékem. Természetesen megtartottam a szakorvosi tanácsot is, és beleegyeztem a legenyhébb gyógyszer (Meforal) szedésébe, s táplálkozási szokásaimon is változtattam, tudatosan étkeztem. A második hónapban tovább süllyedtek az értékeim, harmadik hónapban pedig 6,5-re csökkent a reggeli előtt mért vércukor szintem úgy, hogy két- és fél hónap után már csak fél szem tablettát vettem be esténként. A 250. darab fürjtojás elfogyasztása utáni négyhetes szünetben kíváncsian vártam hogyan változik vércukor értékem és örömmel konstatáltam, hogy sem a gyógyszer felezése, sem a fürjtojás-kúra szüneteltetése kapcsán nem romlottak az értékeim, hanem stagnáltak. Az egy hónapos kényszerszünet után alig vártam, hogy folytathassam a kúrát, s a második kúra végére vércukor értékem teljesen a normál állományba került és azóta sem volt problémám. Félve, de elhagytam a kapott gyógyszerem is, és vércukor szintem beállt az 5,8-6,2 közötti állományba és az eltelt 4 hónap óta sem emelkedett vissza. Vércukor értékem optimalizálásán túl a fürjtojás kúrának köszönhetem, hogy több energiám van napközben, reggelente magamtól ébredek, nemi aktivitásom is nőtt. A fürjtojás fogyasztás azóta is életem részévé vált, továbbra is nyersen fogyasztok alkalmilag pár darab fürjtojást.” – Forrás: Borbély László / <a title="Furjhaz.hu" href="http://www.furjhaz.hu" target="_blank" rel="nofollow">Furjhaz.hu',
 			],
+			'miert-a-furjtojas'                => ['Miért a fürjtojás?', '<h1>Miért a fürjtojás?</h1>
+					<p>A tojás az emberek legjelentősebb táplálékforrása. Ez így van napjainkban és így volt mindig is. A tojás mindig is egyszerűbben megszerezhető volt, mint például a hús, s mind tápértéke, mind fehérje- és zsírtartalma vetekszik a húséval. Számos szárnyas tojását fogyaszthatjuk, mégis az emberi étkezésben a tyúktojás fogyasztása a legelterjedtebb.</p>
+					<p>A fürjtojás tojásfehérje tartalma az összes többi emberi fogyasztásra alkalmas madár tojásától nagyobb. Míg pl. a tyúktojás 55% fehérjét tartalmaz, a fürj tojása 60% tojásfehérje tartalmú. Az egészségtudatos életmódra törekvő emberek többsége felfedezte már a fürjtojás abszolút elsőbbségét, amiben nemcsak tojásfehérje koncentrációjának mennyisége, hanem számos egyéb vitamintartalma is kiemelhető. Napjainkban egyre inkább előtérbe helyeződik a fürjtojás, szemben a hagyományos tyúktojással, a japán fürjet a jövő baromfijaként emlegetik.</p>
+					<p>Miért van szükségünk fehérjére, ezáltal miért hasznost tehát az emberi szervezet számára a tojásfehérje és a fürjtojás fehérjéje?</p>
+					<p>A fehérje a legjobb aminosav. Fehérjékre a szervezet minden sejtjének szüksége van, mindenféle szövet, szerv, izom növekedése és az elpusztult sejtek pótlása fehérjét kíván.&nbsp; A tojásfehérje, más néven albumin élettani jelentősége abban emelhető ki leginkább, hogy a baromfi a kevésbé értékes növényi fehérjék fogyasztása révén nagy értékű tökéletes fehérjét állít elő, erre az emberi szervezet nem képes. A fürjtojás igazi kincs, a legmagasabb biológia értékkel rendelkező fehérje-forrás. Egyetlen fürjtojás fehérjéje közel 3 dkg húsnak felel meg. A tojásfehérje pozitívuma, hogy könnyen és maximálisan emészthető, különösen főtt állapotban, s átalakítás, azaz sütés-főzés közben sem veszít értékéből. A fürjtojás fogyasztható nyersen, főzve, sütve, aszpikba, feldolgozva és füstölve egyaránt.</p>
+					<p>A fürjtojás tojásfehérje koncentrációja magasabb, mint a tyúktojásé, emellett beltartalma és magas vitaminértéke, valamint alacsony koleszterinszintje miatt is jóval hasznosabb az emberi szervezetnek, mint a hétköznapokban elterjedt tyúktojás. Kiemelendő tulajdonsága továbbá az eltarthatósága, hűtőben tárolva 90 napig, szobahőmérsékelten 30 napig őrzi meg szavatosságát.</p>
+					<p>Egy japán fürj éves tojáshozama megközelítőleg 300 darabra tehető.</p>
+			'],
+			'cegunkrol'                        => ['Céginformációk', '<h1>Céginformációk:</h1>
+					<ul>
+					<li>Cégünk hivatalos elnevezése: TAMAGO Fürjtojás Feldolgozó Korlátolt felelősségű társaság; Hatályos: 1991/03/08-tól</li>
+					<li>A cég rövidített elnevezés: TAMAGO Kft.; Hatályos: 1991/03/08-tól</li>
+					<li>A cég székhelye: 1163 Budapest, Albán u. 1.; Hatályos: 1991/03/08-tól</li>
+					<li>Cégjegyzékszám: 01-09-072900; Hatályos: 2006/10/16-tól</li>
+					<li>Adószám: 10459223-2-01; Hatályos: 1991/08/05-től</li>
+					<li>Cégünk 25 éve a fürjtojás specialistája és az egész Európai Unióban egyedül mi működtetünk engedéllyel fürjtojás feldolgozó üzemet.</li>
+					</ul>
+					<p>
+					<img src="/uploads/TamagoKFT-furjtojas-feldolgozas-169x300.jpg" style="float:left; height:300px; width:169px; margin-right:15px;" alt="Tamago Kft. Fürjtojás feldolgozás">
+					</p>
+					<p>&nbsp;</p>
+					<h2>Tulajdonosok</h2>
+					<p>A TAMAGO Kft. tulajdonosa Hiroe Akihisa ügyvezető, aki Csömörön él. Csömör többnemzetiségű település, de azt talán kevesen tudják, hogy japán családok is élnek a faluban.</p>
+					<p>Hiroe Akihisa már 40 éve, 1972 óta él hazánkban. Hosszú éveken keresztül a Mezőgazdasági és Élelmiszeripari Minisztérium támogatása mellett mezőgazdasági szakértőként dolgozott. A japán fürj naposcsibék nemének megállapítását célzó speciális eljárást még hazájában, Japában tanulta meg.</p>
+					<p>1973-ban ismerkedett meg későbbi feleségével, Erzsébet asszonnyal, akivel Budapesten, a XVI. kerületben éltek. Csömörre úgy kerültek, hogy lovuk számára kerestek megfelelő helyet. Csömörön mindenki Sakura néven ismeri őket, utcájuk neve alapján.</p>
+					<p>&nbsp;</p>
+					<p>Szabadalmazott eljárása alapján magyar tőkéstársakkal „Arany Tamagocsan” (füstölt fürjtojás) gyártásába kezdett Sashalmon. Az általa vezetett TAMAGO Kft. füstölt és konzerv fürjtojás készítésével foglalkozik. Nagyrészt Hiroe Akihisa-nák köszönhetőn a füstölt fürjtojás Magyarországon az európai ízlést is kielégítő ínyencséggé nőtte ki magát, jól illeszkedik a magyar konyha ízeihez.</p>
+					<p>A TAMAGO Kft. az egyetlen nagy múltú, fürjtojás feldolgozó Magyarországon, többszörösen díjazott terméke a füstölt fürjtojás és a konzerv fürjtojás. A cég 1989 óta van jelen a köztudatban.</p>
+					<h3>A cég története</h3>
+					<p>A cég alapítója Hiroe Akihisha 1972-ben érkezett Magyarországra, a mezőgazdasági minisztérium által alkalmazott szakértőként dolgozott évtizedeken át. A Tamago Kft-t 1991-ben négyen alapították, az alapítók között van magyar felesége is. Hiroe Akihisha célja az volt, hogy a Japánban kiemelten alkalmazott fürjtojást Magyarországon is elterjessze, például a gyermekek iskolai étkeztetésében vagy kórházakban a kiemelkedő gyógyhatásai miatt.</p>
+					<h4>Profil</h4>
+					<p>A TAMAGO Kft. szolgáltatásai: fürjtojás feldolgozás, füstölt és konzerv fürjtojás készítése, nyers fürj étkezési és tenyésztojás árusítása, illetve konyhakész pecsenyefürj forgalmazása.</p>
+					<p>A TAMAGO Kft. 1991 óta van jelen Magyarországon a köztudatban. Mi vagyunk az egyedüli fürjtojás feldolgozó cég Magyarországon, aki füstölt és konzerv fürjtojást nagy mennyiségben állít elő.</p>
+					<p>Tevékenységünk több évtizedes szakmai tapasztalatra és arra a szilárd meggyőződésre épül, hogy ügyfeleink érdekeinek messzemenő figyelembe vételével hosszú távon garantáljuk a sikeres és eredményes kiszolgálást, együttműködést. Vállalatunk megbízhatóan, költséghatékony és környezetbarát módon optimalizálja megrendelői ellátását.</p>
+					<p>A TAMAGO KFt. által megfogalmazott és vallott értékek teszik cégünket a partnerek igényét maradéktalanul teljesítő, a folyamatos fejlődés iránt elkötelezett szolgáltatóvá.</p>
+					<p>Célunk, hogy ügyfeleink számára olyan színvonalú kiszolgálást nyújtsunk, mely minőségi fürjtojás (étkezési tojás, tenyésztojás) vásárlását teszi lehetővé.</p>
+					<p>Cégünk 1991 óta a magyarországi vásárlók együttműködő partnerévé vált és a jövőben is fő törekvésünk ezen színvonal fenntartása.</p>
+					<h5>Díjaink</h5>
+					<ul>
+					<li>OMÉK’96 élelmiszeripari nagydíjas</li>
+					<li>FOODAPEST ’96 Élelmiszeripari kiállítás – Újdonság díj</li>
+					</ul>',
+			],
+			'kapcsolat'                        => ['Kapcsolat', '
+					<div class="right_map">
+						<iframe scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=hu&geocode=&q=1163 Budapest, Albán Street 1, Hungary|47.5087086,19.175843699999973;t=m&z=10&iwloc=A&output=embed&iwloc=near" height="300" frameborder="0" width="400"></iframe>
+					</div>
+					<p>Tamago Kft.<br>
+					1161 Budapest, Albán utca 1.<br>
+					Telefon: (06-1)-403-0459<br>
+					E-mail: info@furjtojas.eu<br>
+					Web: www.furjtojas.eu</p>
+					<p>Fürjtojás rendelése&nbsp;telefonon: (06)-30-655-8977</p>
+		'],
 		];
 	}
 	
@@ -736,18 +805,22 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 				                       'label'       => 'Arany Tamagochan - Főtt, füstölt fürjtojás 10 darabos',
 				                       'description' => '10 darabos kiszerelés',
 				                       'price'       => 1221,
+				                       'image'       => 'fustolt-furjtojas-10darabos-300x169.jpg',
 			                       ], [
 				                       'label'       => 'Arany Tamagochan - Főtt, füstölt fürjtojás 10 darabos',
 				                       'description' => '10 db. / kiszerelés SZŐLŐMAGOLAJBAN',
 				                       'price'       => 1551,
+				                       'image'       => 'fustolt-furjtojas-10darabos-300x169.jpg',
 			                       ], [
 				                       'label'       => 'Arany Tamagochan - Főtt, füstölt fürjtojás 50 darabos',
 				                       'description' => '50 darabos kiszerelés',
 				                       'price'       => 5115,
+				                       'image'       => 'fustolt-furjtojas-50darabos-300x169.jpg',
 			                       ], [
 				                       'label'       => 'Arany Tamagochan - Főtt, füstölt fürjtojás 50 darabos',
 				                       'description' => '50 db. / kiszerelés SZŐLŐMAGOLAJBAN',
 				                       'price'       => 5775,
+				                       'image'       => 'fustolt-furjtojas-50darabos-300x169.jpg',
 			                       ]],
 		        ], [
 			        'label'    => 'Főtt fürjtojás',
@@ -755,14 +828,17 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 				                       'label'       => 'Natúr főtt fürjtojás sólében (Himalája sóval)',
 				                       'description' => '50 db. / kiszerelés',
 				                       'price'       => 3883,
+				                       'image'       => 'natur-fott-furjtojas-300x169.jpg',
 			                       ], [
 				                       'label'       => 'Főtt fürjtojás konzerv - 10 darabos',
 				                       'description' => '10 darab tojás, sós lében 	',
 				                       'price'       => 1001,
+				                       'image'       => 'natur-konzerv-furjtojas-10db-260x300.jpg',
 			                       ], [
 				                       'label'       => 'Főtt fürjtojás konzerv - 35 darabos',
 				                       'description' => '35 darab tojás, sós lében',
 				                       'price'       => 3113,
+				                       'image'       => 'natur-konzerv-furjtojas-35db-205x300.jpg',
 			                       ]],
 		        ], [
 			        'label'    => 'Nyers fürjtojás',
@@ -770,10 +846,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 				                       'label'       => 'Nyers fürjtojás - 15 darabos',
 				                       'description' => '15 darabos kiszerelés',
 				                       'price'       => 474,
+				                       'image'       => 'nyers-furjtojas-15db-265x300.jpg',
 			                       ], [
 				                       'label'       => 'Fürj tenyésztojás - 15 darabos',
 				                       'description' => '15 darabos kiszerelés',
 				                       'price'       => 1331,
+				                       'image'       => 'furj-tenyesztojas-300x210.jpg',
 			                       ]],
 		        ]];
 	}

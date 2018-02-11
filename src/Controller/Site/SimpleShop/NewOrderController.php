@@ -47,6 +47,7 @@ class NewOrderController extends AbstractEggShopController {
 		return [
 			'categories'               => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
 			'form'                     => $productsForm->createView(),
+			'imagePath'                => Util::slashing($this->getParameter('app.uploads_load_directory'), Util::slashingAddRight),
 			'beforeProductsTextEntity' => $textFinder->get('new-order-select-products-before'),
 			'afterProductsTextEntity'  => $textFinder->get('new-order-select-products-after'),
 		];

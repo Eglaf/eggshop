@@ -56,7 +56,7 @@ class SelectAddressType extends AbstractType {
 			->add('newBillingAddress', AddressType::class)
 			
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Tovabb',
+				'label' => 'site.form.new_order.next',
 			]);
 	}
 	

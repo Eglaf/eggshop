@@ -9,14 +9,19 @@ site:
   title:
     base: Fürjtojás - Japán fürj
     registration: Regisztrálás
-    priofile:
-      main: Profile oldal
+    new_order:
+      select_products: Termékek kiválasztása
+      select_addresses: Címek kiválasztása
+      confirm: Rendelés megerősítése
+      submitted: Rendelés feladva
+    profile:
+      main: Profil oldal
       earlier_orders: Korábbi rendelések
       earlier_order_details: Korábbi rendelés részletei
       address_list: Címek
       address_create: Cím létrehozás
       address_update: Cím szerkesztés
-      email_password_update: Bejelentkezési adatok szerkesztése
+      user_update: Bejelentkezési adatok szerkesztése
 
   form:
     reg:
@@ -25,6 +30,20 @@ site:
       password: Jelszó
       repeat_password: Jelszó mégegyszer
       submit: Regisztrálás
+    new_order:
+      piece_short: Db
+      price_short: Ft
+      next: Tovább
+    profile:
+      input:
+        name: Név
+        email: Email cím
+        old_password: Régi jelszó
+        new_password: Új jelszó
+        new_password_again: Új jelszó mégegyszer
+        submit: Mentés
+      comment:
+        old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
 
   content:
     profile:

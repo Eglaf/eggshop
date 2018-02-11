@@ -26,12 +26,12 @@ class NewOrderType extends AbstractType {
 				'label'    => $product->getLabel(),
 				'required' => FALSE,
 				'mapped'   => FALSE,
-				'data'     => (isset($options['cart'][$product->getId()]) ? $options['cart'][$product->getId()] : null),
+				'data'     => (isset($options['cart'][$product->getId()]) ? $options['cart'][$product->getId()] : NULL),
 			]);
 		}
 		
 		$builder->add('save', Type\SubmitType::class, [
-			'label' => 'Tovabb',
+			'label' => 'site.form.new_order.next',
 		]);
 	}
 	

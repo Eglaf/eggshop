@@ -1,14 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Berkshire+Swash|Open+Sans:400,700);
 
-
-/* some changes */
-
-button.btn {
-    color: #543818;
-}
-
-/* original */
-
 body {
     background: url("/images/bg.jpg") no-repeat center top;
     color: #967345;
@@ -54,7 +45,6 @@ header .contact {
 header .contact span {
     font-family: 'Berkshire Swash', cursive;
     color: #543818;
-    font-size: 24px;
     font-weight: normal;
     margin: 5px 0 15px 0;
     display: block;
@@ -71,7 +61,6 @@ header .contact li {
     list-style-type: none;
     height: 32px;
     line-height: 32px;
-    font-size: 20px;
     font-weight: normal;
     padding: 0 0 2px 45px;
 }

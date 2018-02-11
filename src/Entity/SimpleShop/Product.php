@@ -217,7 +217,7 @@ class Product {
 	 * @param File $image
 	 * @return Product
 	 */
-	public function setImage(File $image) {
+	public function setImage(File $image = NULL) {
 		$this->image = $image;
 		
 		return $this;
