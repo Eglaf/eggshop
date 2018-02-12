@@ -2,7 +2,8 @@
 
 namespace App\Entity\User;
 
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface,
+	Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +17,7 @@ use App\Entity\SimpleShop\Order;
  *
  * todo Roles rework? Role entity or multiple strings in array?
  */
-class User implements UserInterface, \Serializable {
+class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	
 	/**
 	 * @var Order[]|ArrayCollection
@@ -166,10 +167,26 @@ class User implements UserInterface, \Serializable {
 		return $this;
 	}
 	
+	/**
+	 * Set user status.
+	 * Additionally, if set to true, it set the activationHash to NULL.
+	 * @param mixed $active
+	 * @return User
+	 */
+	public function setActive($active) {
+		$this->active = $active;
+		
+		if ($this->active) {
+			$this->activationHash = NULL;
+		}
+		
+		return $this;
+	}
+	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 * Advanced methods - users                                   **         **         **         **         **         **         **         **         **         **
+	 * UserInterface                                              **         **         **         **         **         **         **         **         **         **
 	 *                                                          **         **         **         **         **         **         **         **         **         **
 	 *************************************************************************************************************************************************************/
 	
@@ -223,6 +240,69 @@ class User implements UserInterface, \Serializable {
 		// $this->username = $username;
 		
 		return $this;
+	}
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * AdvancedUserInterface                                      **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
+	
+	/**
+	 * Checks whether the user's account has expired.
+	 *
+	 * Internally, if this method returns false, the authentication system
+	 * will throw an AccountExpiredException and prevent login.
+	 *
+	 * @return bool true if the user's account is non expired, false otherwise
+	 *
+	 * @see AccountExpiredException
+	 */
+	public function isAccountNonExpired() {
+		return true;
+	}
+	
+	/**
+	 * Checks whether the user is locked.
+	 *
+	 * Internally, if this method returns false, the authentication system
+	 * will throw a LockedException and prevent login.
+	 *
+	 * @return bool true if the user is not locked, false otherwise
+	 *
+	 * @see LockedException
+	 */
+	public function isAccountNonLocked() {
+		return true;
+	}
+	
+	/**
+	 * Checks whether the user's credentials (password) has expired.
+	 *
+	 * Internally, if this method returns false, the authentication system
+	 * will throw a CredentialsExpiredException and prevent login.
+	 *
+	 * @return bool true if the user's credentials are non expired, false otherwise
+	 *
+	 * @see CredentialsExpiredException
+	 */
+	public function isCredentialsNonExpired() {
+		return true;
+	}
+	
+	/**
+	 * Checks whether the user is enabled.
+	 *
+	 * Internally, if this method returns false, the authentication system
+	 * will throw a DisabledException and prevent login.
+	 *
+	 * @return bool true if the user is enabled, false otherwise
+	 *
+	 * @see DisabledException
+	 */
+	public function isEnabled() {
+		return ($this->active);
 	}
 	
 	/**************************************************************************************************************************************************************
@@ -352,16 +432,6 @@ class User implements UserInterface, \Serializable {
 	 */
 	public function isActive() {
 		return $this->getActive();
-	}
-	
-	/**
-	 * @param mixed $active
-	 * @return User
-	 */
-	public function setActive($active) {
-		$this->active = $active;
-		
-		return $this;
 	}
 	
 	/**

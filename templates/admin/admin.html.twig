@@ -32,5 +32,6 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/bootstrap.min.css') }}"/>
     <link href="{{ asset('css/admin/admin.css') }}" rel="stylesheet" />
 {% endblock %}

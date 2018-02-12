@@ -1,5 +1,7 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {% if order.id %}
         Rendeles ({{ order.date|date('y-m-d H:i:s') }}) modositas
@@ -12,11 +14,9 @@
 {% block adminContent %}
 
     {{ form_start(formView) }}
-    {{ form_label(formView.status) }}
-    {{ form_widget(formView.status) }}
+    {{ form_row(formView.status) }}
     <br />
-    {{ form_label(formView.comment) }}
-    {{ form_widget(formView.comment) }}
+    {{ form_row(formView.comment) }}
     <br />
 
     <br />

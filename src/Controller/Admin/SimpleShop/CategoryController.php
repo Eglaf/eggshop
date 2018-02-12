@@ -30,7 +30,9 @@ class CategoryController extends AbstractEggShopController {
 		$categoryRows = $this->getSimpleShopCategoryRepository()->findAllWithProducts();
 		
 		return [
-			'listAsJson' => $serializer->toJson($categoryRows),
+			'listAsJson' => $serializer->toJson($categoryRows, ['attributes' => [
+				'id', 'label', 'active', 'products' => ['label'],
+			]]),
 		];
 	}
 	

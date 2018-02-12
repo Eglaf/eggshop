@@ -20,6 +20,7 @@ site:
   title:
     base: Fürjtojás - Japán fürj
     registration: Regisztrálás
+    login: Bejelentkezés
     new_order:
       select_products: Termékek kiválasztása
       select_addresses: Címek kiválasztása
@@ -41,6 +42,10 @@ site:
       password: Jelszó
       repeat_password: Jelszó mégegyszer
       submit: Regisztrálás
+    login:
+      email: Email cím
+      password: Jelszó
+      submit: Bejelentkezés
     profile:
       input:
         name: Név

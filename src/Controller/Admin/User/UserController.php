@@ -32,7 +32,9 @@ class UserController extends AbstractController {
 		$users = $this->getDm()->getRepository(User::class)->findAll();
 		
 		return [
-			'listAsJson' => $serializer->toJson($users),
+			'listAsJson' => $serializer->toJson($users, ['attributes' => [
+				'id', 'name', 'email', 'active', 'role',
+			]]),
 		];
 	}
 	
