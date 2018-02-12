@@ -53,13 +53,14 @@ class User implements UserInterface, \Serializable {
 	private $email;
 	
 	/**
-	 * @Assert\NotBlank()
-	 * @Assert\Length(min=8, max=4096, groups={"registration"})
+	 * @var string Temporally password.
+	 * @Assert\NotBlank(groups={"registration"})
+	 * @Assert\Length(min=8, max=64)
 	 */
 	private $plainPassword;
 	
 	/**
-	 * @var string
+	 * @var string The password in hash format, stored in database.
 	 * @ORM\Column(type="string", length=64, options={"fixed" = true})
 	 */
 	private $password;

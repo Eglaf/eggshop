@@ -3,12 +3,16 @@
 namespace App\Controller\Site\User;
 
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Service\Serializer;
 use App\Controller\AbstractEggShopController;
 use App\Form\Site\User\UserUpdateType;
 use App\Entity\SimpleShop\Order;
+use App\Entity\User\User;
 
 /**
  * Class ProfileController
@@ -66,7 +70,7 @@ class ProfileController extends AbstractEggShopController {
 	 */
 	public function earlierOrderDetailsAction(Order $order) {
 		if ($order->getUser() !== $this->getUser()) {
-			throw new \Exception('Relationship is missing between User and Order!');
+			throw new \Exception('You cannot see that order!');
 		}
 		
 		return [
@@ -83,12 +87,15 @@ class ProfileController extends AbstractEggShopController {
 	
 	/**
 	 * Details of an earlier order.
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @return array
 	 *
 	 * RouteName: app_site_user_profile_userupdate
 	 * @Route("/user/adatok-modositas")
 	 * @Template
 	 */
-	public function userUpdateFormAction() {
+	public function userUpdateFormAction(UserPasswordEncoderInterface $passwordEncoder, TranslatorInterface $translator) {
+		/** @var User $user Current user. */
 		$user = $this->getUser();
 		
 		// Create form.
@@ -97,9 +104,17 @@ class ProfileController extends AbstractEggShopController {
 		
 		// Save form.
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDm()->flush();
-			
-			return $this->redirectToRoute('app_site_user_profile_userupdateform');
+			if ($passwordEncoder->isPasswordValid($user, $form->get('oldPassword')->getData())) {
+				if ($form->get('plainPassword')->getData()) {
+					$newPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
+					$user->setPassword($newPassword);
+				}
+				
+				$this->getDm()->flush();
+			}
+			else {
+				$form->addError(new FormError($translator->trans('site.form.profile.error.old_password_invalid')));
+			}
 		}
 		
 		// Form view.

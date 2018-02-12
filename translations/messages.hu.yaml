@@ -1,4 +1,15 @@
 site:
+  common:
+    quantity: Darabszám
+    price: Ár
+    piece_short: Db
+    price_short: Ft
+    save: Mentés
+    next: Tovább
+    back: Vissza
+    back_to_list: Vissza a listához
+    search: Keresés
+
   menu:
     profile_page: Profil oldal
     logout: Kijelentkezés
@@ -30,10 +41,6 @@ site:
       password: Jelszó
       repeat_password: Jelszó mégegyszer
       submit: Regisztrálás
-    new_order:
-      piece_short: Db
-      price_short: Ft
-      next: Tovább
     profile:
       input:
         name: Név
@@ -41,7 +48,8 @@ site:
         old_password: Régi jelszó
         new_password: Új jelszó
         new_password_again: Új jelszó mégegyszer
-        submit: Mentés
+      error:
+        old_password_invalid: A régi jelszó nem érvényes
       comment:
         old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
 
@@ -52,7 +60,6 @@ site:
         earlier_order_details: Részletek
         user_update: Adatok változtatás
         address_list: Címek
-        back_to_address_list: Vissza a címekhez
         address_create: Új cím hozzáadása
         address_update: Cím módosítás
 
@@ -63,7 +70,7 @@ site:
         items: Termékek
         item: Termék
         price: Ár
-        count: Dartabszám
+        count: Darabszám
         price_sum: Összesen
 
       address:

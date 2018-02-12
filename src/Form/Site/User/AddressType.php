@@ -23,24 +23,36 @@ class AddressType extends AbstractType {
 		$builder
 			->add('title', Type\TextType::class, [
 				'required'   => FALSE,
+				'label' => 'site.content.profile.address.title',
 			])
-			->add('city', Type\TextType::class)
-			->add('zipCode', Type\TextType::class)
-			->add('street', Type\TextType::class)
-			->add('houseNumber', Type\TextType::class)
+			->add('city', Type\TextType::class, [
+				'label' => 'site.content.profile.address.city',
+			])
+			->add('zipCode', Type\TextType::class, [
+				'label' => 'site.content.profile.address.zip_code',
+			])
+			->add('street', Type\TextType::class, [
+				'label' => 'site.content.profile.address.street',
+			])
+			->add('houseNumber', Type\TextType::class, [
+				'label' => 'site.content.profile.address.house_number',
+			])
 			->add('floor', Type\TextType::class, [
 				'required' => FALSE,
+				'label' => 'site.content.profile.address.floor',
 			])
 			->add('door', Type\TextType::class, [
 				'required' => FALSE,
+				'label' => 'site.content.profile.address.door',
 			])
 			->add('doorBell', Type\TextType::class, [
 				'required' => FALSE,
+				'label' => 'site.content.profile.address.door_bell',
 			]);
 		
 		if ($options['showSubmit'] === TRUE) {
 			$builder->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'site.common.save',
 			]);
 		}
 	}

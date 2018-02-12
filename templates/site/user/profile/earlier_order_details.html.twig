@@ -5,44 +5,54 @@
 {% endblock %}
 
 {% block siteContent %}
-    {% if order %}
-        <table>
-            <tr>
-                <td>{{ 'site.content.profile.order.id'|trans }}</td>
-                <td>{{ order.id }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'site.content.profile.order.date'|trans }}</td>
-                <td>{{ order.date|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <td>{{ 'site.content.profile.order.status'|trans }}</td>
-                <td>{{ order.status.label }}</td>
-            </tr>
-            <tr>
-                <td colspan="2">{{ 'site.content.profile.order.items'|trans }}</td>
-            </tr><tr>
-                <td colspan="2">
-                    <table>
-                        <thead>
-                            <th>{{ 'site.content.profile.order.item'|trans }}</th>
-                            <th>{{ 'site.content.profile.order.count'|trans }}</th>
-                            <th>{{ 'site.content.profile.order.price'|trans }}</th>
-                        </thead>
-                        {% for item in order.items %}
-                            <tr>
-                                <td>{{ item.product.label }}</td>
-                                <td>{{ item.count }}</td>
-                                <td>{{ item.price }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>{{ 'site.content.profile.order.price_sum'|trans }}</td>
-                <td>{{ order.priceSum }}</td>
-            </tr>
-        </table>
-    {% endif %}
+
+    <h1>{{ 'site.title.profile.earlier_order_details'|trans }}</h1>
+    <br />
+
+    <table class="table">
+        <tr>
+            <td>{{ 'site.content.profile.order.id'|trans }}</td>
+            <td>{{ order.id }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'site.content.profile.order.date'|trans }}</td>
+            <td>{{ order.date|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'site.content.profile.order.status'|trans }}</td>
+            <td>{{ order.status.label }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ 'site.content.profile.order.items'|trans }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table class="earlier-orders-inner-table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'site.content.profile.order.item'|trans }}</th>
+                        <th>{{ 'site.common.quantity'|trans }}</th>
+                        <th>{{ 'site.common.price'|trans }}</th>
+                    </tr>
+                    </thead>
+                    {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.product.label }}</td>
+                            <td>{{ item.count }} {{ 'site.common.piece_short'|trans }}</td>
+                            <td>{{ item.price }} {{ 'site.common.price_short'|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ 'site.content.profile.order.price_sum'|trans }}</td>
+            <td>{{ order.priceSum }} {{ 'site.common.price_short'|trans }}</td>
+        </tr>
+    </table>
+
+    <a href="{{ path('app_site_user_profile_earlierorders') }}" class="btn btn-default">
+        {{ 'site.common.back_to_list'|trans }}
+    </a>
+
 {% endblock %}

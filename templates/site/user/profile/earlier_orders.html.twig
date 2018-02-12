@@ -10,8 +10,15 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
-    {# Content #}
+    <h1>{{ 'site.title.profile.earlier_orders'|trans }}</h1>
+
+    {# Table content #}
     <div id="table-container"></div>
+
+    <br /><br />
+    <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
+        {{ 'site.common.back'|trans }}
+    </a>
 
 {% endblock %}
 
@@ -36,7 +43,7 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ 'site.common.search'|trans }}'
             })
             .setColumns([{
                 text: "{{ 'site.content.profile.order.date'|trans }}",
@@ -54,6 +61,9 @@
             }, {
                 text: "{{ 'site.content.profile.order.price_sum'|trans }}",
                 property: 'priceSum',
+                func: function (row) {
+                    return row.priceSum + " {{ 'site.common.price_short'|trans }}";
+                },
                 sort: true
             }, {
                 text: '',
@@ -65,7 +75,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>{{ 'site.content.profile.link.earlier_order_details'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'site.content.profile.link.earlier_order_details'|trans }}</a>";
                 }
             }])
             .init();

@@ -20,6 +20,11 @@
     {# Content #}
     <div id="table-container"></div>
 
+    <br /><br />
+    <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
+        {{ 'site.common.back'|trans }}
+    </a>
+
 {% endblock %}
 
 {% block preScripts %}
@@ -43,7 +48,7 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ 'site.common.search'|trans }}'
             })
             .setColumns([{
                 text:     "{{ 'site.content.profile.address.title'|trans }}",
@@ -83,7 +88,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>{{ 'site.content.profile.link.address_update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'site.content.profile.link.address_update'|trans }}</a>";
                 }
             }])
             .init();

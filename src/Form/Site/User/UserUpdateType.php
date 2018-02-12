@@ -31,9 +31,8 @@ class UserUpdateType extends AbstractType {
 				'label'  => 'site.form.profile.input.old_password',
 				'mapped' => FALSE,
 			])
-			->add('newPassword', Type\RepeatedType::class, [
+			->add('plainPassword', Type\RepeatedType::class, [
 				'required'        => FALSE,
-				'mapped'          => FALSE,
 				'type'            => Type\PasswordType::class,
 				'invalid_message' => 'The password fields must match.',
 				'options'         => ['attr' => ['class' => 'password-field']],
@@ -41,7 +40,7 @@ class UserUpdateType extends AbstractType {
 				'second_options'  => ['label' => 'site.form.profile.input.new_password_again'],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'site.form.profile.input.submit',
+				'label' => 'site.common.save',
 			]);
 	}
 	

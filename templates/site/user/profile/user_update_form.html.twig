@@ -12,10 +12,13 @@
     <h1>{{ 'site.title.profile.user_update'|trans }}</h1>
 
     {{ form_start(formView) }}
+
+    {{ form_errors(formView) }}
+
     {{ form_row(formView.name) }}
     {{ form_row(formView.email) }}
     <hr />
-    {{ form_row(formView.newPassword) }}
+    {{ form_row(formView.plainPassword) }}
     <hr />
     {{ form_row(formView.oldPassword) }}
     <div class="input_comment">
@@ -23,6 +26,11 @@
     </div>
 
     {{ form_end(formView) }}
+
+    <br />
+    <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
+        {{ 'site.common.back'|trans }}
+    </a>
 
     <script type="text/javascript">
     </script>

@@ -1,5 +1,7 @@
 {% extends 'site/site.html.twig' %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {% if address.id %}
         {{ 'site.title.profile.address_update'|trans }}
@@ -11,11 +13,21 @@
 
 {% block siteContent %}
 
+    <h1>
+        {% if address.id %}
+            {{ 'site.title.profile.address_update'|trans }}
+        {% else %}
+            {{ 'site.title.profile.address_create'|trans }}
+        {% endif %}
+    </h1>
+
     {{ form_start(formView) }}
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
 
-    <a href="{{ path('app_site_user_address_list') }}">{{ 'site.content.profile.link.back_to_address_list'|trans }}</a>
+    <a href="{{ path('app_site_user_address_list') }}" class="btn btn-default">
+        {{ 'site.common.back_to_list'|trans }}
+    </a>
 
     <script type="text/javascript">
     </script>
