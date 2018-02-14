@@ -1,7 +1,21 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Szoveges tartalom ({{ text.code }}) modositas - {{ parent() }}
+    {{ 'admin.title.text.update'|trans({'%text%': text.code}) }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'text'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_content_text_list', 'admin.link.back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.text.update'|trans({'%text%': text.code}) }}
 {% endblock %}
 
 {% block adminContent %}
@@ -9,8 +23,6 @@
     {{ form_start(formView) }}
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
-
-    <a href="{{ path('app_admin_content_text_list') }}">Vissza a tartalmak listahoz</a>
 
     <script type="text/javascript">
     </script>

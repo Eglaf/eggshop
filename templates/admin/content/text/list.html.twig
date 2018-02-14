@@ -1,7 +1,20 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Szoveges tartalmak - {{ parent() }}
+    {{ 'admin.title.text.list'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'text'} %}
+{% endblock %}
+
+{% block buttons %}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.text.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -50,7 +63,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>Modosit</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
                 }
             }])
             .init();

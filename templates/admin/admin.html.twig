@@ -7,14 +7,22 @@
 {% block body %}
 
     <div id="admin-menu-container">
-        {% include 'admin/adminMenu.html.twig' %}
+        {% block adminMenu %} TODO block adminMenu {% endblock %}
     </div><!-- #admin-menu-container -->
 
-    <div id="admin-flashmessages-container">
-        {% include 'admin/adminFlashMessages.html.twig' %}
-    </div><!-- #admin-flashmessages-container -->
-
     <div id="admin-content-container">
+
+        {% block buttons %}
+        {% endblock %}
+
+        <h1>
+            {% block contentTitle %}{% endblock %}
+        </h1>
+
+        <div id="admin-flashmessages-container">
+            {% include 'admin/adminFlashMessages.html.twig' %}
+        </div><!-- #admin-flashmessages-container -->
+
         {% block adminContent %}{% endblock %}
     </div><!-- #admin-content-container -->
 
@@ -23,7 +31,7 @@
 {% block preScripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('js/egf/egf.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script> {#Ez miert itt van?#}
+    <script type="text/javascript" src="{{ asset('js/egf/egf-template.js') }}"></script>
 {% endblock %}
 
 {% block postScripts %}
@@ -33,5 +41,5 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/bootstrap.min.css') }}"/>
-    <link href="{{ asset('css/admin/admin.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin/admin.css') }}" />
 {% endblock %}

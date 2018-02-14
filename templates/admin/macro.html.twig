@@ -1,0 +1,7 @@
+{% macro button(route, label) %}
+    <a href="{{ path(route) }}" class="btn btn-default button-on-top">{{ label }}</a>
+{% endmacro %}
+
+{% macro buttonToUrl(url, label) %}
+    <a href="{{ url }}" class="btn btn-default button-on-top">{{ label }}</a>
+{% endmacro %}

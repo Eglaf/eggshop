@@ -1,7 +1,21 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Feltoltott filek - {{ parent() }}
+    {{ 'admin.title.file.list'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'file'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_content_file_create', 'admin.link.to_create'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.file.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -68,7 +82,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>Modosit</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
                 }
             }])
             .init();

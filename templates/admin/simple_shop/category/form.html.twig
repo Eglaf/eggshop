@@ -1,12 +1,30 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    {% if category.label %}
-        Kategoria ({{ category.label }}) modositas
+    {% if category.id %}
+        {{ 'admin.title.category.update'|trans({'%category%':category.label}) }}
     {% else %}
-        Kategoria letrehozas
+        {{ 'admin.title.category.create'|trans }}
     {% endif %}
     - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'category'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_simpleshop_category_list', 'admin.link.back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {% if category.id %}
+        {{ 'admin.title.category.update'|trans({'%category%':category.label}) }}
+    {% else %}
+        {{ 'admin.title.category.create'|trans }}
+    {% endif %}
 {% endblock %}
 
 {% block adminContent %}
@@ -14,8 +32,6 @@
     {{ form_start(formView) }}
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
-
-    <a href="{{ path('app_admin_simpleshop_category_list') }}">Vissza a kategoria listahoz</a>
 
     <script type="text/javascript">
     </script>

@@ -1,10 +1,29 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
     {% if file.id %}
-        File ({{ file.label }}) modositas
+        {{ 'admin.title.file.update'|trans({'%file%':file.label}) }}
     {% else %}
-        File feltoltes
+        {{ 'admin.title.file.create'|trans }}
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'file'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_content_file_list', 'admin.link.back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {% if file.id %}
+        {{ 'admin.title.file.update'|trans({'%file%':file.label}) }}
+    {% else %}
+        {{ 'admin.title.file.create'|trans }}
     {% endif %}
 {% endblock %}
 
@@ -18,8 +37,6 @@
     {{ form_start(formView) }}
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
-
-    <a href="{{ path('app_admin_content_file_list') }}">Vissza a filek listahoz</a>
 
     <script type="text/javascript">
     </script>

@@ -211,6 +211,7 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 			$this->id,
 			$this->email,
 			$this->password,
+			$this->active,
 		]);
 	}
 	
@@ -220,6 +221,7 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 			$this->id,
 			$this->email,
 			$this->password,
+			$this->active,
 			) = unserialize($serialized);
 	}
 	
@@ -302,7 +304,7 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	 * @see DisabledException
 	 */
 	public function isEnabled() {
-		return ($this->active);
+		return $this->active;
 	}
 	
 	/**************************************************************************************************************************************************************

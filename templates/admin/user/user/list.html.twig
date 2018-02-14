@@ -1,17 +1,27 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Felhasznalok - {{ parent() }}
+    {{ 'admin.title.user.list'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'user'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_user_user_create', 'admin.link.to_create'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.user.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
     {% include 'admin/js-templates/egf-table-template.html' %}
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
-
-    {# Buttons #}
-    <a href="{{ path('app_admin_user_user_create') }}">Felhasznalo letrehozas</a>
-    <br/><br/>
 
     {# Content #}
     <div id="table-container"></div>
@@ -74,7 +84,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>Modosit</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
                 }
             }])
             .init();

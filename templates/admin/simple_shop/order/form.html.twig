@@ -1,17 +1,36 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block title %}
     {% if order.id %}
-        Rendeles ({{ order.date|date('y-m-d H:i:s') }}) modositas
+        {{ 'admin.title.order.update'|trans({'%date%':order.date|date('Y-m-d'), '%name%':order.user.name}) }}
     {% else %}
-        Rendeles letrehozas
+        {{ 'admin.title.order.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
 
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'order'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_simpleshop_order_list', 'admin.link.back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {% if order.id %}
+        {{ 'admin.title.order.update'|trans({'%date%':order.date|date('Y-m-d'), '%name%':order.user.name}) }}
+    {% else %}
+        {{ 'admin.title.order.create'|trans }}
+    {% endif %}
+{% endblock %}
+
 {% block adminContent %}
+
 
     {{ form_start(formView) }}
     {{ form_row(formView.status) }}
@@ -35,10 +54,8 @@
     <a href="#" id="add-another-item">Add another item</a>
     <br />
 
-    <!--{{ form_widget(formView) }}-->
+    <!--{{ form_widget(formView) }}--> {# TODO submit #}
     {{ form_end(formView) }}
-
-    <a href="{{ path('app_admin_simpleshop_order_list') }}">Vissza a rendelesek listahoz</a>
 
 {% endblock %}
 

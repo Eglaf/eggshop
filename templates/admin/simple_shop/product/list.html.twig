@@ -1,7 +1,21 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Termekek - {{ parent() }}
+    {{ 'admin.title.product.list'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'product'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_simpleshop_product_create', 'admin.link.to_create'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.product.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -10,8 +24,6 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
-    {# Buttons #}
-    <a href="{{ path('app_admin_simpleshop_product_create') }}">Termek letrehozas</a><br/><br/>
 
     {# Content #}
     <div id="table-container"></div>
@@ -71,7 +83,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>Modosit</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
                 }
             }, {
                 text: '',
@@ -83,7 +95,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "'>Kep csere</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.product.select_image'|trans }}</a>";
                 }
             }])
             .init();

@@ -87,3 +87,47 @@ site:
         floor: Emelet
         door: Ajtó
         door_bell: Ajtócsengő
+
+admin:
+  menu:
+    orders: Rendelések
+    categories: Kategóriák
+    products: Termékek
+    texts: Szöveges tartalmak
+    files: Feltöltött fájlok
+    users: Felhasználók
+    logout: Kijelentkezés
+
+  title:
+    base: Admin
+    order:
+      list: Rendelések
+      create: Rendelés létrehozás
+      update: Rendelés módosítás (%name%, %date%)
+    category:
+      list: Kategóriák
+      create: Kategória létrehozás
+      update: Kategória módosítás (%category%)
+    product:
+      list: Termékek
+      create: Termék létrehozás
+      update: Termék módosítás (%product%)
+      select_image: Termék kép választás (%product%)
+    text:
+      list: Szöveges tartalmak
+      update: Szöveg módosítás (%text%)
+    file:
+      list: Feltöltött filék
+      create: Új file
+      update: File módosítás (%file%)
+    user:
+      list: Felhasználók
+      create: Felhasználó létrehozás
+      update: Felhasználó módosítás (%user%)
+
+  link:
+    back_to_list: Vissza a listához
+    to_create: Új létrehozás
+    to_update: Módosítás
+    product:
+      select_image: Kep valasztas

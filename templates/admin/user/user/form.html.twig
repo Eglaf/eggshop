@@ -1,12 +1,30 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    {% if user.username %}
-        Felhasznalo ({{ user.username }}) modositas
+    {% if user.id %}
+        {{ 'admin.title.user.update'|trans({'%user%':user.name}) }}
     {% else %}
-        Felhasznalo letrehozas
+        {{ 'admin.title.user.create'|trans }}
     {% endif %}
     - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'user'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_user_user_list', 'admin.link.back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {% if user.id %}
+        {{ 'admin.title.user.update'|trans({'%user%':user.name}) }}
+    {% else %}
+        {{ 'admin.title.user.create'|trans }}
+    {% endif %}
 {% endblock %}
 
 {% block adminContent %}
@@ -14,8 +32,6 @@
     {{ form_start(formView) }}
     {{ form_widget(formView) }}
     {{ form_end(formView) }}
-
-    <a href="{{ path('app_admin_user_user_list') }}">Vissza a felhasznalok listahoz</a>
 
     <script type="text/javascript">
     </script>

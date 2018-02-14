@@ -1,8 +1,50 @@
+h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
 #admin-menu {
     margin-bottom: 15px;
+}
+
+.button-on-top {
+    margin-bottom: 5px;
 }
 
 #admin-content-container {
     padding: 10px 50px;
     margin: 0 auto;
+}
+
+/*** Table ***/
+
+.egf-table-global-search {
+    float: right;
+    clear: both;
+    border: solid 1px #999;
+}
+
+.egf-pagination-block {
+    display: inline-block;
+    padding: 5px;
+    width: 160px;
+    text-align: center;
+}
+
+.egf-pagination-block a {
+    margin: 0 8px;
+    padding: 2px 5px;
+    border: solid 1px #ccc;
+    border-radius: 4px;
+    color: #333 !important; /* Frack this... */
+    background-color: #fff;
+}
+
+.egf-pagination-block a:hover {
+    margin: 0 8px;
+    padding: 2px 5px;
+    border: solid 1px #adadad;
+    background-color: #e6e6e6;
+    color: #333;
+    text-decoration: none;
 }

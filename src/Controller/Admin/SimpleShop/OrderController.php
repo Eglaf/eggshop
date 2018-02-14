@@ -11,7 +11,6 @@ use App\Entity\SimpleShop\Order;
 use App\Repository\SimpleShop\OrderRepository as OrderRepository;
 use App\Form\Admin\SimpleShop\OrderType as OrderFormType;
 use App\Service\Serializer;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class OrderController

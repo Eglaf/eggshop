@@ -1,7 +1,22 @@
 {% extends 'admin/admin.html.twig' %}
 
+{% import 'admin/macro.html.twig' as macro %}
+
 {% block title %}
-    Termek kep valasztas - {{ parent() }}
+    {{ 'admin.title.product.select_image'|trans({'%product%': product.label}) }} - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'product'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.button('app_admin_simpleshop_product_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.buttonToUrl(path('app_admin_simpleshop_product_update', {product: product.id}), 'admin.link.to_update'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {{ 'admin.title.product.select_image'|trans({'%product%': product.label}) }}
 {% endblock %}
 
 {% block adminContent %}
@@ -9,10 +24,6 @@
     {% include 'admin/js-templates/egf-table-template.html' %}
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
-
-    <h1>Termek kep valasztas: {{ product.label }}</h1>
-    {{ product.description }}
-    <br />
 
     {# Content #}
     <div id="table-container"></div>
@@ -68,7 +79,7 @@
                             })
                             .getUrl();
 
-                        return "<a href='" + url + "'>Kivalasztas</a>";
+                        return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.product.select_image'|trans }}</a>";
                     }
                 }
             }])

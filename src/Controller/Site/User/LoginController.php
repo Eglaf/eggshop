@@ -17,13 +17,12 @@ class LoginController extends AbstractEggShopController {
 	
 	/**
 	 * Login form and submit.
+	 * @param AuthenticationUtils $authUtils
+	 * @return \Symfony\Component\HttpFoundation\Response|array
 	 *
 	 * RouteName: app_site_user_login_login
 	 * @Route("/login")
 	 * @Template
-	 *
-	 * @param AuthenticationUtils $authUtils
-	 * @return \Symfony\Component\HttpFoundation\Response|array
 	 */
 	public function loginAction(AuthenticationUtils $authUtils) {
 		$error        = $authUtils->getLastAuthenticationError();

@@ -1,40 +1,19 @@
+{% import _self as macro %}
+
+{% macro item(active, text, route) %}
+    <li{% if active %} class="active"{% endif %}>
+        <a href="{{ path(route) }}">
+            {{ text }}
+        </a>
+    </li>
+{% endmacro %}
+
 <ul id="admin-menu" class="nav nav-tabs">
-    <li>
-        <a href="{{ path('app_admin_dashboard_index') }}">Kezdooldal</a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_simpleshop_order_list') }}">
-        Megrendelesek
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_simpleshop_category_list') }}">
-        Kategoriak
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_simpleshop_product_list') }}">
-        Termekek
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_content_text_list') }}">
-        Szoveges tartalmak
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_content_file_list') }}">
-        Filek
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('app_admin_user_user_list') }}">
-        Felhasznalok
-    </a>
-    </li>
-    <li>
-    <a href="{{ path('logout') }}">
-        Logout
-    </a>
-    </li>
+    {{ macro.item(activeMenu == 'order',    'admin.menu.orders'|trans, 'app_admin_simpleshop_order_list') }}
+    {{ macro.item(activeMenu == 'category', 'admin.menu.categories'|trans, 'app_admin_simpleshop_category_list') }}
+    {{ macro.item(activeMenu == 'product',  'admin.menu.products'|trans, 'app_admin_simpleshop_product_list') }}
+    {{ macro.item(activeMenu == 'text',     'admin.menu.texts'|trans, 'app_admin_content_text_list') }}
+    {{ macro.item(activeMenu == 'file',     'admin.menu.files'|trans, 'app_admin_content_file_list') }}
+    {{ macro.item(activeMenu == 'user',     'admin.menu.users'|trans, 'app_admin_user_user_list') }}
+    {{ macro.item(activeMenu == 'logout',   'admin.menu.logout'|trans, 'logout') }}
 </ul>
