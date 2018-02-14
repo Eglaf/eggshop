@@ -1,7 +1,18 @@
+{# Men items in an UL. #}
+{% macro menuItem(active, text, route) %}
+    <li{% if active %} class="active"{% endif %}>
+        <a href="{{ path(route) }}">
+            {{ text }}
+        </a>
+    </li>
+{% endmacro %}
+
+{# Link to route. #}
 {% macro button(route, label) %}
     <a href="{{ path(route) }}" class="btn btn-default button-on-top">{{ label }}</a>
 {% endmacro %}
 
+{# Link to URL. #}
 {% macro buttonToUrl(url, label) %}
     <a href="{{ url }}" class="btn btn-default button-on-top">{{ label }}</a>
 {% endmacro %}

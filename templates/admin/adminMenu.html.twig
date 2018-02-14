@@ -1,19 +1,11 @@
-{% import _self as macro %}
-
-{% macro item(active, text, route) %}
-    <li{% if active %} class="active"{% endif %}>
-        <a href="{{ path(route) }}">
-            {{ text }}
-        </a>
-    </li>
-{% endmacro %}
+{% import 'admin/macro.html.twig' as macro %}
 
 <ul id="admin-menu" class="nav nav-tabs">
-    {{ macro.item(activeMenu == 'order',    'admin.menu.orders'|trans, 'app_admin_simpleshop_order_list') }}
-    {{ macro.item(activeMenu == 'category', 'admin.menu.categories'|trans, 'app_admin_simpleshop_category_list') }}
-    {{ macro.item(activeMenu == 'product',  'admin.menu.products'|trans, 'app_admin_simpleshop_product_list') }}
-    {{ macro.item(activeMenu == 'text',     'admin.menu.texts'|trans, 'app_admin_content_text_list') }}
-    {{ macro.item(activeMenu == 'file',     'admin.menu.files'|trans, 'app_admin_content_file_list') }}
-    {{ macro.item(activeMenu == 'user',     'admin.menu.users'|trans, 'app_admin_user_user_list') }}
-    {{ macro.item(activeMenu == 'logout',   'admin.menu.logout'|trans, 'logout') }}
+    {{ macro.menuItem(activeMenu == 'order',    'admin.menu.orders'|trans, 'app_admin_simpleshop_order_list') }}
+    {{ macro.menuItem(activeMenu == 'category', 'admin.menu.categories'|trans, 'app_admin_simpleshop_category_list') }}
+    {{ macro.menuItem(activeMenu == 'product',  'admin.menu.products'|trans, 'app_admin_simpleshop_product_list') }}
+    {{ macro.menuItem(activeMenu == 'text',     'admin.menu.texts'|trans, 'app_admin_content_text_list') }}
+    {{ macro.menuItem(activeMenu == 'file',     'admin.menu.files'|trans, 'app_admin_content_file_list') }}
+    {{ macro.menuItem(activeMenu == 'user',     'admin.menu.users'|trans, 'app_admin_user_user_list') }}
+    {{ macro.menuItem(activeMenu == 'logout',   'admin.menu.logout'|trans, 'logout') }}
 </ul>
