@@ -32,7 +32,7 @@ class TextController extends AbstractController {
 		$textRows = $textRepository->findAll();
 		
 		return [
-			'listAsJson' => $serializer->toJson($textRows, ['attributes' => ['id', 'code']]),
+			'listAsJson' => $serializer->toJson($textRows, ['attributes' => ['id', 'code', 'title']]),
 		];
 	}
 	

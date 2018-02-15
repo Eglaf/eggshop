@@ -24,23 +24,26 @@ class FileType extends AbstractType {
 		// Upload only on create.
 		if ( ! Egf\Util::isNaturalNumber($builder->getData()->getId())) {
 			$builder->add('file', Type\FileType::class, [
-				'label' => 'File',
+				'label' => 'admin.label.file.file',
 			]);
 		}
 		
 		// Other form inputs.
 		$builder
 			->add('label', Type\TextType::class, [
+				'label' => 'admin.label.common.label',
 				'required' => FALSE,
 			])
 			->add('description', Type\TextareaType::class, [
+				'label' => 'admin.label.common.description',
 				'required' => FALSE,
 			])
 			->add('active', Type\CheckboxType::class, [
+				'label' => 'admin.label.common.active',
 				'required' => FALSE,
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'admin.label.common.save',
 			]);
 	}
 	

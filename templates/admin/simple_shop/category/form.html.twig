@@ -2,6 +2,8 @@
 
 {% import 'admin/macro.html.twig' as macro %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {% if category.id %}
         {{ 'admin.title.category.update'|trans({'%category%':category.label}) }}

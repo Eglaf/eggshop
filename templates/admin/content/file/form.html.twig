@@ -2,6 +2,8 @@
 
 {% import 'admin/macro.html.twig' as macro %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {% if file.id %}
         {{ 'admin.title.file.update'|trans({'%file%':file.label}) }}
@@ -30,8 +32,7 @@
 {% block adminContent %}
 
     {% if file.storageName is not null and file.storageName is not empty %}
-        <img src="{{ uploadsDir ~ file.storageName }}" style='max-height:200px;' />
-        <br />
+        <img src="{{ uploadsDir ~ file.storageName }}" style='max-height:200px;' class="product-select-image" />
     {% endif %}
 
     {{ form_start(formView) }}

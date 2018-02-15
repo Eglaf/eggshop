@@ -214,7 +214,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			'natur-konzerv-furjtojas-10db-260x300.jpg'    => 'Főtt fürjtojás konzerv - 10 darabos',
 			'natur-konzerv-furjtojas-35db-205x300.jpg'    => 'Főtt fürjtojás konzerv - 35 darabos',
 			'nyers-furjtojas-15db-265x300.jpg'            => 'Nyers fürjtojás - 15 darabos',
-			'furj-tenyesztojas-300x210.jpg'               => 'Fürj tenyésztojás - 15 darabo',
+			'furj-tenyesztojas-300x210.jpg'               => 'Fürj tenyésztojás - 15 darabos',
 			'TamagoKFT-furjtojas-feldolgozas-169x300.jpg' => 'Tamago Kft. Fürjtojás feldolgozás',
 		];
 	}

@@ -1,5 +1,5 @@
 h1 {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 25px;
 }
 
@@ -20,6 +20,11 @@ h1 {
     padding: 0 0 35px 15px;
     color: #888;
     font-style: italic;
+}
+
+.product-select-image {
+    display:block;
+    margin: 15px auto;
 }
 
 /*** Table ***/

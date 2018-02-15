@@ -98,6 +98,7 @@ admin:
     texts: Szöveges tartalmak
     files: Feltöltött fájlok
     users: Felhasználók
+    config: Beállítások
     logout: Kijelentkezés
 
   title:
@@ -126,16 +127,48 @@ admin:
       list: Felhasználók
       create: Felhasználó létrehozás
       update: Felhasználó módosítás (%user%)
+    config:
+      list: Beállítások
+      update: Beállítás módosítás (%config%)
 
   link:
     back_to_list: Vissza a listához
     to_create: Új létrehozás
     to_update: Módosítás
     product:
-      select_image: Kep valasztas
+      select_image: Kép választás
 
   form:
     comment:
       text:
         title: Oldalak címe. Rövid tartalmak közötti szövegek esetén nincs haszna.
         text: "A szövegben használható változók:"
+
+  label:
+    common:
+      label: Megnevezés
+      active: Aktív
+      description: Leirás
+      identifier: Azonosító
+      save: Mentés
+      inactive: Inaktiv
+    order:
+      status: Státusz
+      date: Dátum
+      price_summarized: Összeg
+    category:
+      products: Termékek
+    product:
+      category: Kategória
+      price: Ár (Ft)
+    text:
+      title: Cím
+    file:
+      file: Fájl
+      image: Kép
+    user:
+      name: Név
+      email: Email
+      role: Jogosultság
+    config:
+      value: Érték

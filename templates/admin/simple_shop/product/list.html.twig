@@ -48,31 +48,33 @@
                 rowsOnPage:      5
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Megnevezes',
+                text:     '{{ "admin.label.common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text: 'Active',
+                text: '{{ "admin.label.common.active"|trans }}',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                    return Egf.Util.boolVal(row.active) ? '{{ "admin.label.common.active"|trans }}' : '{{ "admin.label.common.inactive"|trans }}';
                 },
                 sort: function (row) {
                     // On sorting, put active first.
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: 'Category',
+                text: '{{ "admin.label.product.category"|trans }}',
                 func: function (row) {
                     return row.category.label;
                 },
                 sort: true
             }, {
-                text: 'Price (HUF)',
-                property: 'price'
+                text: '{{ "admin.label.product.price"|trans }}',
+                func: function (row) {
+                    return row.price + ' {{ "site.common.price_short"|trans }}';
+                }
             }, {
                 text: '',
                 func: function (row) {

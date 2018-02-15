@@ -46,18 +46,22 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Azonosito',
+                text:     '{{ "admin.label.common.identifier"|trans }}',
                 property: 'code',
                 search:   'string',
                 sort:     true
             }, {
-                text:     'ERtek',
+                text:     '{{ "admin.label.config.value"|trans }}',
                 property: 'value',
                 search:   'string',
                 sort:     true
+            }, {
+                text: '{{ "admin.label.common.description"|trans }}',
+                property: 'description',
+                search:   'string'
             }, {
                 text: '',
                 func: function (row) {

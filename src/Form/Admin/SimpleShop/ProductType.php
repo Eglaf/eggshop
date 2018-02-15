@@ -23,22 +23,27 @@ class ProductType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('label')
+			->add('label', Type\TextType::class, [
+				'label' => 'admin.label.common.label',
+			])
 			->add('description', Type\TextareaType::class, [
+				'label' => 'admin.label.common.description',
 				'required' => FALSE,
 			])
 			->add('active', Type\CheckboxType::class, [
+				'label' => 'admin.label.common.active',
 				'required' => FALSE,
 			])
 			->add('category', EntityType::class, [
+				'label' => 'admin.label.product.category',
 				'class'        => Category::class,
 				'choice_label' => 'label',
 			])
 			->add('price', Type\NumberType::class, [
-				'label' => 'Price (HUF)'
+				'label' => 'admin.label.product.price',
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'admin.label.common.save',
 			]);
 	}
 	

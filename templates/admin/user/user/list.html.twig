@@ -46,28 +46,28 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Nev',
+                text:     '{{ "admin.label.user.name"|trans }}',
                 property: 'name',
                 search:   'string',
                 sort:     true
             }, {
-                text:     'Email',
+                text:     '{{ "admin.label.user.email"|trans }}',
                 property: 'email',
                 search:   'string',
                 sort:     true
             }, {
-                text: 'Aktiv',
+                text: '{{ "admin.label.common.active"|trans }}',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? 'Aktiv' : 'Inaktiv';
+                    return Egf.Util.boolVal(row.active) ? '{{ "admin.label.common.active"|trans }}' : '{{ "admin.label.common.inactive"|trans }}';
                 },
                 sort: function (row) {
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: 'Jogosultsag',
+                text: '{{ "admin.label.user.role"|trans }}',
                 func: function (row) {
                     return row.role === 'ROLE_ADMIN' ? 'Admin' : '';
                 },

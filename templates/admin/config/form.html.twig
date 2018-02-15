@@ -2,6 +2,8 @@
 
 {% import 'admin/macro.html.twig' as macro %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {{ 'admin.title.config.update'|trans({'%config%':config.code}) }} - {{ parent() }}
 {% endblock %}

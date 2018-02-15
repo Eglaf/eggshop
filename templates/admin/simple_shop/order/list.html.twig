@@ -47,10 +47,10 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text: 'Status',
+                text: '{{ "admin.label.order.status"|trans }}',
                 search:   'string',
                 func: function (row) {
                     return row.status.label;
@@ -59,12 +59,14 @@
                     return row.id;
                 }
             }, {
-                text: 'Date',
+                text: '{{ "admin.label.order.date"|trans }}',
                 property: 'date',
                 sort: true
             }, {
-                text: 'Price summarized',
-                property: 'priceSum',
+                text: '{{ "admin.label.order.price_summarized"|trans }}',
+                func: function (row) {
+                    return row.priceSum + ' {{ "site.common.price_short"|trans }}';
+                },
                 sort: true
             }, {
                 text: '',

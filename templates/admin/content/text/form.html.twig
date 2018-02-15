@@ -31,14 +31,16 @@
 
     {# CkEditor and parameter comment. #}
     {{ form_row(formView.text) }}
-    {% set textComment = 'admin.form.comment.text.text'|trans ~ '<ul>' %}
-    {% for parameter in text.enabledParameters %}
-        {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }}</li>' %}
-    {% endfor %}
-    {% set textComment = textComment ~ '</ul>' %}
-    {{ macro.inputComment(textComment) }}
+    {% if text.enabledParameters %}
+        {% set textComment = 'admin.form.comment.text.text'|trans ~ '<ul>' %}
+        {% for parameter in text.enabledParameters %}
+            {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }}</li>' %}
+        {% endfor %}
+        {% set textComment = textComment ~ '</ul>' %}
+        {{ macro.inputComment(textComment) }}
+    {% endif %}
 
-    {{ form_widget(formView.save) }}
+    {{ form_row(formView.save) }}
 
     {{ form_end(formView) }}
 

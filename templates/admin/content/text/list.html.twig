@@ -43,14 +43,19 @@
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  false,
-                rowsOnPage:      15
+                rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Azonosito',
+                text:     '{{ "admin.label.common.identifier"|trans }}',
                 property: 'code',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     '{{ "admin.label.text.title"|trans }}',
+                property: 'title',
                 search:   'string',
                 sort:     true
             }, {

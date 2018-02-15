@@ -48,15 +48,15 @@
                 rowsOnPage:      5
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Label',
+                text:     '{{ "admin.label.common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     'Description',
+                text:     '{{ "admin.label.common.description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true

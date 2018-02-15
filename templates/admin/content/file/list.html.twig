@@ -24,9 +24,6 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
-    {# Buttons #}
-    <a href="{{ path('app_admin_content_file_create') }}">File feltoltes</a><br/><br/>
-
     {# Content #}
     <div id="table-container"></div>
 {% endblock %}
@@ -50,25 +47,20 @@
                 rowsOnPage:      5
             })
             .setTranslations({
-                globalSearchPlaceholder: 'Kereses'
+                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
             })
             .setColumns([{
-                text:     'Label',
+                text:     '{{ "admin.label.common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     'Description',
+                text:     '{{ "admin.label.common.description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true
             }, {
-                text:     'StorageName',
-                property: 'storageName',
-                search:   'string',
-                sort:     true
-            }, {
-                text: 'Image',
+                text: '{{ "admin.label.file.image"|trans }}',
                 func: function (row) {
                     return "<img src='{{ uploadsDir }}" + row.storageName + "' style='max-height:50px;' />";
                 }
