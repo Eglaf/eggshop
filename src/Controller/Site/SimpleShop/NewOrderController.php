@@ -13,6 +13,7 @@ use App\Entity;
 use App\Controller\AbstractEggShopController;
 use App\Form\Site\SimpleShop as SimpleShopFormType;
 use App\Service\Content\TextEntityFinder;
+use App\Service\ConfigReader;
 
 /**
  * Class NewOrderController
@@ -34,9 +35,10 @@ class NewOrderController extends AbstractEggShopController {
 	 *
 	 * @param TextEntityFinder $textFinder
 	 * @param SessionInterface $session
+	 * @param ConfigReader     $configReader
 	 * @return array
 	 */
-	public function selectProductsAction(TextEntityFinder $textFinder, SessionInterface $session) {
+	public function selectProductsAction(TextEntityFinder $textFinder, SessionInterface $session, ConfigReader $configReader) {
 		$productsForm = $this->createForm(SimpleShopFormType\NewOrderType::class, NULL, [
 			'method'          => 'POST',
 			'action'          => $this->generateUrl('app_site_simpleshop_neworder_submitproducts'),
@@ -45,11 +47,17 @@ class NewOrderController extends AbstractEggShopController {
 		]);
 		
 		return [
-			'categories'               => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
-			'form'                     => $productsForm->createView(),
-			'imagePath'                => Util::slashing($this->getParameter('app.uploads_load_directory'), Util::slashingAddRight),
-			'beforeProductsTextEntity' => $textFinder->get('new-order-select-products-before'),
-			'afterProductsTextEntity'  => $textFinder->get('new-order-select-products-after'),
+			'categories'              => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
+			'form'                    => $productsForm->createView(),
+			'imagePath'               => Util::slashing($this->getParameter('app.uploads_load_directory'), Util::slashingAddRight),
+			'beforeProductsText'      => $textFinder->getStringWithParams('new-order-select-products-before', [
+				'order-minimum-price'               => $configReader->get('order-minimum-price'),
+				'order-delivery-price'              => $configReader->get('order-delivery-price'),
+				'order-no-delivery-price-above-sum' => $configReader->get('order-no-delivery-price-above-sum'),
+				'admin-email'                       => $configReader->get('admin-email'),
+				'admin-phone'                       => $configReader->get('admin-phone'),
+			]),
+			'afterProductsTextEntity' => $textFinder->get('new-order-select-products-after'),
 		];
 	}
 	

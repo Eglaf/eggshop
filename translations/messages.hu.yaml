@@ -46,6 +46,8 @@ site:
       email: Email cím
       password: Jelszó
       submit: Bejelentkezés
+    new_order:
+      next: Tovább
     profile:
       input:
         name: Név

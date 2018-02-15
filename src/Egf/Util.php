@@ -108,6 +108,7 @@ class Util {
 	
 	/**
 	 * From the given string, it gives back placeholders. String between {{ and }}) in an array.
+	 * todo Go with extendStringWithDynamicParameters to the service.
 	 * @param string $sInput         The input string.
 	 * @param bool   $bCutDelimiters If it's true, it cut down the {{ and }} characters from the results. Default: FALSE.
 	 * @return array Array of strings between {{ and }} characters.
@@ -135,6 +136,11 @@ class Util {
 	
 	/**
 	 * It replace the dynamic parameters by the value that should be there.. Dynamic parameters are for example: "{{ id }}", "{{ status->id }}".
+	 * todo Replace by array key to value... textWithVars->getExtended($text, ['%key1%' => 'val1', '{{ key2 }}' => 'val2'])
+	 * todo Use "{{ k }}" as "{{k}}".
+	 * todo Replace by index of placeholder keys... from back to forth direction?
+	 * todo Service... One Egf helper class, and an SF helper service calling that.
+	 * todo regexp?
 	 * @param string $sToReplace The string to extend with values. It has to be translated by the SF2 service first if it's needed.
 	 * @param object $enObject   The (possibly) entity object to get the data from.
 	 * @return string The same string but the dynamic parameters were replaced by the data from the entity object.
@@ -147,12 +153,12 @@ class Util {
 			// Trim the string.
 			$sTrimmedKey = trim($sKey, "{ }");
 			// If the entity has a method like this or it's a property chain , then load the data.
-			if (static::hasObjectGetMethod($enObject, $sTrimmedKey) or strpos($sTrimmedKey, "->") !== FALSE) {
+			if (static::hasObjectGetMethod($enObject, $sTrimmedKey) || strpos($sTrimmedKey, "->") !== FALSE) {
 				$aValues[$sKey] = static::callObjectGetMethod($enObject, $sTrimmedKey);
 			}
 			// Method wasn't found and it's not a chain of properties.
 			else {
-				throw new \Exception("Entity doesn't have the asked method! \n Class: " . get_class($enObject) . " \n Method: get" . ucfirst($sTrimmedKey) . "() \n\n");
+				throw new \Exception("Object doesn't have the asked get method! \n Class: " . get_class($enObject) . " \n Method: get" . ucfirst($sTrimmedKey) . "() \n\n");
 			}
 		}
 		// Update the string with the data from the parameter array.

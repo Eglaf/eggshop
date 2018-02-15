@@ -7,7 +7,8 @@
 {% endblock %}
 
 {% block siteContent %}
-    {{ beforeProductsTextEntity.getText()|raw }}
+    {# Text as string. #}
+    {{ beforeProductsText|raw }}
 
     <div id="new_order_select_products_form">
         {{ form_start(form) }}

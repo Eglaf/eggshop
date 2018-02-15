@@ -63,13 +63,43 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 * @return $this
 	 */
 	protected function loadTexts() {
+		// Basic short texts.
 		foreach ($this->getShortTextContents() as $code => $text) {
 			$this->newEntity(Text::class, [
-				'code'  => $code,
-				'title' => NULL,
-				'text'  => $text,
+				'code'              => $code,
+				'title'             => NULL,
+				'text'              => $text,
+				'enabledParameters' => NULL,
 			]);
 		}
+		
+		// Short texts with parameters.
+		$this
+			->newEntity(Text::class, [
+				'code'  => 'new-order-select-products-before',
+				'title' => NULL,
+				'text'  => '
+					<p>Cégünk 25 éve a fürjtojás specialistája és az egész Európai Unióban egyedül mi működtetünk engedéllyel fürjtojás feldolgozó üzemet. Weblapunkon étkezési fürjtojás és fürj tenyésztojás rendelésére nyílik lehetősége. Étkezési fürjtojás három fajtáját kínáljuk az érdeklődőknek:  nyers fürjtojás,  natúr konzerv fürjtojás (sós lében)   és füstölt fürjtojás étolajban, fóliatasakba,  díszdobozba csomagolva.</p>
+					<p><span style="color:#ee2210;"><strong>Termékeink semmilyen tartósítószert nem tartalmaznak, ízesítéshez pedig Himalája sót használunk!</strong></span></p>
+					<p>A rendelés nincs előzetes regisztrációhoz kötve, így szolgáltatásaink korlátozás nélkül minden látogató számára elérhetőek.</p>
+					<h2>Tojás vásárlás menete</h2>
+					<p>A rendelés menete a választott terméknek megfelelő formanyomtatvány értelemszerű kitöltése.  A formanyomtatvány kitöltése nem minősül online vásárlásnak, csak igényleadásnak, a termékkel kapcsolatos jövőbeli vásárlási szándék kifejezésének. Az eladó tojások iránti vásárlási szándékának megerősítésére minden esetben kapcsolatba lépünk Önnel, s az adás-vételi ügylet az áru kiszállításakor realizálódik.</p>
+					<p>A tojás rendelési űrlap kitöltése után automatikus visszajelzést küldünk email címére, majd rövid időn belük telefonon is felvesszük a kapcsolatot Önnel a megrendelés kiszállításával vagy átvételével kapcsolatban. Rendelési adatait minden esetben telefonos egyeztetés során véglegesítjük. A megrendelés szóbeli, telefonos megerősítést követően minősül csak valós vásárlásnak.</p>
+					<p>Igényleadáskor rögzített adatait bizalmasan kezeljük, harmadik félnek nem adjuk ki.</p>
+					<p>Ha véletlenül hibásan adta le igénylőlapját, kérjük az <strong>{{ admin-email }}</strong> email címre „Hibás igénylőlap” tárggyal jelezze felénk vagy hívjon minket telefonszámunkon.</p>
+					<p>A megrendelt tojások kifizetése házhozszállítás esetén a termékek futártól való átvételekor történik.</p>
+					<p><strong><span style="color: #ff0000;">Futárral történő kiszállítást (házhozszállítást) csak minimum {{ order-minimum-price }} Ft értékű egyösszegű igénylés leadása esetén áll módunkban teljesíteni.</span>
+					Amennyiben a rendelésének összege eléri a {{ order-no-delivery-price-above-sum }} Ft-ot,
+					a szállítási díjat átvállaljuk Öntől, tehát nem számolunk fel házhozszállítási költséget ({{ order-delivery-price }} Ft)!</strong></p>
+					<p><strong>
+					A házhozszállítás futárszolgálattal történik, a kiszállítási díj országosan egységesen {{ order-delivery-price }} Ft.
+					Az igénylőlap alján az összegben a házhozszállítás díja is benne foglaltatik, amennyiben személyesen szeretné átvenni a termékeket telephelyünkön (Tamago Kft. - 1161 Budapest, Albán utca 1.), kérjük a telefonos egyeztetés (rendelés véglegesítése) során jelezze.
+					Személyes átvétel esetén a végösszeg {{ order-delivery-price }} Ft-al kevesebb lesz! </strong></p>
+					<p>A {{ admin-phone }}  telefonszámon <span style="text-decoration: underline;"><em>munkanapokon 9-17 óra között</em></span> a rendelésekkel kapcsolatos kérdésekre az ügyfélszolgálat munkatársai válaszolnak.</p>
+					',
+			])
+			// This one has to be out here. todo WTF?
+			->setEnabledParameters(['admin-email', 'admin-phone', 'order-minimum-price', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
 		
 		return $this;
 	}
@@ -151,7 +181,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		return ['registration-form-before'          => 'Kérjük töltse ki az adatokat.',
 		        'registration-form-after'           => 'Gombra kattintás után egy emailt fog kapni az aktiváló linkkel.',
 		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.',
-		        'new-order-select-products-before'  => 'Válassza ki a kívánt termékeket és adja meg a mennyiséget.',
+		        ''                                  => '',
 		        'new-order-select-products-after'   => '',
 		        'new-order-select-addresses-before' => 'Amennyiben kér kiszállítást vagy számlázást, adja meg a címeket.',
 		        'new-order-select-addresses-after'  => '',
@@ -185,7 +215,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			'natur-konzerv-furjtojas-10db-260x300.jpg'    => 'Főtt fürjtojás konzerv - 10 darabos',
 			'natur-konzerv-furjtojas-35db-205x300.jpg'    => 'Főtt fürjtojás konzerv - 35 darabos',
 			'nyers-furjtojas-15db-265x300.jpg'            => 'Nyers fürjtojás - 15 darabos',
-			'furj-tenyesztojas-300x210.jpg'                    => 'Fürj tenyésztojás - 15 darabo',
+			'furj-tenyesztojas-300x210.jpg'               => 'Fürj tenyésztojás - 15 darabo',
 			'TamagoKFT-furjtojas-feldolgozas-169x300.jpg' => 'Tamago Kft. Fürjtojás feldolgozás',
 		];
 	}

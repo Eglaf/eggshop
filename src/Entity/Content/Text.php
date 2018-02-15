@@ -37,6 +37,12 @@ class Text {
 	private $text;
 	
 	/**
+	 * @var array Possible parameters in the text.
+	 * @ORM\Column(name="enabled_parameters", type="simple_array", nullable=true)
+	 */
+	private $enabledParameters;
+	
+	/**
 	 * @return int
 	 */
 	public function getId() {
@@ -90,6 +96,23 @@ class Text {
 	 */
 	public function setText($text) {
 		$this->text = $text;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getEnabledParameters() {
+		return $this->enabledParameters;
+	}
+	
+	/**
+	 * @param array $enabledParameters
+	 * @return Text
+	 */
+	public function setEnabledParameters(array $enabledParameters = null) {
+		$this->enabledParameters = $enabledParameters;
 		
 		return $this;
 	}
