@@ -57,8 +57,6 @@ var CKBUILDER_CONFIG = {
 		'blockquote' : 1,
 		'clipboard' : 1,
 		'contextmenu' : 1,
-		// 'colorbutton': 1,
-        // 'colordialog' : 1,
 		'elementspath' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
