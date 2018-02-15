@@ -181,7 +181,6 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		return ['registration-form-before'          => 'Kérjük töltse ki az adatokat.',
 		        'registration-form-after'           => 'Gombra kattintás után egy emailt fog kapni az aktiváló linkkel.',
 		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.',
-		        ''                                  => '',
 		        'new-order-select-products-after'   => '',
 		        'new-order-select-addresses-before' => 'Amennyiben kér kiszállítást vagy számlázást, adja meg a címeket.',
 		        'new-order-select-addresses-after'  => '',

@@ -7,7 +7,12 @@ use App\Egf\Util;
 /**
  * Class TextWithParams
  * It add parameter values to a text.
- * TODO
+ * todo extendStringWithDynamicParameters getPlaceholdersFromString
+ * todo Replace by array key to value... textWithVars->getExtended($text, ['%key1%' => 'val1', '{{ key2 }}' => 'val2'])
+ * todo Use "{{ k }}" as "{{k}}".
+ * todo Replace by index of placeholder keys... from back to forth direction?
+ * todo Service... One Egf helper class, and an SF helper service calling that.
+ * todo regexp?
  */
 class TextWithParams {
 
@@ -18,13 +23,13 @@ class TextWithParams {
 		foreach ($aPlaceholders as $key) {
 			// Trim the string.
 			$trimmedKey = trim($key, "{ }");
-			// If the entity has a method like this or it's a property chain , then load the data.
+			// If the entity has a property like this then load the data.
 			if (isset($parameters[$trimmedKey])) {
 				$values[$key] = $parameters[$trimmedKey];
 			}
-			// Method wasn't found and it's not a chain of properties.
+			// Attribute wasn't found.
 			else {
-				throw new \Exception("Parameter array doesn't have the asked property! \n Identifier Code: {$trimmedKeykey} \n In text: {$key}");
+				throw new \Exception("Parameter array doesn't have the asked property! \n Identifier Code: {$trimmedKey} \n In text: {$key}");
 			}
 		}
 		// Update the string with the data from the parameter array.

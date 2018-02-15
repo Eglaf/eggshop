@@ -26,6 +26,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'about' }
 	];
 
+    // config.colorButton_colors = '00923E,F8C100,28166F';
+
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
@@ -35,4 +37,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = ';link:advanced'; // config.removeDialogTabs = 'image:advanced;link:advanced';
+
+	config.width = 900;
+	config.height = 500;
 };

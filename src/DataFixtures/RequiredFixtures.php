@@ -30,27 +30,27 @@ class RequiredFixtures extends AbstractFixture {
 	 */
 	protected function getConfigs() {
 		return [[
-			        'code'         => 'order-minimum-price',
+			        'code'        => 'order-minimum-price',
 			        'value'       => '10000',
 			        'description' => 'Rendelés minimum összege, házhoz szállítas esetén. Szám legyen megadva.',
 		        ], [
-			        'code'         => 'order-delivery-price',
+			        'code'        => 'order-delivery-price',
 			        'value'       => '1000',
 			        'description' => 'Házhoz szállítas ára. Szám legyen megadva.',
 		        ], [
-			        'code'         => 'order-no-delivery-price-above-sum',
+			        'code'        => 'order-no-delivery-price-above-sum',
 			        'value'       => '15000',
 			        'description' => 'Szállítási költség elhagyása, e felett az összeg felett. Szám legyen megadva.',
 		        ], [
-			        'code'         => 'admin-phone',
+			        'code'        => 'admin-phone',
 			        'value'       => '+36-30-655-8977',
 			        'description' => 'Admin felhasználó telenszáma.',
 		        ], [
-			        'code'         => 'admin-email',
+			        'code'        => 'admin-email',
 			        'value'       => 'info@furjtojas.eu',
 			        'description' => 'Admin felhasználó email címe. Érvényes email cim legyen megadva.',
 		        ], [
-			        'code'         => 'sender-email',
+			        'code'        => 'sender-email',
 			        'value'       => 'no-reply@furjtojas.eu',
 			        'description' => 'Email küldésnél a feladó.',
 		        ]];

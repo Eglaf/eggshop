@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Form\Admin\Content;
+namespace App\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use App\Entity\Content\Text;
+use App\Entity\Config;
 
 /**
- * Class TextType
+ * Class ConfigType
  */
-class TextType extends AbstractType {
+class ConfigType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -24,10 +24,7 @@ class TextType extends AbstractType {
 			->add('code', Type\TextType::class, [
 				'disabled' => TRUE,
 			])
-			->add('title', Type\TextType::class, [
-				'required' => FALSE,
-			])
-			->add('text', Type\TextareaType::class)
+			->add('value', Type\TextType::class)
 			->add('save', Type\SubmitType::class);
 	}
 	
@@ -37,7 +34,7 @@ class TextType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Text::class,
+			'data_class' => Config::class,
 		]);
 	}
 	

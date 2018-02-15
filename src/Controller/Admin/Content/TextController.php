@@ -14,19 +14,19 @@ use App\Service\Serializer;
 
 /**
  * Class TextController
+ * todo
  */
 class TextController extends AbstractController {
 	
 	/**
 	 * List of Product Categories.
+	 * @param Serializer     $serializer     Service to convert entities into json.
+	 * @param TextRepository $textRepository Repository service of categories.
+	 * @return array
 	 *
 	 * RouteName: app_admin_content_text_list
 	 * @Route("/admin/text/list")
 	 * @Template
-	 *
-	 * @param Serializer     $serializer     Service to convert entities into json.
-	 * @param TextRepository $textRepository Repository service of categories.
-	 * @return array
 	 */
 	public function listAction(Serializer $serializer, TextRepository $textRepository) {
 		$textRows = $textRepository->findAll();
@@ -69,7 +69,7 @@ class TextController extends AbstractController {
 			$this->getDm()->persist($text);
 			$this->getDm()->flush();
 			
-			return $this->redirectToRoute('app_admin_content_text_list');
+			// return $this->redirectToRoute('app_admin_content_text_list');
 		}
 		
 		// Form view.

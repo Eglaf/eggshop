@@ -3,18 +3,18 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.text.list'|trans }} - {{ parent() }}
+    {{ 'admin.title.config.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
-    {% include 'admin/adminMenu.html.twig' with {activeMenu:'text'} %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'config'} %}
 {% endblock %}
 
 {% block buttons %}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.text.list'|trans }}
+    {{ 'admin.title.config.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -43,7 +43,7 @@
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  false,
-                rowsOnPage:      15
+                rowsOnPage:      10
             })
             .setTranslations({
                 globalSearchPlaceholder: 'Kereses'
@@ -54,12 +54,17 @@
                 search:   'string',
                 sort:     true
             }, {
+                text:     'ERtek',
+                property: 'value',
+                search:   'string',
+                sort:     true
+            }, {
                 text: '',
                 func: function (row) {
                     var url = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_content_text_update', {'code':'_code_'}) }}')
+                        .setRoute('{{ path('app_admin_config_update', {'config':'_id_'}) }}')
                         .setParams({
-                            '_code_': row.code
+                            '_id_': row.id
                         })
                         .getUrl();
 

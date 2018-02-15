@@ -133,3 +133,9 @@ admin:
     to_update: Módosítás
     product:
       select_image: Kep valasztas
+
+  form:
+    comment:
+      text:
+        title: Oldalak címe. Rövid tartalmak közötti szövegek esetén nincs haszna.
+        text: "A szövegben használható változók:"

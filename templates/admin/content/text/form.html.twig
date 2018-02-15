@@ -2,6 +2,8 @@
 
 {% import 'admin/macro.html.twig' as macro %}
 
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}
     {{ 'admin.title.text.update'|trans({'%text%': text.code}) }} - {{ parent() }}
 {% endblock %}
@@ -21,7 +23,23 @@
 {% block adminContent %}
 
     {{ form_start(formView) }}
-    {{ form_widget(formView) }}
+
+    {{ form_row(formView.code) }}
+
+    {{ form_row(formView.title) }}
+    {{ macro.inputComment('admin.form.comment.text.title'|trans) }}
+
+    {# CkEditor and parameter comment. #}
+    {{ form_row(formView.text) }}
+    {% set textComment = 'admin.form.comment.text.text'|trans ~ '<ul>' %}
+    {% for parameter in text.enabledParameters %}
+        {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }}</li>' %}
+    {% endfor %}
+    {% set textComment = textComment ~ '</ul>' %}
+    {{ macro.inputComment(textComment) }}
+
+    {{ form_widget(formView.save) }}
+
     {{ form_end(formView) }}
 
     <script type="text/javascript">
