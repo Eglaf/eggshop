@@ -73,7 +73,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			]);
 		}
 		
-		// Short texts with parameters.
+		// Short texts with parameters. The sendEnabledParameters method has to be called out separately.
 		$this
 			->newEntity(Text::class, [
 				'code'  => 'new-order-select-products-before',
@@ -98,8 +98,27 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A {{ admin-phone }}  telefonszámon <span style="text-decoration: underline;"><em>munkanapokon 9-17 óra között</em></span> a rendelésekkel kapcsolatos kérdésekre az ügyfélszolgálat munkatársai válaszolnak.</p>
 					',
 			])
-			// This one has to be out here. todo WTF?
 			->setEnabledParameters(['admin-email', 'admin-phone', 'order-minimum-price', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
+		
+		$this
+			->newEntity(Text::class, [
+				'code'  => 'new-order-select-products-after',
+				'title' => NULL,
+				'text'  => '',
+			])
+			->setEnabledParameters(['admin-email', 'admin-phone', 'order-minimum-price', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
+		
+		$this
+			->newEntity(Text::class, [
+				'code'  => 'new-order-select-addresses-warning-below-delivery-limit',
+				'title' => NULL,
+				'text'  => '
+					<p>
+					Kiszállítást csak akkor tudunk vállalni, ha a vásárlás összege eléri a {{ order-minimum-price }} Ft-t.<br />
+					Az ön kosarában csak {{ order-sum-price }} Ft van, így a kiszállítási címet nem tudja kiválasztani.
+					</p>',
+			])
+			->setEnabledParameters(['order-minimum-price', 'order-sum-price']);
 		
 		return $this;
 	}
@@ -190,6 +209,10 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		];
 	}
 	
+	/**
+	 * Get image contents.
+	 * @return array
+	 */
 	protected function getImageContents() {
 		return [
 			'image_1.jpg'                                 => 'Fürjtojás',

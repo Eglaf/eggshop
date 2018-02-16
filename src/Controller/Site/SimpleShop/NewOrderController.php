@@ -39,7 +39,7 @@ class NewOrderController extends AbstractEggShopController {
 	 * @return array
 	 */
 	public function selectProductsAction(TextEntityFinder $textFinder, SessionInterface $session, ConfigReader $configReader) {
-		$productsForm = $this->createForm(SimpleShopFormType\NewOrderType::class, NULL, [
+		$productsForm = $this->createForm(SimpleShopFormType\SelectProductsType::class, NULL, [
 			'method'          => 'POST',
 			'action'          => $this->generateUrl('app_site_simpleshop_neworder_submitproducts'),
 			'productEntities' => $this->getSimpleShopProductRepository()->findBy(['active' => TRUE]),
@@ -71,7 +71,7 @@ class NewOrderController extends AbstractEggShopController {
 	 * @return RedirectResponse
 	 */
 	public function submitProductsAction(SessionInterface $session) {
-		$formData = $this->getRq()->request->get('new_order');
+		$formData = $this->getRq()->request->get('select_products');
 		$products = $this->getSimpleShopProductRepository()->findBy(['active' => TRUE]);
 		$cart     = [];
 		
@@ -96,9 +96,10 @@ class NewOrderController extends AbstractEggShopController {
 	 *
 	 * @param TextEntityFinder $textFinder
 	 * @param SessionInterface $session
+	 * @param ConfigReader     $configReader
 	 * @return array|RedirectResponse
 	 */
-	public function selectAddressesAction(TextEntityFinder $textFinder, SessionInterface $session) {
+	public function selectAddressesAction(TextEntityFinder $textFinder, SessionInterface $session, ConfigReader $configReader) {
 		$addressesForm = $this->createForm(SimpleShopFormType\SelectAddressType::class, NULL, [
 			'method' => 'POST',
 		]);
@@ -108,13 +109,33 @@ class NewOrderController extends AbstractEggShopController {
 			$this->addressToSession($session, $addressesForm, 'delivery');
 			$this->addressToSession($session, $addressesForm, 'billing');
 			
-			return $this->redirectToRoute('app_site_simpleshop_neworder_confirmbeforeorder');
+			return $this->redirectToRoute('app_site_simpleshop_neworder_selectaddresses');
+			// return $this->redirectToRoute('app_site_simpleshop_neworder_confirmbeforeorder');
 		}
 		
+		echo "<br />delivery id: ";
+		var_dump($session->get('deliveryAddressId'));
+		echo "<br />new delivery: ";
+		var_dump($session->get('newDeliveryAddress'));
+		
+		echo "<br />billing id: ";
+		var_dump($session->get('billingAddressId'));
+		echo "<br />new billing: ";
+		var_dump($session->get('newBillingAddress'));
+		
+		$minimumPrice  = $configReader->get('order-minimum-price');
+		$orderSumPrice = $this->getOrderSumPrice($session);
+		
 		return [
-			'addressesForm'             => $addressesForm->createView(),
-			'beforeAddressesTextEntity' => $textFinder->get('new-order-select-addresses-before'),
-			'afterAddressesTextEntity'  => $textFinder->get('new-order-select-addresses-after'),
+			'addressesForm'                         => $addressesForm->createView(),
+			'beforeAddressesTextEntity'             => $textFinder->get('new-order-select-addresses-before'),
+			'afterAddressesTextEntity'              => $textFinder->get('new-order-select-addresses-after'),
+			'orderMinimumPrice'                     => $minimumPrice,
+			'orderSumPrice'                         => $orderSumPrice,
+			'warningSumPriceBelowDeliveryLimitText' => $textFinder->getStringWithParams('new-order-select-addresses-warning-below-delivery-limit', [
+				'order-minimum-price' => $minimumPrice,
+				'order-sum-price'     => $orderSumPrice,
+			]),
 		];
 	}
 	
@@ -130,8 +151,10 @@ class NewOrderController extends AbstractEggShopController {
 	 * @return array
 	 */
 	public function confirmBeforeOrderAction(TextEntityFinder $textFinder, SessionInterface $session) {
+		$products = $this->getCartProducts($session);
+		
 		return [
-			'productsInCart'   => $this->getCartProducts($session),
+			'productsInCart'   => $products,
 			'deliveryAddress'  => (Util::isNaturalNumber($session->get('deliveryAddressId')) ?
 				$this->getUserAddressRepository()->find($session->get('deliveryAddressId')) : NULL),
 			'billingAddress'   => (Util::isNaturalNumber($session->get('billingAddressId')) ?
@@ -221,14 +244,21 @@ class NewOrderController extends AbstractEggShopController {
 			// New delivery address.
 			if ($addressesForm->get("new{$ucfType}AddressCheckbox")->getData() === TRUE) {
 				$session->set("new{$ucfType}Address", $addressesForm->get("new{$ucfType}Address")->getData());
+				$session->set("{$type}AddressId", NULL);
 			}
 			// Existing delivery address.
 			elseif (Util::isNaturalNumber($addressesForm->get("{$type}Address")->getData()->getId())) {
 				$session->set("{$type}AddressId", $addressesForm->get("{$type}Address")->getData()->getId());
+				$session->set("new{$ucfType}Address", NULL);
 			}
 			else {
 				throw new \Exception("Invalid {$type} address data!");
 			}
+		}
+		// No address needed.
+		else {
+			$session->set("new{$ucfType}Address", NULL);
+			$session->set("{$type}AddressId", NULL);
 		}
 	}
 	
@@ -265,6 +295,23 @@ class NewOrderController extends AbstractEggShopController {
 		}
 		
 		return NULL;
+	}
+	
+	/**
+	 * It gives back the summarized price of cart products.
+	 * @param SessionInterface $session
+	 * @return int
+	 */
+	protected function getOrderSumPrice(SessionInterface $session) {
+		$sum      = 0;
+		$cart     = $session->get('cart');
+		$products = $this->getCartProducts($session);
+		
+		foreach ($products as $product) {
+			$sum += $cart[$product->getId()] * $product->getPrice();
+		}
+		
+		return $sum;
 	}
 	
 }

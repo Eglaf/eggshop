@@ -10,6 +10,11 @@
     {{ beforeAddressesTextEntity.getText()|raw }}
     <br/>
 
+    {# Show warning of orderSumPrice lesser than orderMinimumPrice for delivery #}
+    {% if orderSumPrice < orderMinimumPrice %}
+        {{ warningSumPriceBelowDeliveryLimitText|raw }}
+    {% endif %}
+
     {{ form_start(addressesForm, {'attr':{'id':'address-form'}}) }}
 
     {{ form_row(addressesForm.askingForDeliveryCheckbox) }}
@@ -45,13 +50,37 @@
 {% block postScripts %}
     <script type="text/javascript">
 
-        new AddressSelectorCreator()
+        // Delivery address.
+        var deliveryAddressId = {{ app.session.get('deliveryAddressId')|number_format }};
+        var newDeliveryAddress = {{ app.session.get('newDeliveryAddress')|json_encode|raw }};
+
+        var deliveryAddress = new AddressSelectorCreator()
             .setType('delivery')
             .init();
 
-        new AddressSelectorCreator()
+        if (deliveryAddressId) {
+            deliveryAddress.selectAddress(deliveryAddressId);
+        } else if (newDeliveryAddress) {
+            deliveryAddress.newAddress(newDeliveryAddress);
+        } else {
+            deliveryAddress.noAddress();
+        }
+
+        // Billing address.
+        var billingAddressId  = {{ app.session.get('billingAddressId')|number_format }};
+        var newBillingAddress = {{ app.session.get('newBillingAddress')|json_encode|raw }};
+
+        var billingAddress = new AddressSelectorCreator()
             .setType('billing')
             .init();
+
+        if (billingAddressId) {
+            billingAddress.selectAddress(billingAddressId);
+        } else if (newBillingAddress) {
+            billingAddress.newAddress(newBillingAddress);
+        } else {
+            billingAddress.noAddress();
+        }
 
     </script>
 {% endblock %}

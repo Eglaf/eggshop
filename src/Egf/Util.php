@@ -357,43 +357,43 @@ class Util {
 	
 	/**
 	 * Do some slashing stuff with a string. The slashing constants are verbose enough.
-	 * @param string $sText  String to work with.
-	 * @param int    $iFlags Bitwise operators.
+	 * @param string $text  String to work with.
+	 * @param int    $flags Bitwise operators.
 	 * @return string
 	 */
-	public static function slashing($sText, $iFlags = 0) {
+	public static function slashing($text, $flags = 0) {
 		// Backslash.
-		if ($iFlags & static::slashingBackslash) {
+		if ($flags & static::slashingBackslash) {
 			$sSep  = '\\';
-			$sText = str_replace('/', $sSep, $sText);
+			$text = str_replace('/', $sSep, $text);
 		}
 		// Forward slash.
 		else {
 			$sSep  = '/';
-			$sText = str_replace('\\', $sSep, $sText);
+			$text = str_replace('\\', $sSep, $text);
 		}
 		// Trim.
-		if ($iFlags & static::slashingTrimBoth || $iFlags & static::slashingAddBoth) {
-			$sText = trim($sText, "{$sSep} ");
+		if ($flags & static::slashingTrimBoth || $flags & static::slashingAddBoth) {
+			$text = trim($text, "{$sSep} ");
 		}
-		elseif ($iFlags & static::slashingTrimLeft || $iFlags & static::slashingAddLeft) {
-			$sText = ltrim($sText, "{$sSep} ");
+		elseif ($flags & static::slashingTrimLeft || $flags & static::slashingAddLeft) {
+			$text = ltrim($text, "{$sSep} ");
 		}
-		elseif ($iFlags & static::slashingTrimRight || $iFlags & static::slashingAddRight) {
-			$sText = rtrim($sText, "{$sSep} ");
+		elseif ($flags & static::slashingTrimRight || $flags & static::slashingAddRight) {
+			$text = rtrim($text, "{$sSep} ");
 		}
 		// Add.
-		if ($iFlags & static::slashingAddBoth) {
-			$sText = $sSep . $sText . $sSep;
+		if ($flags & static::slashingAddBoth) {
+			$text = $sSep . $text . $sSep;
 		}
-		elseif ($iFlags & static::slashingAddLeft) {
-			$sText = $sSep . $sText;
+		elseif ($flags & static::slashingAddLeft) {
+			$text = $sSep . $text;
 		}
-		elseif ($iFlags & static::slashingAddRight) {
-			$sText = $sText . $sSep;
+		elseif ($flags & static::slashingAddRight) {
+			$text = $text . $sSep;
 		}
 		
-		return preg_replace("/\\{$sSep}+/", $sSep, $sText);
+		return preg_replace("/\\{$sSep}+/", $sSep, $text);
 	}
 	
 	

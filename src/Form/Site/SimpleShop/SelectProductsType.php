@@ -12,7 +12,7 @@ use App\Entity;
 /**
  * Class NewOrderType
  */
-class NewOrderType extends AbstractType {
+class SelectProductsType extends AbstractType {
 	
 	/**
 	 * Build form.

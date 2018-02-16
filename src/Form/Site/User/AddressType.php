@@ -22,8 +22,8 @@ class AddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('title', Type\TextType::class, [
-				'required'   => FALSE,
 				'label' => 'site.content.profile.address.title',
+				'required'   => FALSE,
 			])
 			->add('city', Type\TextType::class, [
 				'label' => 'site.content.profile.address.city',
@@ -38,16 +38,16 @@ class AddressType extends AbstractType {
 				'label' => 'site.content.profile.address.house_number',
 			])
 			->add('floor', Type\TextType::class, [
-				'required' => FALSE,
 				'label' => 'site.content.profile.address.floor',
+				'required' => FALSE,
 			])
 			->add('door', Type\TextType::class, [
-				'required' => FALSE,
 				'label' => 'site.content.profile.address.door',
+				'required' => FALSE,
 			])
 			->add('doorBell', Type\TextType::class, [
-				'required' => FALSE,
 				'label' => 'site.content.profile.address.door_bell',
+				'required' => FALSE,
 			]);
 		
 		if ($options['showSubmit'] === TRUE) {
