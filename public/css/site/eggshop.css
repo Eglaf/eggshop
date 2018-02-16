@@ -30,6 +30,12 @@ header .contact li {
     font-style: italic;
 }
 
+/** Login / reg */
+
+.no_user_to_registration {
+    margin-top: 35px;
+}
+
 /*** New order - select products ***/
 
 #new_order_select_products_form {
@@ -89,6 +95,34 @@ header .contact li {
 
 #new_order_select_addresses_form {
     padding-top: 5px;
+}
+
+.address-blocks {
+    margin-bottom: 35px;
+}
+
+/*** New order - confirm ***/
+
+table.confirm_address {
+    margin: 25px auto;
+    width: 500px;
+}
+
+table.confirm_address > thead > tr > th {
+    text-align: center;
+}
+
+table.confirm_address > tbody > tr > td:first-child {
+    width: 150px;
+    font-weight: bold;
+}
+
+table.confirm_address > tbody > tr > td:last-child {
+    width: 350px;
+}
+
+div.confirm_links {
+    margin: 25px 0 25px 0;
 }
 
 /*** Profile ***/

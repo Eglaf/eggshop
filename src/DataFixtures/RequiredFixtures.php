@@ -30,7 +30,7 @@ class RequiredFixtures extends AbstractFixture {
 	 */
 	protected function getConfigs() {
 		return [[
-			        'code'        => 'order-minimum-price',
+			        'code'        => 'minimum-order-price-to-deliver',
 			        'value'       => '10000',
 			        'description' => 'Rendelés minimum összege, házhoz szállítas esetén. Szám legyen megadva.',
 		        ], [

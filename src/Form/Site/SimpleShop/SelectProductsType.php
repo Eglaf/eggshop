@@ -31,7 +31,7 @@ class SelectProductsType extends AbstractType {
 		}
 		
 		$builder->add('save', Type\SubmitType::class, [
-			'label' => 'site.form.new_order.next',
+			'label' => 'site.common.next',
 		]);
 	}
 	

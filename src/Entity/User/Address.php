@@ -82,6 +82,14 @@ class Address {
 	 *************************************************************************************************************************************************************/
 	
 	/**
+	 * Get concatenated title city street... and houseNumber.
+	 * @return string
+	 */
+	public function getTitleCityStreet() {
+		return "{$this->getTitle()} - {$this->getCity()} {$this->getStreet()} {$this->getHouseNumber()}";
+	}
+	
+	/**
 	 * @return int
 	 */
 	public function getId() {

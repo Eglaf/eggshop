@@ -20,7 +20,7 @@ class RegistrationController extends AbstractEggShopController {
 	/**
 	 * Show registration form with submit.
 	 *
-	 * RouteName: app_site_user_registration_basicform
+	 * RouteName: app_site_user_registration_registration
 	 * @Route("/regisztracio")
 	 * @Template
 	 *

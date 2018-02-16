@@ -84,13 +84,26 @@ var AddressSelectorCreator = function () {
 
     /**************************************************************************************************************************************************************
      *                                                          **         **         **         **         **         **         **         **         **         **
-     * Change by session                                          **         **         **         **         **         **         **         **         **         **
+     * Change onLoad                                              **         **         **         **         **         **         **         **         **         **
      *                                                          **         **         **         **         **         **         **         **         **         **
      *************************************************************************************************************************************************************/
 
     /**
+     * Disable delivery.
+     * @return {AddressSelectorCreator}
+     */
+    this.disableDelivery = function () {
+        var deliveryCheckbox = Egf.Elem.find('#select_address_askingForDeliveryCheckbox');
+        deliveryCheckbox.checked = false;
+        deliveryCheckbox.disabled = true;
+
+        return this;
+    };
+
+    /**
      * Make an existing address selected by its id.
      * @param addressId {number}
+     * @return {AddressSelectorCreator}
      */
     this.selectAddress = function (addressId) {
         Egf.Elem.find('#select_address_askingFor' + Egf.Util.ucfirst(this.type) + 'Checkbox').checked = true;
@@ -98,11 +111,14 @@ var AddressSelectorCreator = function () {
 
         this.addressBoxToVisible('#new-' + that.type + '-address', false);
         this.addressValidationToRequired(false);
+
+        return this;
     };
 
     /**
      * Make the new address checkbox selected and fill the new address form inputs.
      * @param data {Array}
+     * @return {AddressSelectorCreator}
      */
     this.newAddress = function (data) {
         Egf.Elem.find('#select_address_askingFor' + Egf.Util.ucfirst(this.type) + 'Checkbox').checked  = true;
@@ -115,15 +131,20 @@ var AddressSelectorCreator = function () {
         Egf.Util.forEach(data, function (key, value) {
             Egf.Elem.find('#select_address_new' + Egf.Util.ucfirst(that.type) + 'Address_' + key).value = value;
         });
+
+        return this;
     };
 
     /**
      * No address is selected... neither existing nor new one.
+     * @return {AddressSelectorCreator}
      */
     this.noAddress = function () {
         that.addressBoxToVisible('#' + that.type + '-address', false);
         that.addressValidationToRequired(false);
         that.addressDropDownToDisabled(false);
+
+        return this;
     };
 
 

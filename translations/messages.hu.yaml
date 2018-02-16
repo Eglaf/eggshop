@@ -47,7 +47,14 @@ site:
       password: Jelszó
       submit: Bejelentkezés
     new_order:
-      next: Tovább
+      ask_for_delivery_address: Kiszállítási cím megadása
+      select_delivery_address: Kiszállítási cím
+      ask_for_new_delivery_address: Új cím megadása
+      new_delivery_address: Új kiszállítási cím
+      ask_for_billing_address: Számlázási cím megadása
+      select_billing_address: Számlázási cím
+      ask_for_new_billing_address: Új számlázási cím
+      new_billing_address: Számázási cím
     profile:
       input:
         name: Név
@@ -60,7 +67,43 @@ site:
       comment:
         old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
 
+  order:
+    products: Termékek
+    product: Termék
+    price: Ár
+    count: Darabszám
+    row_sum: Összesen
+    price_sum: Összesen
+    addresses: Címek
+    delivery_price: Szállítási díj
+    delivery_address: Szállítási cím
+    billing_address: Számlázási cím
+    message:
+      no_delivery_address: Nincs szállítási cím kiválasztva
+      no_billing_address: Nincs számlázási cím kiválasztva
+    link:
+      back_to_products: Vissza a termékekhez
+      back_to_addresses: Vissza a címekhez
+      submit_order: Rendelés feladása
+
+  user:
+    address:
+      title: Megnevezés
+      city: Város
+      zip_code: Irányítószám
+      street: Utca
+      house_number: Házszám
+      floor: Emelet
+      door: Ajtó
+      door_bell: Ajtócsengő
+
   content:
+    login:
+      link:
+        to_registration: Regisztráció
+      text:
+        no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
+
     profile:
       link:
         earlier_orders: Korábbi rendelések
@@ -69,7 +112,6 @@ site:
         address_list: Címek
         address_create: Új cím hozzáadása
         address_update: Cím módosítás
-
       order:
         id: Azonosító
         date: Dátum
@@ -79,7 +121,6 @@ site:
         price: Ár
         count: Darabszám
         price_sum: Összesen
-
       address:
         title: Megnevezés
         city: Város
@@ -89,6 +130,7 @@ site:
         floor: Emelet
         door: Ajtó
         door_bell: Ajtócsengő
+
 
 admin:
   menu:
@@ -172,3 +214,8 @@ admin:
       role: Jogosultság
     config:
       value: Érték
+
+exception:
+  404:
+   title: A keresett oldal nem található...
+   text: Kattintson ide, hogy eljusson a kezdőoldalra.

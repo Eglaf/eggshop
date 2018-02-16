@@ -12,13 +12,17 @@
 
     {# Show warning of orderSumPrice lesser than orderMinimumPrice for delivery #}
     {% if orderSumPrice < orderMinimumPrice %}
+        <br/>
         {{ warningSumPriceBelowDeliveryLimitText|raw }}
     {% endif %}
 
+    <br/>
+
     {{ form_start(addressesForm, {'attr':{'id':'address-form'}}) }}
 
+    {# Delivery address #}
     {{ form_row(addressesForm.askingForDeliveryCheckbox) }}
-    <div id="delivery-address">
+    <div id="delivery-address" class="address-blocks">
         {{ form_row(addressesForm.deliveryAddress) }}
         {{ form_row(addressesForm.newDeliveryAddressCheckbox) }}
         <div id="new-delivery-address">
@@ -26,12 +30,25 @@
         </div>
     </div>
 
+    {# Billing address #}
     {{ form_row(addressesForm.askingForBillingCheckbox) }}
-    <div id="billing-address">
+    <div id="billing-address" class="address-blocks">
         {{ form_row(addressesForm.billingAddress) }}
         {{ form_row(addressesForm.newBillingAddressCheckbox) }}
         <div id="new-billing-address">
             {{ form_row(addressesForm.newBillingAddress) }}
+        </div>
+    </div>
+
+
+    {# Buttons #}
+    <div class="form-group">
+        <div class="col-sm-12">
+            <a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}" class="btn btn-default">
+                {{ 'site.common.back'|trans }}
+            </a>
+
+            {{ form_widget(addressesForm.save, {'attr':{'class':'btn-default pull-right'}}) }}
         </div>
     </div>
 
@@ -58,13 +75,21 @@
             .setType('delivery')
             .init();
 
-        if (deliveryAddressId) {
-            deliveryAddress.selectAddress(deliveryAddressId);
-        } else if (newDeliveryAddress) {
-            deliveryAddress.newAddress(newDeliveryAddress);
-        } else {
-            deliveryAddress.noAddress();
-        }
+        {# Delivery possible. #}
+        {% if orderSumPrice >= orderMinimumPrice %}
+            if (deliveryAddressId) {
+                deliveryAddress.selectAddress(deliveryAddressId);
+            } else if (newDeliveryAddress) {
+                deliveryAddress.newAddress(newDeliveryAddress);
+            } else {
+                deliveryAddress.noAddress();
+            }
+        {# No delivery available. #}
+        {% else %}
+            deliveryAddress
+                .noAddress()
+                .disableDelivery();
+        {% endif %}
 
         // Billing address.
         var billingAddressId  = {{ app.session.get('billingAddressId')|number_format }};

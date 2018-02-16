@@ -8,15 +8,21 @@
 
 {% block siteContent %}
 
-    {{ beforeTextEntity.getText()|raw }}
+    <h1>{{ 'site.title.new_order.confirm'|trans }}</h1>
 
-    <table>
+    {{ beforeTextEntity.getText()|raw }}
+    <br/><br/>
+
+    <h4>{{ 'site.order.products'|trans }}</h4>
+    <table class="table">
+        <thead>
         <tr>
-            <td>prod</td>
-            <td>price</td>
-            <td>count</td>
-            <td>sum</td>
+            <th>{{ 'site.order.product'|trans }}</th>
+            <th class="text-right">{{ 'site.order.price'|trans }}</th>
+            <th class="text-right">{{ 'site.order.count'|trans }}</th>
+            <th class="text-right">{{ 'site.order.row_sum'|trans }}</th>
         </tr>
+        </thead>
 
         {% set tableSum = 0 %}
         {% for product in productsInCart %}
@@ -25,21 +31,29 @@
 
             <tr>
                 <td>{{ product.label }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ app.session.get('cart')[product.id] }}</td>
-                <td>{{ rowSum }}</td>
+                <td class="text-right">{{ product.price }} {{ 'site.common.price_short'|trans }}</td>
+                <td class="text-right">{{ app.session.get('cart')[product.id] }}</td>
+                <td class="text-right"><strong>{{ rowSum|number_format(0, ',', ' ') }}</strong> {{ 'site.common.price_short'|trans }}</td>
             </tr>
 
         {% endfor %}
 
     </table>
 
-    <br/>
-    BigSum: {{ tableSum }}
-    <br/>
-    <hr/>
+    <div style="text-align:right;">
 
-    Addresses
+        {% if tableSum < noDeliveryPriceAbove %}
+            {% set tableSum = tableSum + deliveryPrice %}
+
+            {{ 'site.order.delivery_price'|trans }}: {{ deliveryPrice|number_format(0, ',', ' ') }} {{ 'site.common.price_short'|trans }}
+        {% endif %}
+
+        <br /><br />
+        {{ 'site.order.price_sum'|trans }}: <strong>{{ tableSum|number_format(0, ',', ' ') }} {{ 'site.common.price_short'|trans }}</strong>
+    </div>
+    <br/><br/>
+
+    <h4>{{ 'site.order.addresses'|trans }}</h4>
 
     {% if deliveryAddress or app.session.get('newDeliveryAddress') %} {# Delivery address #}
         {% if deliveryAddress %} {# Selected #}
@@ -48,9 +62,9 @@
             {% set delivery = app.session.get('newDeliveryAddress') %}
         {% endif %}
 
-        {{ self.printAddress('delivery address', delivery.title, delivery.city, delivery.zipCode, delivery.street, delivery.houseNumber, delivery.doorBell, delivery.floor, delivery.door) }}
+        {{ self.printAddress('delivery', delivery.title, delivery.city, delivery.zipCode, delivery.street, delivery.houseNumber, delivery.doorBell, delivery.floor, delivery.door) }}
     {% else %}
-        No delivery address
+        {{ 'site.order.message.no_delivery_address'|trans }}
     {% endif %}
 
     {% if billingAddress or app.session.get('newBillingAddress') %} {# Billing address #}
@@ -60,70 +74,64 @@
             {% set billing = app.session.get('newBillingAddress') %}
         {% endif %}
 
-        {{ self.printAddress('billing address', billing.title, billing.city, billing.zipCode, billing.street, billing.houseNumber, billing.doorBell, billing.floor, billing.door) }}
+        {{ self.printAddress('billing', billing.title, billing.city, billing.zipCode, billing.street, billing.houseNumber, billing.doorBell, billing.floor, billing.door) }}
     {% else %}
-        No billing address
+        {{ 'site.order.message.no_billing_address'|trans }}
     {% endif %}
 
-    <a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}">Vissza a termekekhez</a>
-    <br/>
-    <a href="{{ path('app_site_simpleshop_neworder_selectaddresses') }}">Vissza a cimekhez</a>
-    <br/>
-    <br/>
-    <a href="{{ path('app_site_simpleshop_neworder_submitorder') }}">Rendeles feladasa</a>
+    <div class="confirm_links">
+        <a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}" class="btn btn-default">{{ 'site.order.link.back_to_products'|trans }}</a>
+        <a href="{{ path('app_site_simpleshop_neworder_selectaddresses') }}" class="btn btn-default">{{ 'site.order.link.back_to_addresses'|trans }}</a>
+        <a href="{{ path('app_site_simpleshop_neworder_submitorder') }}" class="btn btn-default pull-right">{{ 'site.order.link.submit_order'|trans }}</a>
+    </div>
 
     {{ afterTextEntity.getText()|raw }}
 
-{% endblock %}
-
-{% block preScripts %}
-{% endblock %}
-
-{% block postScripts %}
-{% endblock %}
-
-{% block stylesheets %}
 {% endblock %}
 
 {#
  # Show delivery or billing address table.
  #}
 {% macro printAddress(type, title, city, zipCode, street, houseNumber, doorBell, floor, door) %}
-    <table>
+    <table class="table confirm_address">
+        <thead>
         <tr>
-            <td colspan="2">{{ type }}</td>
+            <th colspan="2">{{ ('site.order.' ~ type ~ '_address')|trans}}</th>
         </tr>
+        </thead>
+        <tbody>
         <tr>
-            <td>megnevezes</td>
+            <td>{{ 'site.user.address.title'|trans}}</td>
             <td>{{ title }}</td>
         </tr>
         <tr>
-            <td>city</td>
+            <td>{{ 'site.user.address.city'|trans}}</td>
             <td>{{ city }}</td>
         </tr>
         <tr>
-            <td>zipCode</td>
+            <td>{{ 'site.user.address.zip_code'|trans}}</td>
             <td>{{ zipCode }}</td>
         </tr>
         <tr>
-            <td>street</td>
+            <td>{{ 'site.user.address.street'|trans}}</td>
             <td>{{ street }}</td>
         </tr>
         <tr>
-            <td>houseNumber</td>
+            <td>{{ 'site.user.address.house_number'|trans}}</td>
             <td>{{ houseNumber }}</td>
         </tr>
         <tr>
-            <td>doorBell</td>
+            <td>{{ 'site.user.address.door_bell'|trans}}</td>
             <td>{{ doorBell }}</td>
         </tr>
         <tr>
-            <td>floor</td>
+            <td>{{ 'site.user.address.floor'|trans}}</td>
             <td>{{ floor }}</td>
         </tr>
         <tr>
-            <td>door</td>
+            <td>{{ 'site.user.address.door'|trans}}</td>
             <td>{{ door }}</td>
         </tr>
+        </tbody>
     </table>
 {% endmacro %}

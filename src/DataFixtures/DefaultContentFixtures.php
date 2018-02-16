@@ -88,7 +88,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>Igényleadáskor rögzített adatait bizalmasan kezeljük, harmadik félnek nem adjuk ki.</p>
 					<p>Ha véletlenül hibásan adta le igénylőlapját, kérjük az <strong>{{ admin-email }}</strong> email címre „Hibás igénylőlap” tárggyal jelezze felénk vagy hívjon minket telefonszámunkon.</p>
 					<p>A megrendelt tojások kifizetése házhozszállítás esetén a termékek futártól való átvételekor történik.</p>
-					<p><strong><span style="color: #ff0000;">Futárral történő kiszállítást (házhozszállítást) csak minimum {{ order-minimum-price }} Ft értékű egyösszegű igénylés leadása esetén áll módunkban teljesíteni.</span>
+					<p><strong><span style="color: #ff0000;">Futárral történő kiszállítást (házhozszállítást) csak minimum {{ minimum-order-price-to-deliver }} Ft értékű egyösszegű igénylés leadása esetén áll módunkban teljesíteni.</span>
 					Amennyiben a rendelésének összege eléri a {{ order-no-delivery-price-above-sum }} Ft-ot,
 					a szállítási díjat átvállaljuk Öntől, tehát nem számolunk fel házhozszállítási költséget ({{ order-delivery-price }} Ft)!</strong></p>
 					<p><strong>
@@ -98,7 +98,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A {{ admin-phone }}  telefonszámon <span style="text-decoration: underline;"><em>munkanapokon 9-17 óra között</em></span> a rendelésekkel kapcsolatos kérdésekre az ügyfélszolgálat munkatársai válaszolnak.</p>
 					',
 			])
-			->setEnabledParameters(['admin-email', 'admin-phone', 'order-minimum-price', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
+			->setEnabledParameters(['admin-email', 'admin-phone', 'minimum-order-price-to-deliver', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
 		
 		$this
 			->newEntity(Text::class, [
@@ -106,7 +106,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 				'title' => NULL,
 				'text'  => '',
 			])
-			->setEnabledParameters(['admin-email', 'admin-phone', 'order-minimum-price', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
+			->setEnabledParameters(['admin-email', 'admin-phone', 'minimum-order-price-to-deliver', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
 		
 		$this
 			->newEntity(Text::class, [
@@ -114,11 +114,11 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 				'title' => NULL,
 				'text'  => '
 					<p>
-					Kiszállítást csak akkor tudunk vállalni, ha a vásárlás összege eléri a {{ order-minimum-price }} Ft-t.<br />
+					Kiszállítást csak akkor tudunk vállalni, ha a vásárlás összege eléri a {{ minimum-order-price-to-deliver }} Ft-t.<br />
 					Az ön kosarában csak {{ order-sum-price }} Ft van, így a kiszállítási címet nem tudja kiválasztani.
 					</p>',
 			])
-			->setEnabledParameters(['order-minimum-price', 'order-sum-price']);
+			->setEnabledParameters(['minimum-order-price-to-deliver', 'order-sum-price']);
 		
 		return $this;
 	}

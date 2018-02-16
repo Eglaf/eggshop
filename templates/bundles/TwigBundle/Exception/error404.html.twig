@@ -1,0 +1,13 @@
+{% extends 'site/site.html.twig' %}
+
+{% block title %}
+    {{ 'exception.404.title'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    <h1>{{ 'exception.404.title'|trans }}</h1>
+
+    <a href="{{ path('app_site_content_page_index') }}">{{ 'exception.404.text'|trans|raw }}</a>
+
+{% endblock %}
