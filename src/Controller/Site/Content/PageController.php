@@ -35,9 +35,9 @@ class PageController extends AbstractEggShopController {
 	
 	/**
 	 * Text page.
+	 * This Route has to be configured in routes.yaml file, otherwise it overrides other annotation routes like /login or /registration.
 	 *
 	 * RouteName: app_site_content_page_text
-	 * @Route("/page/{code}")
 	 * @Template
 	 *
 	 * @param string $code

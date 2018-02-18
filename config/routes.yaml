@@ -1,2 +1,8 @@
+# This one is registered here, to avoid overriding annotation routes like login or registration.
+app_site_content_page_text:
+  path: /{code}
+  controller: App\Controller\Site\Content\PageController::textAction
+
 logout:
-    path: /logout
+  path: /logout
+
