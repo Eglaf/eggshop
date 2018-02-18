@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.config.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.config.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.config.list'|trans }}
+    {{ 'page_title.admin.config.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -46,20 +46,20 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "admin.label.common.identifier"|trans }}',
+                text:     '{{ "identifier"|trans }}',
                 property: 'code',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "admin.label.config.value"|trans }}',
+                text:     '{{ "value"|trans }}',
                 property: 'value',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "admin.label.common.description"|trans }}',
+                text: '{{ "description"|trans }}',
                 property: 'description',
                 search:   'string'
             }, {
@@ -72,7 +72,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
                 }
             }])
             .init();

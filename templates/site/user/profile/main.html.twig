@@ -1,23 +1,23 @@
 {% extends 'site/site.html.twig' %}
 
 {% block title %}
-    {{ 'site.title.profile.main'|trans }} - {{ parent() }}
+    {{ 'page_title.site.profile.main'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
 
-    <h1>{{ 'site.title.profile.main'|trans }}</h1>
+    <h1>{{ 'page_title.site.profile.main'|trans }}</h1>
 
     <a href="{{ path('app_site_user_profile_earlierorders') }}" class="btn btn-default main_button">
-        {{ 'site.content.profile.link.earlier_orders'|trans }}
+        {{ 'nav.profile.earlier_orders'|trans }}
     </a>
 
     <a href="{{ path('app_site_user_address_list') }}" class="btn btn-default main_button">
-        {{ 'site.content.profile.link.address_list'|trans }}
+        {{ 'nav.profile.address_list'|trans }}
     </a>
 
     <a href="{{ path('app_site_user_profile_userupdateform') }}" class="btn btn-default main_button">
-        {{ 'site.content.profile.link.user_update'|trans }}
+        {{ 'nav.profile.user_update'|trans }}
     </a>
 
 {% endblock %}

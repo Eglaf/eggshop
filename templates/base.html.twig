@@ -3,11 +3,21 @@
     <head>
         <meta charset="UTF-8">
 
-        <title>{% block title %}{{ 'site.title.base'|trans }}{% endblock %}</title>
+        <title>{% block title %}{{ 'page_title.site.base'|trans }}{% endblock %}</title>
 
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/reset.css') }}" />
         {% endblock %}
+
+        <meta name="description" content="Tudta Ön, hogy a fürjtojás igen apró, vitaminértéke viszont jóval magasabb a többi szárnyas tojásáénál, s koleszterinszintje pedig a legalacsonyabb?"/>
+        <meta name="keywords" content="fürjtojás, japán fürj, füstölt fürjtojás"/>
+        <link rel="canonical" href="http://www.furjtojas.eu/" />
+        <meta property='og:locale' content='hu_HU'/>
+        <meta property='og:title' content='{% block seoTitle %}{{ 'page_title.site.base'|trans }}{% endblock %}' />
+        <meta property='og:description' content=''/>
+        <meta property='og:url' content='{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}'/>
+        <meta property='og:site_name' content='Fürjtojás.eu'/>
+        <meta property='og:type' content='article'/>
 
         {% block preScripts %}{% endblock %}
 

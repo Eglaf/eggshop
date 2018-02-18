@@ -22,37 +22,37 @@ class AddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('title', Type\TextType::class, [
-				'label' => 'site.content.profile.address.title',
+				'label' => 'title',
 				'required'   => FALSE,
 			])
 			->add('city', Type\TextType::class, [
-				'label' => 'site.content.profile.address.city',
+				'label' => 'city',
 			])
 			->add('zipCode', Type\TextType::class, [
-				'label' => 'site.content.profile.address.zip_code',
+				'label' => 'zip_code',
 			])
 			->add('street', Type\TextType::class, [
-				'label' => 'site.content.profile.address.street',
+				'label' => 'street',
 			])
 			->add('houseNumber', Type\TextType::class, [
-				'label' => 'site.content.profile.address.house_number',
+				'label' => 'house_number',
 			])
 			->add('floor', Type\TextType::class, [
-				'label' => 'site.content.profile.address.floor',
+				'label' => 'floor',
 				'required' => FALSE,
 			])
 			->add('door', Type\TextType::class, [
-				'label' => 'site.content.profile.address.door',
+				'label' => 'door',
 				'required' => FALSE,
 			])
 			->add('doorBell', Type\TextType::class, [
-				'label' => 'site.content.profile.address.door_bell',
+				'label' => 'door_bell',
 				'required' => FALSE,
 			]);
 		
 		if ($options['showSubmit'] === TRUE) {
 			$builder->add('save', Type\SubmitType::class, [
-				'label' => 'site.common.save',
+				'label' => 'save',
 			]);
 		}
 	}

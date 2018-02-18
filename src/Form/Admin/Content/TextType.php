@@ -22,18 +22,18 @@ class TextType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('code', Type\TextType::class, [
-				'label' => 'admin.label.common.identifier',
+				'label' => 'identifier',
 				'disabled' => TRUE,
 			])
 			->add('title', Type\TextType::class, [
-				'label' => 'admin.label.text.title',
+				'label' => 'title',
 				'required' => FALSE,
 			])
 			->add('text', Type\TextareaType::class, [
-				'label' => 'admin.label.text.text',
+				'label' => 'text',
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'admin.label.common.save',
+				'label' => 'save',
 			]);
 	}
 	

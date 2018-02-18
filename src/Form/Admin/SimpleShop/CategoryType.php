@@ -22,14 +22,14 @@ class CategoryType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('label', Type\TextType::class, [
-				'label' => 'admin.label.common.label',
+				'label' => 'label',
 			])
 			->add('active', Type\CheckboxType::class, [
-				'label' => 'admin.label.common.active',
+				'label' => 'active',
 				'required' => false,
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'admin.label.common.save',
+				'label' => 'save',
 			]);
 	}
 	

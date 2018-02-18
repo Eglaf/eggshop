@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.file.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.file.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_content_file_create', 'admin.link.to_create'|trans) }}
+    {{ macro.button('app_admin_content_file_create', 'create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.file.list'|trans }}
+    {{ 'page_title.admin.file.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -47,20 +47,20 @@
                 rowsOnPage:      5
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "admin.label.common.label"|trans }}',
+                text:     '{{ "label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "admin.label.common.description"|trans }}',
+                text:     '{{ "description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "admin.label.file.image"|trans }}',
+                text: '{{ "image"|trans }}',
                 func: function (row) {
                     return "<img src='{{ uploadsDir }}" + row.storageName + "' style='max-height:50px;' />";
                 }
@@ -74,7 +74,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
                 }
             }])
             .init();

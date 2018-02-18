@@ -6,9 +6,9 @@
 
 {% block title %}
     {% if product.id %}
-        {{ 'admin.title.product.update'|trans({'%product%':product.label}) }}
+        {{ 'page_title.admin.product.update'|trans({'%product%':product.label}) }}
     {% else %}
-        {{ 'admin.title.product.create'|trans }}
+        {{ 'page_title.admin.product.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_product_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_product_list', 'back_to_list'|trans) }}
     {% if product.id %}
         {{ macro.buttonToUrl(path('app_admin_simpleshop_product_selectimagelist', {product: product.id}), 'admin.link.product.select_image'|trans) }}
     {% endif %}
@@ -26,9 +26,9 @@
 
 {% block contentTitle %}
     {% if product.id %}
-        {{ 'admin.title.product.update'|trans({'%product%':product.label}) }}
+        {{ 'page_title.admin.product.update'|trans({'%product%':product.label}) }}
     {% else %}
-        {{ 'admin.title.product.create'|trans }}
+        {{ 'page_title.admin.product.create'|trans }}
     {% endif %}
 {% endblock %}
 

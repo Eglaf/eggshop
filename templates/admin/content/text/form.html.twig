@@ -5,7 +5,7 @@
 {% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block title %}
-    {{ 'admin.title.text.update'|trans({'%text%': text.code}) }} - {{ parent() }}
+    {{ 'page_title.admin.text.update'|trans({'%text%': text.code}) }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_content_text_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_content_text_list', 'back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.text.update'|trans({'%text%': text.code}) }}
+    {{ 'page_title.admin.text.update'|trans({'%text%': text.code}) }}
 {% endblock %}
 
 {% block adminContent %}
@@ -27,12 +27,12 @@
     {{ form_row(formView.code) }}
 
     {{ form_row(formView.title) }}
-    {{ macro.inputComment('admin.form.comment.text.title'|trans) }}
+    {{ macro.inputComment('admin.text.title_comment'|trans) }}
 
     {# CkEditor and parameter comment. #}
     {{ form_row(formView.text) }}
     {% if text.enabledParameters %}
-        {% set textComment = 'admin.form.comment.text.text'|trans ~ '<ul>' %}
+        {% set textComment = 'admin.text.available_parameters'|trans ~ '<ul>' %}
         {% for parameter in text.enabledParameters %}
             {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }}</li>' %}
         {% endfor %}

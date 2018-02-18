@@ -23,8 +23,38 @@ h1 {
 }
 
 .product-select-image {
-    display:block;
+    display: block;
     margin: 15px auto;
+    max-height: 200px;
+}
+
+/*** Order form ***/
+
+div.order-items {
+    margin: 25px 0;
+    padding: 25px 0;
+    border-top: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+}
+
+ul#items-field-list {
+    list-style: none;
+}
+
+ul#items-field-list > li:not(:first-child) {
+    margin-top: 30px;
+}
+
+/*** order details ***/
+
+.table-container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.separator {
+    margin: 15px 0;
+    border: solid 1px #ccc;
 }
 
 /*** Table ***/

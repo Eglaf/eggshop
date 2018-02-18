@@ -1,7 +1,7 @@
 {% extends 'site/site.html.twig' %}
 
 {% block title %}
-    {{ 'site.title.profile.earlier_orders'|trans }} - {{ parent() }}
+    {{ 'page_title.site.profile.earlier_orders'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
@@ -10,14 +10,14 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
-    <h1>{{ 'site.title.profile.earlier_orders'|trans }}</h1>
+    <h1>{{ 'page_title.site.profile.earlier_orders'|trans }}</h1>
 
     {# Table content #}
     <div id="table-container"></div>
 
     <br /><br />
     <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
-        {{ 'site.common.back'|trans }}
+        {{ 'back'|trans }}
     </a>
 
 {% endblock %}
@@ -43,14 +43,14 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ 'site.common.search'|trans }}'
+                globalSearchPlaceholder: '{{ 'search'|trans }}'
             })
             .setColumns([{
-                text: "{{ 'site.content.profile.order.date'|trans }}",
+                text: "{{ 'date'|trans }}",
                 property: 'date',
                 sort: true
             }, {
-                text: "{{ 'site.content.profile.order.status'|trans }}",
+                text: "{{ 'status'|trans }}",
                 search:   'string',
                 func: function (row) {
                     return row.status.label;
@@ -59,10 +59,10 @@
                     return row.id;
                 }
             }, {
-                text: "{{ 'site.content.profile.order.price_sum'|trans }}",
+                text: "{{ 'sum_total'|trans }}",
                 property: 'priceSum',
                 func: function (row) {
-                    return row.priceSum + " {{ 'site.common.price_short'|trans }}";
+                    return row.priceSum + " {{ 'currency_short'|trans }}";
                 },
                 sort: true
             }, {
@@ -75,7 +75,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'site.content.profile.link.earlier_order_details'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'details'|trans }}</a>";
                 }
             }])
             .init();

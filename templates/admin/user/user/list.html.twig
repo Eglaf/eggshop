@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.user.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.user.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_user_user_create', 'admin.link.to_create'|trans) }}
+    {{ macro.button('app_admin_user_user_create', 'create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.user.list'|trans }}
+    {{ 'page_title.admin.user.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -46,28 +46,28 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "admin.label.user.name"|trans }}',
+                text:     '{{ "name"|trans }}',
                 property: 'name',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "admin.label.user.email"|trans }}',
+                text:     '{{ "email"|trans }}',
                 property: 'email',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "admin.label.common.active"|trans }}',
+                text: '{{ "active"|trans }}',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? '{{ "admin.label.common.active"|trans }}' : '{{ "admin.label.common.inactive"|trans }}';
+                    return Egf.Util.boolVal(row.active) ? '{{ "active"|trans }}' : '{{ "inactive"|trans }}';
                 },
                 sort: function (row) {
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: '{{ "admin.label.user.role"|trans }}',
+                text: '{{ "role"|trans }}',
                 func: function (row) {
                     return row.role === 'ROLE_ADMIN' ? 'Admin' : '';
                 },
@@ -77,14 +77,25 @@
             }, {
                 text: '',
                 func: function (row) {
-                    var url = new Egf.Sf.Route()
+                    var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_user_user_update', {'user':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
+                    var html = "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+
+                    var newOrderUrl = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_simpleshop_order_create', {'user':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    html += "<a href='" + newOrderUrl + "' class='btn btn-default'>{{ 'admin.user.new_order'|trans }}</a> ";
+
+                    return html;
                 }
             }])
             .init();

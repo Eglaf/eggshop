@@ -6,9 +6,9 @@
 
 {% block title %}
     {% if user.id %}
-        {{ 'admin.title.user.update'|trans({'%user%':user.name}) }}
+        {{ 'page_title.admin.user.update'|trans({'%user%':user.name}) }}
     {% else %}
-        {{ 'admin.title.user.create'|trans }}
+        {{ 'page_title.admin.user.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -18,14 +18,14 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_user_user_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_user_user_list', 'back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
     {% if user.id %}
-        {{ 'admin.title.user.update'|trans({'%user%':user.name}) }}
+        {{ 'page_title.admin.user.update'|trans({'%user%':user.name}) }}
     {% else %}
-        {{ 'admin.title.user.create'|trans }}
+        {{ 'page_title.admin.user.create'|trans }}
     {% endif %}
 {% endblock %}
 

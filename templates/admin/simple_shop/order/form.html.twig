@@ -6,9 +6,9 @@
 
 {% block title %}
     {% if order.id %}
-        {{ 'admin.title.order.update'|trans({'%date%':order.date|date('Y-m-d'), '%name%':order.user.name}) }}
+        {{ 'page_title.admin.order.update'|trans({'%date%':order.date|date('Y-m-d'), '%name%':order.user.name}) }}
     {% else %}
-        {{ 'admin.title.order.create'|trans }}
+        {{ 'page_title.admin.order.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -18,43 +18,44 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_order_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_order_list', 'back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
     {% if order.id %}
-        {{ 'admin.title.order.update'|trans({'%date%':order.date|date('Y-m-d'), '%name%':order.user.name}) }}
+        {{ 'page_title.admin.order.update'|trans({'%date%':order.date|date, '%name%':order.user.name}) }}
     {% else %}
-        {{ 'admin.title.order.create'|trans }}
+        {{ 'page_title.admin.order.create'|trans }}
     {% endif %}
 {% endblock %}
 
 {% block adminContent %}
 
-
     {{ form_start(formView) }}
     {{ form_row(formView.status) }}
-    <br />
     {{ form_row(formView.comment) }}
-    <br />
 
-    <br />
+    <div class="form-group order-items">
+        {{ form_label(formView.items, 'products', {'class': 'col-sm-2 control-label'}) }}
+        <div class="col-sm-10">
+            <ul id="items-field-list" data-prototype="{{ form_widget(formView.items.vars.prototype)|e }}">
+                {% for orderItem in formView.items %}
+                    <li>
+                        {{ form_widget(orderItem) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    {{ form_label(formView.items) }}
-    <ul id="items-field-list" data-prototype="{{ form_widget(formView.items.vars.prototype)|e }}">
-        {% for orderItem in formView.items %}
-            <li>
-                {{ form_errors(orderItem) }}
-                {{ form_widget(orderItem) }}
-            </li>
-        {% endfor %}
-    </ul>
+        <div class="col-sm-10 pull-right">
+            <a href="#" id="add-another-item" class="btn btn-default">
+                {{ 'admin.order.add_item'|trans }}
+            </a>
+        </div>
+    </div>
 
-    <br />
-    <a href="#" id="add-another-item">Add another item</a>
-    <br />
+    {{ form_row(formView.save) }}
 
-    <!--{{ form_widget(formView) }}--> {# TODO submit #}
     {{ form_end(formView) }}
 
 {% endblock %}
@@ -69,55 +70,12 @@
     {{ parent() }}
 
     <script type="text/javascript">
-
-        // Add item.
         var itemsCount = '{{ formView.items|length }}';
-        jQuery(document).ready(function() {
-            jQuery('#add-another-item').click(function(e) {
-                e.preventDefault();
-
-                var emailList = jQuery('#items-field-list');
-
-                var newWidget = emailList.attr('data-prototype');
-
-                newWidget = newWidget.replace(/__name__/g, itemsCount);
-
-                var newLi = jQuery('<li></li>').html(newWidget);
-                newLi.appendTo(emailList);
-
-                jQuery('#order_items_' + itemsCount + '_count').val(1);
-
-                itemsCount++;
-            });
-        });
-
-
-        // Remove item.
-        jQuery(document).ready(function() {
-            var collectionHolder = jQuery('#items-field-list');
-
-            collectionHolder.find('li').each(function() {
-                addTagFormDeleteLink(jQuery(this));
-            });
-        });
-
-        /**
-         * Do the remove element part of removing form item.
-         * @param tagFormLi
-         */
-        function addTagFormDeleteLink(tagFormLi) {
-            var removeFormA = jQuery('<a href="#">delete this tag</a>');
-            tagFormLi.append(removeFormA);
-
-            removeFormA.on('click', function(e) {
-                e.preventDefault();
-
-                tagFormLi.remove();
-            });
-        }
-
+        var deleteLabel = '{{ "delete"|trans }}';
+        var deleteConfirmText = '{{ "admin.order.delete_confirm_text"|trans }}';
     </script>
 
+    <script type="text/javascript" src="{{ asset('js/admin/simpleshop-order-form.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}

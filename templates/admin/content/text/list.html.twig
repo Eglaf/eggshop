@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.text.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.text.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.text.list'|trans }}
+    {{ 'page_title.admin.text.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -46,15 +46,15 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "admin.label.common.identifier"|trans }}',
+                text:     '{{ "identifier"|trans }}',
                 property: 'code',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "admin.label.text.title"|trans }}',
+                text:     '{{ "title"|trans }}',
                 property: 'title',
                 search:   'string',
                 sort:     true
@@ -68,7 +68,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
                 }
             }])
             .init();

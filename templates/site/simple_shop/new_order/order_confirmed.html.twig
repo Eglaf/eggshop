@@ -3,12 +3,12 @@
 {% import _self as self %}
 
 {% block title %}
-    {{ 'site.title.new_order.submitted'|trans }} - {{ parent() }}
+    {{ 'page_title.site.new_order.submitted'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
 
-    <h1>{{ 'site.title.new_order.submitted'|trans }}</h1>
+    <h1>{{ 'page_title.site.new_order.submitted'|trans }}</h1>
 
     {{ orderSubmittedTextEntity.getText()|raw }}
 

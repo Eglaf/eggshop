@@ -4,9 +4,9 @@
 
 {% block title %}
     {% if address.id %}
-        {{ 'site.title.profile.address_update'|trans }}
+        {{ 'page_title.site.profile.address_update'|trans }}
     {% else %}
-        {{ 'site.title.profile.address_create'|trans }}
+        {{ 'page_title.site.profile.address_create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -15,9 +15,9 @@
 
     <h1>
         {% if address.id %}
-            {{ 'site.title.profile.address_update'|trans }}
+            {{ 'page_title.site.profile.address_update'|trans }}
         {% else %}
-            {{ 'site.title.profile.address_create'|trans }}
+            {{ 'page_title.site.profile.address_create'|trans }}
         {% endif %}
     </h1>
 
@@ -26,7 +26,7 @@
     {{ form_end(formView) }}
 
     <a href="{{ path('app_site_user_address_list') }}" class="btn btn-default">
-        {{ 'site.common.back_to_list'|trans }}
+        {{ 'back_to_list'|trans }}
     </a>
 
     <script type="text/javascript">

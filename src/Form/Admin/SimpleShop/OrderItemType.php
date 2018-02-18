@@ -24,12 +24,16 @@ class OrderItemType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('product', EntityType::class, [
+				'label'        => 'product',
 				'class'        => Product::class,
 				'choice_label' => 'label',
 			])
-			->add('count', Type\NumberType::class)
+			->add('count', Type\NumberType::class, [
+				'label' => 'quantity',
+			])
 			->add('price', Type\NumberType::class, [
-				'required' => false,
+				'label'    => 'price',
+				'required' => FALSE,
 			]);
 	}
 	

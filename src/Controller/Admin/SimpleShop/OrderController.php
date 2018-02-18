@@ -8,9 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
 use App\Entity\SimpleShop\Order;
+use App\Entity\User\User;
 use App\Repository\SimpleShop\OrderRepository as OrderRepository;
 use App\Form\Admin\SimpleShop\OrderType as OrderFormType;
 use App\Service\Serializer;
+use App\Service\ConfigReader;
 
 /**
  * Class OrderController
@@ -19,14 +21,13 @@ class OrderController extends AbstractController {
 	
 	/**
 	 * List of Order Categories.
+	 * @param Serializer      $serializer      Service to convert entities into json.
+	 * @param OrderRepository $orderRepository Repository service of categories.
+	 * @return array
 	 *
 	 * RouteName: app_admin_simpleshop_order_list
 	 * @Route("/admin/order/list")
 	 * @Template
-	 *
-	 * @param Serializer      $serializer      Service to convert entities into json.
-	 * @param OrderRepository $orderRepository Repository service of categories.
-	 * @return array
 	 */
 	public function listAction(Serializer $serializer, OrderRepository $orderRepository) {
 		$orderRows = $orderRepository->findWithData();
@@ -41,30 +42,49 @@ class OrderController extends AbstractController {
 	}
 	
 	/**
-	 * Create a Order.
+	 * Details of an Order.
+	 * @param Order           $order
+	 * @param OrderRepository $orderRepository
+	 * @return array
+	 *
+	 * RouteName: app_admin_simpleshop_order_details
+	 * @Route("/admin/order/details/{order}", requirements={"order"="\d+|_id_"})
+	 * @Template
+	 */
+	public function detailsAction(Order $order, ConfigReader $configReader, OrderRepository $orderRepository) {
+		return [
+			'order'                => $orderRepository->findDataOf($order),
+			'deliveryPrice'        => $configReader->get('order-delivery-price'),
+			'noDeliveryPriceAbove' => $configReader->get('order-no-delivery-price-above-sum'),
+		];
+	}
+	
+	/**
+	 * Create an Order.
+	 * It should come from the list of users page.
+	 * @param User $user
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_order_create
-	 * @Route("/admin/order/create")
+	 * @Route("/admin/order/create/{user}", requirements={"user"="\d+|_id_"})
 	 * @Template("admin/simple_shop/order/form.html.twig")
-	 *
-	 * @return array|RedirectResponse
 	 */
-	public function createAction() {
+	public function createAction(User $user) {
 		$order = (new Order())
+			->setUser($user)
 			->setDate(new \DateTime());
 		
 		return $this->form($order);
 	}
 	
 	/**
-	 * Update a Order.
+	 * Update an Order.
+	 * @param Order $order
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_order_update
 	 * @Route("/admin/order/update/{order}", requirements={"order"="\d+|_id_"})
 	 * @Template("admin/simple_shop/order/form.html.twig")
-	 *
-	 * @param Order $order
-	 * @return array|RedirectResponse
 	 */
 	public function updateAction(Order $order) {
 		return $this->form($order);

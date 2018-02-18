@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.order.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.order.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -11,11 +11,10 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_order_create', 'admin.link.to_create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.order.list'|trans }}
+    {{ 'page_title.admin.order.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -47,23 +46,27 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text: '{{ "admin.label.order.status"|trans }}',
-                search:   'string',
-                func: function (row) {
+                text:   '{{ "id"|trans }}',
+                search: 'string',
+                property: 'id'
+            }, {
+                text:   '{{ "status"|trans }}',
+                search: 'string',
+                func:   function (row) {
                     return row.status.label;
                 },
-                sort: function (row) {
+                sort:   function (row) {
                     return row.id;
                 }
             }, {
-                text: '{{ "admin.label.order.date"|trans }}',
+                text:     '{{ "date"|trans }}',
                 property: 'date',
-                sort: true
+                sort:     true
             }, {
-                text: '{{ "admin.label.order.price_summarized"|trans }}',
+                text: '{{ "sum_total"|trans }}',
                 func: function (row) {
                     return row.priceSum + ' {{ "site.common.price_short"|trans }}';
                 },
@@ -71,14 +74,25 @@
             }, {
                 text: '',
                 func: function (row) {
-                    var url = new Egf.Sf.Route()
+                    var detailsUrl = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_simpleshop_order_details', {'order':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+
+                    var html = "<a href='" + detailsUrl + "' class='btn btn-default'>{{ 'details'|trans }}</a> ";
+
+                    var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_order_update', {'order':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.to_update'|trans }}</a>";
+                    html += "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+
+                    return html;
                 }
             }])
             .init();

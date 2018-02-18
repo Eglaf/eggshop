@@ -22,27 +22,27 @@ class UserType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('username', Type\TextType::class, [
-				'label' => 'admin.label.user.name',
+				'label' => 'name',
 			])
 			->add('email', Type\TextType::class, [
-				'label' => 'admin.label.user.email',
+				'label' => 'email',
 			])
 			// ->add('plainPassword', Type\TextType::class, [
 			// 	'required' => FALSE,
 			// ])
 			->add('active', Type\CheckboxType::class, [
-				'label'    => 'admin.label.common.label',
+				'label'    => 'label',
 				'required' => FALSE,
 			])
 			->add('role', Type\ChoiceType::class, [
-				'label'   => 'admin.label.user.role',
+				'label'   => 'role',
 				'choices' => [
 					'Admin' => 'ROLE_ADMIN',
 					'User'  => 'ROLE_USER',
 				],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'admin.label.common.save',
+				'label' => 'save',
 			]);
 	}
 	

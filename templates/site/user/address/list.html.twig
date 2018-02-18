@@ -1,7 +1,7 @@
 {% extends 'site/site.html.twig' %}
 
 {% block title %}
-    {{ 'site.title.profile.address_list'|trans }} - {{ parent() }}
+    {{ 'page_title.site.profile.address_list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
@@ -10,11 +10,11 @@
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
 
-    <h1>{{ 'site.title.profile.address_list'|trans }}</h1>
+    <h1>{{ 'page_title.site.profile.address_list'|trans }}</h1>
 
     {# Buttons #}
     <a href="{{ path('app_site_user_address_create') }}" class="btn btn-default">
-        {{ 'site.content.profile.link.address_create'|trans }}
+        {{ 'create'|trans }}
     </a>
 
     {# Content #}
@@ -22,7 +22,7 @@
 
     <br /><br />
     <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
-        {{ 'site.common.back'|trans }}
+        {{ 'back'|trans }}
     </a>
 
 {% endblock %}
@@ -48,35 +48,35 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ 'site.common.search'|trans }}'
+                globalSearchPlaceholder: '{{ 'search'|trans }}'
             })
             .setColumns([{
-                text:     "{{ 'site.content.profile.address.title'|trans }}",
+                text:     "{{ 'title'|trans }}",
                 property: 'title',
                 sort:     true
             }, {
-                text:     "{{ 'site.content.profile.address.city'|trans }}",
+                text:     "{{ 'city'|trans }}",
                 property: 'city',
                 sort:     true
             }, {
-                text:     "{{ 'site.content.profile.address.zip_code'|trans }}",
+                text:     "{{ 'zip_code'|trans }}",
                 property: 'zipCode',
                 sort:     true
             }, {
-                text:     "{{ 'site.content.profile.address.street'|trans }}",
+                text:     "{{ 'street'|trans }}",
                 property: 'street',
                 sort:     true
             }, {
-                text:     "{{ 'site.content.profile.address.house_number'|trans }}",
+                text:     "{{ 'house_number'|trans }}",
                 property: 'houseNumber'
             }, {
-                text:     "{{ 'site.content.profile.address.floor'|trans }}",
+                text:     "{{ 'floor'|trans }}",
                 property: 'floor'
             }, {
-                text:     "{{ 'site.content.profile.address.door'|trans }}",
+                text:     "{{ 'door'|trans }}",
                 property: 'door'
             }, {
-                text:     "{{ 'site.content.profile.address.door_bell'|trans }}",
+                text:     "{{ 'door_bell'|trans }}",
                 property: 'door_bell'
             }, {
                 text: '',
@@ -88,7 +88,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'site.content.profile.link.address_update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
                 }
             }])
             .init();

@@ -3,13 +3,13 @@
 {% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block title %}
-    {{ 'site.title.profile.user_update'|trans }}
+    {{ 'page_title.site.profile.user_update'|trans }}
     - {{ parent() }}
 {% endblock %}
 
 {% block siteContent %}
 
-    <h1>{{ 'site.title.profile.user_update'|trans }}</h1>
+    <h1>{{ 'page_title.site.profile.user_update'|trans }}</h1>
 
     {{ form_start(formView) }}
 
@@ -22,14 +22,14 @@
     <hr />
     {{ form_row(formView.oldPassword) }}
     <div class="input_comment">
-        {{'site.form.profile.comment.old_password'|trans }}
+        {{'form.user.old_password'|trans }}
     </div>
 
     {{ form_end(formView) }}
 
     <br />
     <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
-        {{ 'site.common.back'|trans }}
+        {{ 'back'|trans }}
     </a>
 
     <script type="text/javascript">

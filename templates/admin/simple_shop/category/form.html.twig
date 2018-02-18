@@ -6,9 +6,9 @@
 
 {% block title %}
     {% if category.id %}
-        {{ 'admin.title.category.update'|trans({'%category%':category.label}) }}
+        {{ 'page_title.admin.category.update'|trans({'%category%':category.label}) }}
     {% else %}
-        {{ 'admin.title.category.create'|trans }}
+        {{ 'page_title.admin.category.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -18,14 +18,14 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_category_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_category_list', 'back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
     {% if category.id %}
-        {{ 'admin.title.category.update'|trans({'%category%':category.label}) }}
+        {{ 'page_title.admin.category.update'|trans({'%category%':category.label}) }}
     {% else %}
-        {{ 'admin.title.category.create'|trans }}
+        {{ 'page_title.admin.category.create'|trans }}
     {% endif %}
 {% endblock %}
 

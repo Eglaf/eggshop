@@ -1,23 +1,74 @@
-site:
-  common:
-    quantity: Darabszám
-    price: Ár
-    piece_short: Db
-    price_short: Ft
-    save: Mentés
-    next: Tovább
-    back: Vissza
-    back_to_list: Vissza a listához
-    search: Keresés
+active: Aktív
+address: Cím
+addresses: Címek
+back: Vissza
+back_to_list: Vissza a listához
+billing_address: Számlázási cím
+category: Kategória
+categories: Kategóriák
+city: Város
+comment: Komment
+configs: Beállítások
+create: Létrehozás
+currency_short: Ft
+date: Dátum
+description: Leirás
+delete: Törlés
+delivery_price: Szállítási díj
+delivery_address: Szállítási cím
+details: Részletek
+door: Ajtó
+door_bell: Ajtócsengő
+email: Email cím
+file: Fájl
+files: Fájlok
+first: Első
+floor: Emelet
+forth: Tovább
+house_number: Házszám
+id: Azonosító
+identifier: Azonosító
+image: Kép
+images: Képek
+inactive: Inaktiv
+last: Utolsó
+label: Megnevezés
+login: Bejelentkezés
+logout: Kijelentkezés
+name: Név
+next: Következő
+order: Rendelés
+orders: Rendelések
+password: Jelszó
+password_new: Új jelszó
+password_old: Régi jelszó
+password_repeat: Jelszó mégegyszer
+phone: Telefonszám
+previous: Előző
+price: Ár
+product: Termék
+products: Termékek
+quantity: Darabszám
+quantity_short: Db
+registration: Regisztrálás
+role: Jogosultság
+save: Mentés
+search: Keresés
+status: Státusz
+submit: Mentés
+sum_total: Összesen
+street: Út/Utca
+text: Szöveg
+texts: Szövegek
+title: Cím
+update: Módosítás
+user: Felhasználó
+users: Felhasználók
+value: Érték
+zip_code: Irányítószám
 
-  menu:
-    profile_page: Profil oldal
-    logout: Kijelentkezés
-    registration: Regisztrálás
-    login: Bejelentkezés
-    admin: Admin felület
-
-  title:
+page_title:
+  site:
     base: Fürjtojás - Japán fürj
     registration: Regisztrálás
     login: Bejelentkezés
@@ -34,121 +85,13 @@ site:
       address_create: Cím létrehozás
       address_update: Cím szerkesztés
       user_update: Bejelentkezési adatok szerkesztése
-
-  form:
-    reg:
-      name: Név
-      email: Email cím
-      password: Jelszó
-      repeat_password: Jelszó mégegyszer
-      submit: Regisztrálás
-    login:
-      email: Email cím
-      password: Jelszó
-      submit: Bejelentkezés
-    new_order:
-      ask_for_delivery_address: Kiszállítási cím megadása
-      select_delivery_address: Kiszállítási cím
-      ask_for_new_delivery_address: Új cím megadása
-      new_delivery_address: Új kiszállítási cím
-      ask_for_billing_address: Számlázási cím megadása
-      select_billing_address: Számlázási cím
-      ask_for_new_billing_address: Új számlázási cím
-      new_billing_address: Számázási cím
-    profile:
-      input:
-        name: Név
-        email: Email cím
-        old_password: Régi jelszó
-        new_password: Új jelszó
-        new_password_again: Új jelszó mégegyszer
-      error:
-        old_password_invalid: A régi jelszó nem érvényes
-      comment:
-        old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
-
-  order:
-    products: Termékek
-    product: Termék
-    price: Ár
-    count: Darabszám
-    row_sum: Összesen
-    price_sum: Összesen
-    addresses: Címek
-    delivery_price: Szállítási díj
-    delivery_address: Szállítási cím
-    billing_address: Számlázási cím
-    message:
-      no_delivery_address: Nincs szállítási cím kiválasztva
-      no_billing_address: Nincs számlázási cím kiválasztva
-    link:
-      back_to_products: Vissza a termékekhez
-      back_to_addresses: Vissza a címekhez
-      submit_order: Rendelés feladása
-
-  user:
-    address:
-      title: Megnevezés
-      city: Város
-      zip_code: Irányítószám
-      street: Utca
-      house_number: Házszám
-      floor: Emelet
-      door: Ajtó
-      door_bell: Ajtócsengő
-
-  content:
-    login:
-      link:
-        to_registration: Regisztráció
-      text:
-        no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
-
-    profile:
-      link:
-        earlier_orders: Korábbi rendelések
-        earlier_order_details: Részletek
-        user_update: Adatok változtatás
-        address_list: Címek
-        address_create: Új cím hozzáadása
-        address_update: Cím módosítás
-      order:
-        id: Azonosító
-        date: Dátum
-        status: Státusz
-        items: Termékek
-        item: Termék
-        price: Ár
-        count: Darabszám
-        price_sum: Összesen
-      address:
-        title: Megnevezés
-        city: Város
-        zip_code: Irányítószám
-        street: Utca
-        house_number: Házszám
-        floor: Emelet
-        door: Ajtó
-        door_bell: Ajtócsengő
-
-
-admin:
-  menu:
-    orders: Rendelések
-    categories: Kategóriák
-    products: Termékek
-    texts: Szöveges tartalmak
-    files: Feltöltött fájlok
-    users: Felhasználók
-    config: Beállítások
-    logout: Kijelentkezés
-
-  title:
+  admin:
     base: Admin
     order:
       list: Rendelések
       create: Rendelés létrehozás
       update: Rendelés módosítás (%name%, %date%)
+      details: Rendelés részletek
     category:
       list: Kategóriák
       create: Kategória létrehozás
@@ -173,47 +116,51 @@ admin:
       list: Beállítások
       update: Beállítás módosítás (%config%)
 
-  link:
-    back_to_list: Vissza a listához
-    to_create: Új létrehozás
-    to_update: Módosítás
-    product:
-      select_image: Kép választás
+menu:
+  site:
+    profile_page: Profil oldal
+    registration: Regisztrálás
+    admin: Admin felület
 
-  form:
-    comment:
-      text:
-        title: Oldalak címe. Rövid tartalmak közötti szövegek esetén nincs haszna.
-        text: "A szövegben használható változók:"
+form:
+  order_address:
+    ask_for_delivery_address: Kiszállítási cím megadása
+    select_delivery_address: Kiszállítási cím
+    ask_for_new_delivery_address: Új cím megadása
+    new_delivery_address: Új kiszállítási cím
+    ask_for_billing_address: Számlázási cím megadása
+    select_billing_address: Számlázási cím
+    ask_for_new_billing_address: Új számlázási cím
+    new_billing_address: Számázási cím
+  user:
+    old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
+    no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
 
-  label:
-    common:
-      label: Megnevezés
-      active: Aktív
-      description: Leirás
-      identifier: Azonosító
-      save: Mentés
-      inactive: Inaktiv
-    order:
-      status: Státusz
-      date: Dátum
-      price_summarized: Összeg
-    category:
-      products: Termékek
-    product:
-      category: Kategória
-      price: Ár (Ft)
-    text:
-      title: Cím
-    file:
-      file: Fájl
-      image: Kép
-    user:
-      name: Név
-      email: Email
-      role: Jogosultság
-    config:
-      value: Érték
+nav:
+  order:
+    confirm:
+      back_to_products: Vissza a termékekhez
+      back_to_addresses: Vissza a címekhez
+      submit_order: Rendelés feladása
+  profile:
+    earlier_orders: Korábbi rendelések
+    user_update: Aadatok megváltoztatása
+    address_list: Címek
+    address_create: Új cím hozzáadása
+    address_update: Cím módosítás
+  select_image:
+    select_image: Kép választás
+    back_to_product_update: Termék adatok módosítása
+    currently_selected: Jelenleg kiválasztott
+    select_this_one: Kiválaszás
+
+message:
+  order:
+    no_delivery_address: Nincs szállítási cím kiválasztva
+    no_billing_address: Nincs számlázási cím kiválasztva
+  user:
+    two_password_must_match: A két jelszó nem egyezik
+    old_password_invalid: A régi jelszó nem érvényes
 
 exception:
   404:

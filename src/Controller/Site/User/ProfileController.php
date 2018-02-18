@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormError;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Service\Serializer;
+use App\Service\ConfigReader;
 use App\Controller\AbstractEggShopController;
 use App\Form\Site\User\UserUpdateType;
 use App\Entity\SimpleShop\Order;
@@ -68,13 +69,15 @@ class ProfileController extends AbstractEggShopController {
 	 * @Route("/user/korabbi-rendeles-reszletek/{order}", requirements={"order"="\d+|_id_"})
 	 * @Template
 	 */
-	public function earlierOrderDetailsAction(Order $order) {
+	public function earlierOrderDetailsAction(Order $order, ConfigReader $configReader) {
 		if ($order->getUser() !== $this->getUser()) {
 			throw new \Exception('You cannot see that order!');
 		}
 		
 		return [
 			'order' => $order,
+			'deliveryPrice'        => $configReader->get('order-delivery-price'),
+			'noDeliveryPriceAbove' => $configReader->get('order-no-delivery-price-above-sum'),
 		];
 	}
 	
@@ -113,7 +116,7 @@ class ProfileController extends AbstractEggShopController {
 				$this->getDm()->flush();
 			}
 			else {
-				$form->addError(new FormError($translator->trans('site.form.profile.error.old_password_invalid')));
+				$form->addError(new FormError($translator->trans('message.user_data.old_password_invalid')));
 			}
 		}
 		

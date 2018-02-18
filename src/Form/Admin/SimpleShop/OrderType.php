@@ -24,20 +24,23 @@ class OrderType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('status', EntityType::class, [
+				'label'        => 'status',
 				'class'        => OrderStatus::class,
 				'choice_label' => 'label',
 			])
 			->add('comment', Type\TextareaType::class, [
+				'label'    => 'comment',
 				'required' => FALSE,
 			])
 			->add('items', Type\CollectionType::class, [
+				'label'        => ' ',
 				'entry_type'   => OrderItemType::class,
 				'allow_add'    => TRUE,
 				'allow_delete' => TRUE,
 				//'by_reference' => false, // TODO with addItem() Exception: Order has no addItem method... with setItems()... doesn't do shit...
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'Mentes',
+				'label' => 'save',
 			]);
 	}
 	

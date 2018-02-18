@@ -132,6 +132,13 @@ class Order {
 		return $finalPrice;
 	}
 	
+	public function getDeliveryAddress() {
+		return $this->getShippingAddress();
+	}
+	
+	public function setDeliveryAddress($a) {
+		return $this->setShippingAddress($a);
+	}
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **

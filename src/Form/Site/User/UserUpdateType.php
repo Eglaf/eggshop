@@ -22,25 +22,25 @@ class UserUpdateType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', Type\TextType::class, [
-				'label' => 'site.form.profile.input.name',
+				'label' => 'name',
 			])
 			->add('email', Type\EmailType::class, [
-				'label' => 'site.form.profile.input.email',
+				'label' => 'email',
 			])
 			->add('oldPassword', Type\PasswordType::class, [
-				'label'  => 'site.form.profile.input.old_password',
+				'label'  => 'password_old',
 				'mapped' => FALSE,
 			])
 			->add('plainPassword', Type\RepeatedType::class, [
 				'required'        => FALSE,
 				'type'            => Type\PasswordType::class,
-				'invalid_message' => 'The password fields must match.',
+				'invalid_message' => 'message.user.two_password_must_match',
 				'options'         => ['attr' => ['class' => 'password-field']],
-				'first_options'   => ['label' => 'site.form.profile.input.new_password'],
-				'second_options'  => ['label' => 'site.form.profile.input.new_password_again'],
+				'first_options'   => ['label' => 'password_new'],
+				'second_options'  => ['label' => 'password_repeat'],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'site.common.save',
+				'label' => 'save',
 			]);
 	}
 	

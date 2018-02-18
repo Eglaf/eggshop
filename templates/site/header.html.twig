@@ -4,12 +4,12 @@
 <nav class="small">
     <ul id="menu-legfelso" class="menu">
         <li>
-            <a href="#">
+            <a href="{{ path('app_site_content_page_text', {'code': 'cegunkrol'}) }}">
                 CÉGÜNKRŐL
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ path('app_site_content_page_text', {'code': 'kapcsolat'}) }}">
                 Kapcsolat
             </a>
         </li>
@@ -18,27 +18,27 @@
         {% if is_granted('ROLE_USER') %}
             {# Profile page #}
             <li>
-                <a href="{{ path('app_site_user_profile_main') }}">{{ "site.menu.profile_page"|trans }}</a>
+                <a href="{{ path('app_site_user_profile_main') }}">{{ "menu.site.profile_page"|trans }}</a>
             </li>
             {# Logout #}
             <li>
-                <a href="{{ path('logout') }}">{{ "site.menu.logout"|trans }}</a>
+                <a href="{{ path('logout') }}">{{ "logout"|trans }}</a>
             </li>
         {% else %}
             {# Registration #}
             <li>
-                <a href="{{ path('app_site_user_registration_registration') }}">{{ "site.menu.registration"|trans }}</a>
+                <a href="{{ path('app_site_user_registration_registration') }}">{{ "registration"|trans }}</a>
             </li>
             {# Login #}
             <li>
-                <a href="{{ path('app_site_user_login_login') }}">{{ "site.menu.login"|trans }}</a>
+                <a href="{{ path('app_site_user_login_login') }}">{{ "login"|trans }}</a>
             </li>
         {% endif %}
 
         {% if is_granted('ROLE_ADMIN') %}
             {# Admin #}
             <li>
-                <a href="{{ path('app_admin_dashboard_index') }}" target="_blank">{{ "site.menu.admin"|trans }}</a>
+                <a href="{{ path('app_admin_dashboard_index') }}" target="_blank">{{ "menu.site.admin"|trans }}</a>
             </li>
         {% endif %}
 

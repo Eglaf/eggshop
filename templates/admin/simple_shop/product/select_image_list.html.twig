@@ -3,7 +3,7 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'admin.title.product.select_image'|trans({'%product%': product.label}) }} - {{ parent() }}
+    {{ 'page_title.admin.product.select_image'|trans({'%product%': product.label}) }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_product_list', 'admin.link.back_to_list'|trans) }}
-    {{ macro.buttonToUrl(path('app_admin_simpleshop_product_update', {product: product.id}), 'admin.link.to_update'|trans) }}
+    {{ macro.button('app_admin_simpleshop_product_list', 'back_to_list'|trans) }}
+    {{ macro.buttonToUrl(path('app_admin_simpleshop_product_update', {product: product.id}), 'nav.select_image.back_to_product_update'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'admin.title.product.select_image'|trans({'%product%': product.label}) }}
+    {{ 'page_title.admin.product.select_image'|trans({'%product%': product.label}) }}
 {% endblock %}
 
 {% block adminContent %}
@@ -48,15 +48,15 @@
                 rowsOnPage:      5
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "site.common.search"|trans }}'
+                globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "admin.label.common.label"|trans }}',
+                text:     '{{ "label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "admin.label.common.description"|trans }}',
+                text:     '{{ "description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true
@@ -69,7 +69,7 @@
                 text: '',
                 func: function (row) {
                     if (row.id === {{ product.image.id }}) {
-                        return 'Jelenleg kivalasztott';
+                        return '{{ "nav.select_image.currently_selected"|trans }}';
                     }
                     else {
                         var url = new Egf.Sf.Route()
@@ -79,7 +79,7 @@
                             })
                             .getUrl();
 
-                        return "<a href='" + url + "' class='btn btn-default'>{{ 'admin.link.product.select_image'|trans }}</a>";
+                        return "<a href='" + url + "' class='btn btn-default'>{{ 'nav.select_image.select_this_one'|trans }}</a>";
                     }
                 }
             }])

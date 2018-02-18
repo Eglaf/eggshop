@@ -6,9 +6,9 @@
 
 {% block title %}
     {% if file.id %}
-        {{ 'admin.title.file.update'|trans({'%file%':file.label}) }}
+        {{ 'page_title.admin.file.update'|trans({'%file%':file.label}) }}
     {% else %}
-        {{ 'admin.title.file.create'|trans }}
+        {{ 'page_title.admin.file.create'|trans }}
     {% endif %}
     - {{ parent() }}
 {% endblock %}
@@ -18,21 +18,21 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_content_file_list', 'admin.link.back_to_list'|trans) }}
+    {{ macro.button('app_admin_content_file_list', 'back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
     {% if file.id %}
-        {{ 'admin.title.file.update'|trans({'%file%':file.label}) }}
+        {{ 'page_title.admin.file.update'|trans({'%file%':file.label}) }}
     {% else %}
-        {{ 'admin.title.file.create'|trans }}
+        {{ 'page_title.admin.file.create'|trans }}
     {% endif %}
 {% endblock %}
 
 {% block adminContent %}
 
     {% if file.storageName is not null and file.storageName is not empty %}
-        <img src="{{ uploadsDir ~ file.storageName }}" style='max-height:200px;' class="product-select-image" />
+        <img src="{{ uploadsDir ~ file.storageName }}" class="product-select-image" />
     {% endif %}
 
     {{ form_start(formView) }}
