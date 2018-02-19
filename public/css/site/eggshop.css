@@ -125,6 +125,16 @@ div.confirm_links {
     margin: 25px 0 25px 0;
 }
 
+div.order_comment {
+    margin: 25px 0 35px 0;
+    border-top: solid 1px #ccc;
+}
+
+div.order_comment > span {
+    font-weight: bold;
+    display: block;
+}
+
 /*** Profile ***/
 
 .main_button {

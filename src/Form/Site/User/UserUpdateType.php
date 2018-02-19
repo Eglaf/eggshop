@@ -27,6 +27,10 @@ class UserUpdateType extends AbstractType {
 			->add('email', Type\EmailType::class, [
 				'label' => 'email',
 			])
+			->add('phone', Type\TextType::class, [
+				'label'    => 'phone',
+				'required' => FALSE,
+			])
 			->add('oldPassword', Type\PasswordType::class, [
 				'label'  => 'password_old',
 				'mapped' => FALSE,

@@ -1,11 +1,16 @@
 {% extends 'site/site.html.twig' %}
 
-{% block title %}
-    {% if textEntity.getTitle() is not null %}
-        {{ textEntity.getTitle() }} -
-    {% endif %}
-    {{ parent() }}
-{% endblock %}
+{% block title %}{% spaceless %}
+    {% if textEntity.getTitle() is not null %}{{ textEntity.getTitle() }} - {% endif %}{{ parent() }}
+{% endspaceless %}{% endblock %}
+
+{% block description %}{% spaceless %}
+    {% if textEntity.getDescription() is not null %}{{ textEntity.getDescription() }}{% endif %}
+{% endspaceless %}{% endblock %}
+
+{% block keywords %}{% spaceless %}
+    {% if textEntity.getKeywords() is not null %}{{ textEntity.getKeywords() }}{% endif %}
+{% endspaceless %}{% endblock %}
 
 {% block siteContent %}
     {{ textEntity.getText()|raw }}

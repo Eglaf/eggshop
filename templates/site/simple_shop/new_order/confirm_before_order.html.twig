@@ -77,6 +77,13 @@
         {{ 'message.order.no_billing_address'|trans }}
     {% endif %}
 
+    {% if app.session.get('order_comment') %}
+        <div class="order_comment">
+            <span>{{ 'comment'|trans }}</span>
+            {{ app.session.get('order_comment') }}
+        </div>
+    {% endif %}
+
     <div class="confirm_links">
         <a href="{{ path('app_site_simpleshop_neworder_selectproducts') }}" class="btn btn-default">{{ 'nav.order.confirm.back_to_products'|trans }}</a>
         <a href="{{ path('app_site_simpleshop_neworder_selectaddresses') }}" class="btn btn-default">{{ 'nav.order.confirm.back_to_addresses'|trans }}</a>

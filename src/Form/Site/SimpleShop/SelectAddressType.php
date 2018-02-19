@@ -35,7 +35,7 @@ class SelectAddressType extends AbstractType {
 				'mapped'       => FALSE,
 			])
 			->add('newDeliveryAddressCheckbox', Type\CheckboxType::class, [
-				'label' => 'form.order_address.ask_for_new_delivery_address',
+				'label'    => 'form.order_address.ask_for_new_delivery_address',
 				'required' => FALSE,
 				'mapped'   => FALSE,
 			])
@@ -54,12 +54,16 @@ class SelectAddressType extends AbstractType {
 				'mapped'       => FALSE,
 			])
 			->add('newBillingAddressCheckbox', Type\CheckboxType::class, [
-				'label' => 'form.order_address.ask_for_new_billing_address',
+				'label'    => 'form.order_address.ask_for_new_billing_address',
 				'required' => FALSE,
 				'mapped'   => FALSE,
 			])
 			->add('newBillingAddress', AddressType::class, [
 				'label' => 'form.order_address.new_billing_address',
+			])
+			->add('comment', Type\TextareaType::class, [
+				'label'    => 'comment',
+				'required' => FALSE,
 			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'next',

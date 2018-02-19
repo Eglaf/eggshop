@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+{#{% spaceless %}#}
     <head>
         <meta charset="UTF-8">
 
@@ -9,12 +10,12 @@
             <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/site/reset.css') }}" />
         {% endblock %}
 
-        <meta name="description" content="Tudta Ön, hogy a fürjtojás igen apró, vitaminértéke viszont jóval magasabb a többi szárnyas tojásáénál, s koleszterinszintje pedig a legalacsonyabb?"/>
-        <meta name="keywords" content="fürjtojás, japán fürj, füstölt fürjtojás"/>
-        <link rel="canonical" href="http://www.furjtojas.eu/" />
+        <link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta name="description" content="{% block description %}{% endblock %}"/>
+        <meta name="keywords" content="{% block keywords %}{% endblock %}"/>
         <meta property='og:locale' content='hu_HU'/>
-        <meta property='og:title' content='{% block seoTitle %}{{ 'page_title.site.base'|trans }}{% endblock %}' />
-        <meta property='og:description' content=''/>
+        <meta property='og:title' content='{{ block('title') }}' />
+        <meta property='og:description' content='{{ block('description') }}'/>
         <meta property='og:url' content='{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}'/>
         <meta property='og:site_name' content='Fürjtojás.eu'/>
         <meta property='og:type' content='article'/>
@@ -22,6 +23,7 @@
         {% block preScripts %}{% endblock %}
 
     </head>
+{#{% endspaceless %}#}
     <body class="home page page-id-4 page-template-default">
 
         {% block body %}{% endblock %}

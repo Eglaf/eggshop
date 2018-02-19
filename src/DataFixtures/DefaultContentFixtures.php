@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Egf\Ancient\AbstractFixture;
 use App\Entity\User\User,
 	App\Entity\Content\Text,
+	App\Entity\Content\Page,
 	App\Entity\Content\File,
 	App\Entity\SimpleShop\Category,
 	App\Entity\SimpleShop\Product;
@@ -67,7 +68,6 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		foreach ($this->getShortTextContents() as $code => $text) {
 			$this->newEntity(Text::class, [
 				'code'              => $code,
-				'title'             => NULL,
 				'text'              => $text,
 				'enabledParameters' => NULL,
 			]);
@@ -77,7 +77,6 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		$this
 			->newEntity(Text::class, [
 				'code'  => 'new-order-select-products-before',
-				'title' => NULL,
 				'text'  => '
 					<p>Cégünk 25 éve a fürjtojás specialistája és az egész Európai Unióban egyedül mi működtetünk engedéllyel fürjtojás feldolgozó üzemet. Weblapunkon étkezési fürjtojás és fürj tenyésztojás rendelésére nyílik lehetősége. Étkezési fürjtojás három fajtáját kínáljuk az érdeklődőknek:  nyers fürjtojás,  natúr konzerv fürjtojás (sós lében)   és füstölt fürjtojás étolajban, fóliatasakba,  díszdobozba csomagolva.</p>
 					<p><span style="color:#ee2210;"><strong>Termékeink semmilyen tartósítószert nem tartalmaznak, ízesítéshez pedig Himalája sót használunk!</strong></span></p>
@@ -103,7 +102,6 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		$this
 			->newEntity(Text::class, [
 				'code'  => 'new-order-select-products-after',
-				'title' => NULL,
 				'text'  => '',
 			])
 			->setEnabledParameters(['admin-email', 'admin-phone', 'minimum-order-price-to-deliver', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
@@ -111,7 +109,6 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		$this
 			->newEntity(Text::class, [
 				'code'  => 'new-order-select-addresses-warning-below-delivery-limit',
-				'title' => NULL,
 				'text'  => '
 					<p>
 					Kiszállítást csak akkor tudunk vállalni, ha a vásárlás összege eléri a {{ minimum-order-price-to-deliver }} Ft-t.<br />
@@ -146,12 +143,8 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 * @return $this
 	 */
 	protected function loadPages() {
-		foreach ($this->getPageContents() as $code => $page) {
-			$this->newEntity(Text::class, [
-				'code'  => $code,
-				'title' => $page[0],
-				'text'  => $page[1],
-			]);
+		foreach ($this->getPageContents() as $page) {
+			$this->newEntity(Page::class, $page);
 		}
 		
 		return $this;
@@ -247,39 +240,47 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 * @return array [PageCode => [Title, Content], PageCode2 => [Title2, Content2]]
 	 */
 	protected function getPageContents() {
-		return [
-			'index'                            => [NULL, '<h1>Fürjtojás</h1>
-					<p>
-					<img src="/uploads/image_1.jpg" style="float:left; height:463px; width:388px;" title="Fürjtojás" alt="Fürjtojás" >
-					A fürjtojást, mint neve is mutatja a japán fürj madárnak köszönhetjük. A japán fürj egy éven belül általában kétszer kotlik. Tojásait a földön, mélyedésekbe rakja le, egyszerre maximum 8 tojást. A fürjtojás kinézetét tekintve apró, fehér alapon barna pettyes héjú, alakjában a normál tojással megegyező formájú tojás. A fürjtojások színárnyalata és rajzolata azonban mindig más, az egyedre jellemzően ugyanaz.</p>
-					<p>A fürj tojása igazi ínyencségnek számít. Egy fürjtojás tömege átlagosan 10 gramm, energiatartalma 15 kcal. Bár a fürjtojás méretét tekintve igen apró, vitaminértéke jóval magasabb a többi szárnyas tojásáénál, s koleszterinszintje pedig a legalacsonyabb valamennyi között.</p>
-					<p>Számos kultúrában a fürjtojás az egészséges táplálkozás alapanyaga, hisz hatszor több ásványi anyagot (foszfor, réz, vas, cink) és vitamint (pl. B vitamin) tartalmaz, mint a legáltalánosabb körökben fogyasztott tyúktojás. Elmondható, hogy a fürjtojás a legegészségesebb és legbiztonságosabb fogyasztású tojásféle.</p>
-					<p>Annál inkább tápláló a japán fürj tojása, minél természetesebb körülmények között él maga a kotló madár. A fürj gyógyhatású tojásainak és egyszerű tartási követelményeinek köszönhetően egyre kedveltebb háziszárnyassá növi ki magát, már-már helytálló a „jövő baromfija” elnevezés használata rá. A fürjtojás és fürjhús kiemelt helyen szerepel az egészséges ételek körében.</p>
-					<p>&nbsp;</p>
-					<p>A tárolási előírások betartásával a fürjtojás szobahőmérsékleten 1 hónapig, hűtőben 3 hónapig tárolható, az Európai Uniós előírások szerint viszont csak 3 hétig. A fürtojás összetétele: tojásfehérje, tojássárgája, tojáshéj. Az alábbiakban lássuk ezeket részletesebben.</p>
-					<h3>
-					<img src="/uploads/furjtojasok.jpg" style="float:right; height:510px; width:491px" title="Japán fürj tojása" alt="Japán fürj tojása"></a>
-					Tojásfehérje</h3>
-					<p>A tojássárgáját körülvevő fehérje (albumin) elnevezése onnan ered, hogy sütéskor, főzéskor fehérré válik. Biológiai funkciója a tojássárgáját védi az ütődésektől, magas víztartalma fontos az embrió vízháztartásában és az ásványi anyagok forgalmában. Számos nélkülözhetetlen aminosavat tartalmaz, melyek a fejlődő fürj embrió fehérjeszintéziséhez elengedhetetlenek.</p>
-					<h3>Tojássárgája</h3>
-					<p>Az étkezési célból fogyasztott fürjtojás sárgájának három fontos tápértéke van: zsírsav, koleszterin, vitaminok és ásványi anyagok.</p>
-					<p>Zsírsav: A tojás zsírsav energiaértéke igen magas. A telített és telítetlen zsírsav aránya a fürjtojás esetében nagyban függ a fürjek táplálkozásától. A többszörösen telítetlen zsírsavakat célirányos takarmányozással lehet feldúsítani, s szintén a fürjjel etetett táp milyenségével módosítható a telített zsírok háttérbe szorítás. A telítetlen zsírsavak élettanilag hasznos omega zsírsavakat tartalmaznak. Az emberi szervezet nem képes előállítani ezeket az omega-3 és omega-6 zsírsavakat, így a fürjtojás fogyasztása kitűnő lehetőség, hogy ezen hasznos esszenciális zsírsavak a szervezetünkbe jussanak. Ezzel szemben a telített zsírsav megnöveli a vér koleszterinszintjét, fokozva a szív- és érrendszeri betegségek kialakulását.</p>
-					<p>Ahogy a telített zsírsav, úgy a fürjtojás vitaminmennyisége is a fürj takarmányának vitamintartalmával függ össze. A fürjtojás sárgája vitaminokban gazdag, A, D, E, B vitaminokat nagy mennyiségben tartalmaz, valamint jelentős a vastartalma is.</p>
-					<h3>Tojáshéj</h3>
-					<p>Az egészséges japán fürj tojásának héjvastagsága átlagosan 0,28 mm. A fürjtojáshéj védi az emberió fürjet és biztosít számos ásványi anyagot a fejlődő embrió számára, de számos baromfi számára lisztpor minőségűre zúzva hasznos étrendkiegészítő a fürjtojás héja. 90%-os kalcium-karbonát tartalmánál fogva az emberi szervezetre, a fejlődő gyermekek és csontritkulásban szenvedők részére is hasznos lehet, szintén lisztporrá őrölt formában.</p>
-					<h3>Cégünkről röviden</h3>
-					<p>A fürjtojás egészséges és ízletes ételként egyre inkább keresett termékké nőtte ki magát hazánkban is. Cégünk, a Tamago Kft. az egyetlen nagy múltú fürjtojás feldolgozó Magyarországon: 1989 óta szolgáljuk ki a vásárlók és érdeklődők igényeit. Többszörösen díjazott termékeink a füstölt fürjtojás és a konzerv fürjtojás, melyekre weboldalunkon leadhatja igényét fürj tenyésztojással és nyers fürjtojással egyetemben. Szezonálisan minden év májusában élő, 7 hetes fürjcsaládokat is értékesítünk, amennyiben igényét előre, márciusban a (06)-28-447-480 telefonszámon jelzi. Az élő fürjekkel megkímélheti magát a fürj keltetéssel járó nehézségktől és egyből már tojóképes egyedekkel rendelkezhet.</p>
-					<h2>
-					<img src="/uploads/fustolt-furjtojas.jpg" style="float:left; height:732px; width:490px;" title="Nyers fürjtojás" alt="Nyers fürjtojás">
-					Füstölt fürjtojás
-					</h2>
-					<p>Az emberiség történetében az élelmiszerek hosszantartó fogyasztásra való alkalmassá tétele mindig is központi téma volt. De hogyan lehet a fürjtojás fogyaszthatósági idejét megnövelni?</p>
-					<p>A fürjtojás nagy fehérjetartalma miatt romlandó termék, megfelelő kezelést és tárolást igényel, hogy a gyors romlástól megóvjuk. A fürjtojás tartósításának módszere a füstölés. A füstölés, mint tartósítási eljárás annyira a régmúltba nyúlik vissza, hogy régészeti ásatások igazolják, hogy a szárítás és sózás mellett ez volt a harmadik legősibb tartósító eljárás. Teljes bizonyossággal kijelenthetjük, hogy amióta az emberiség ismeri a tüzet, füstjét húsok, halak konzerválására is használta. A régmúlt korokban a füstölés hozzátartozott a mindennapi élethez, az ételek mindennapos, házi tartósításához. A húsok és sajtok füstölése mindenki számára ismert eljárás, de hogy a tojást is füstöljük, különösképpen a fürjtojást, ez lehet, hogy sokaknak újdonság.</p>
-					<h2><strong>Fürjtojás füstölés folyamata</strong></h2>
-					<p>A tojásokat alaposan megtisztítjuk, majd megfőzzük. A héját géppel maradéktalanul eltávolítjuk. Ezután pácoljuk, majd Maurer-féle kombinált hőkezelő szekrényben füstöljük a tojásokat. Felöntőként étolajat használunk.&nbsp;A fürjtojás a füstölés révén nemcsak hogy tartós élelmiszerré válik, hanem önmagában is nagyon ízletes, étvágygerjesztő ételt kapunk. A füstölt fürjtojásnak igen nagy szerepe van a vendéglátásban is. Kiválóan alkalmas szendvicsek, hidegtálak díszítésére, ízesítésére illetve sör és borkorcsolyának is kiváló.</p>
-					<p>A füstölés a konzerválás és jobb ízvilág biztosítása mellett egyéb hasznos célt is szolgál az élelmiszerekkel kapcsolatban. A füstöléssel meggátoljuk a baktériumok szaporodását oly módon, hogy a fürjtojás nem veszít tápértékéből sem.</p>',
-			],
-			'fustolt-furjtojas'                => ['Füstölt fürjtojás', '<h1>A füstölt fürjtojás</h1>
+		return [[
+			        'code'        => 'index',
+			        'title'       => 'Fürjtojás',
+			        'description' => 'Tudta Ön, hogy a fürjtojás igen apró, vitaminértéke viszont jóval magasabb a többi szárnyas tojásáénál, s koleszterinszintje pedig a legalacsonyabb?',
+			        'keywords'    => 'fürjtojás, japán fürj, füstölt fürjtojás',
+			        'text'        => '<h1>Fürjtojás</h1>
+										<p>
+										<img src="/uploads/image_1.jpg" style="float:left; height:463px; width:388px;" title="Fürjtojás" alt="Fürjtojás" >
+										A fürjtojást, mint neve is mutatja a japán fürj madárnak köszönhetjük. A japán fürj egy éven belül általában kétszer kotlik. Tojásait a földön, mélyedésekbe rakja le, egyszerre maximum 8 tojást. A fürjtojás kinézetét tekintve apró, fehér alapon barna pettyes héjú, alakjában a normál tojással megegyező formájú tojás. A fürjtojások színárnyalata és rajzolata azonban mindig más, az egyedre jellemzően ugyanaz.</p>
+										<p>A fürj tojása igazi ínyencségnek számít. Egy fürjtojás tömege átlagosan 10 gramm, energiatartalma 15 kcal. Bár a fürjtojás méretét tekintve igen apró, vitaminértéke jóval magasabb a többi szárnyas tojásáénál, s koleszterinszintje pedig a legalacsonyabb valamennyi között.</p>
+										<p>Számos kultúrában a fürjtojás az egészséges táplálkozás alapanyaga, hisz hatszor több ásványi anyagot (foszfor, réz, vas, cink) és vitamint (pl. B vitamin) tartalmaz, mint a legáltalánosabb körökben fogyasztott tyúktojás. Elmondható, hogy a fürjtojás a legegészségesebb és legbiztonságosabb fogyasztású tojásféle.</p>
+										<p>Annál inkább tápláló a japán fürj tojása, minél természetesebb körülmények között él maga a kotló madár. A fürj gyógyhatású tojásainak és egyszerű tartási követelményeinek köszönhetően egyre kedveltebb háziszárnyassá növi ki magát, már-már helytálló a „jövő baromfija” elnevezés használata rá. A fürjtojás és fürjhús kiemelt helyen szerepel az egészséges ételek körében.</p>
+										<p>&nbsp;</p>
+										<p>A tárolási előírások betartásával a fürjtojás szobahőmérsékleten 1 hónapig, hűtőben 3 hónapig tárolható, az Európai Uniós előírások szerint viszont csak 3 hétig. A fürtojás összetétele: tojásfehérje, tojássárgája, tojáshéj. Az alábbiakban lássuk ezeket részletesebben.</p>
+										<h3>
+										<img src="/uploads/furjtojasok.jpg" style="float:right; height:510px; width:491px" title="Japán fürj tojása" alt="Japán fürj tojása"></a>
+										Tojásfehérje</h3>
+										<p>A tojássárgáját körülvevő fehérje (albumin) elnevezése onnan ered, hogy sütéskor, főzéskor fehérré válik. Biológiai funkciója a tojássárgáját védi az ütődésektől, magas víztartalma fontos az embrió vízháztartásában és az ásványi anyagok forgalmában. Számos nélkülözhetetlen aminosavat tartalmaz, melyek a fejlődő fürj embrió fehérjeszintéziséhez elengedhetetlenek.</p>
+										<h3>Tojássárgája</h3>
+										<p>Az étkezési célból fogyasztott fürjtojás sárgájának három fontos tápértéke van: zsírsav, koleszterin, vitaminok és ásványi anyagok.</p>
+										<p>Zsírsav: A tojás zsírsav energiaértéke igen magas. A telített és telítetlen zsírsav aránya a fürjtojás esetében nagyban függ a fürjek táplálkozásától. A többszörösen telítetlen zsírsavakat célirányos takarmányozással lehet feldúsítani, s szintén a fürjjel etetett táp milyenségével módosítható a telített zsírok háttérbe szorítás. A telítetlen zsírsavak élettanilag hasznos omega zsírsavakat tartalmaznak. Az emberi szervezet nem képes előállítani ezeket az omega-3 és omega-6 zsírsavakat, így a fürjtojás fogyasztása kitűnő lehetőség, hogy ezen hasznos esszenciális zsírsavak a szervezetünkbe jussanak. Ezzel szemben a telített zsírsav megnöveli a vér koleszterinszintjét, fokozva a szív- és érrendszeri betegségek kialakulását.</p>
+										<p>Ahogy a telített zsírsav, úgy a fürjtojás vitaminmennyisége is a fürj takarmányának vitamintartalmával függ össze. A fürjtojás sárgája vitaminokban gazdag, A, D, E, B vitaminokat nagy mennyiségben tartalmaz, valamint jelentős a vastartalma is.</p>
+										<h3>Tojáshéj</h3>
+										<p>Az egészséges japán fürj tojásának héjvastagsága átlagosan 0,28 mm. A fürjtojáshéj védi az emberió fürjet és biztosít számos ásványi anyagot a fejlődő embrió számára, de számos baromfi számára lisztpor minőségűre zúzva hasznos étrendkiegészítő a fürjtojás héja. 90%-os kalcium-karbonát tartalmánál fogva az emberi szervezetre, a fejlődő gyermekek és csontritkulásban szenvedők részére is hasznos lehet, szintén lisztporrá őrölt formában.</p>
+										<h3>Cégünkről röviden</h3>
+										<p>A fürjtojás egészséges és ízletes ételként egyre inkább keresett termékké nőtte ki magát hazánkban is. Cégünk, a Tamago Kft. az egyetlen nagy múltú fürjtojás feldolgozó Magyarországon: 1989 óta szolgáljuk ki a vásárlók és érdeklődők igényeit. Többszörösen díjazott termékeink a füstölt fürjtojás és a konzerv fürjtojás, melyekre weboldalunkon leadhatja igényét fürj tenyésztojással és nyers fürjtojással egyetemben. Szezonálisan minden év májusában élő, 7 hetes fürjcsaládokat is értékesítünk, amennyiben igényét előre, márciusban a (06)-28-447-480 telefonszámon jelzi. Az élő fürjekkel megkímélheti magát a fürj keltetéssel járó nehézségktől és egyből már tojóképes egyedekkel rendelkezhet.</p>
+										<h2>
+										<img src="/uploads/fustolt-furjtojas.jpg" style="float:left; height:732px; width:490px;" title="Nyers fürjtojás" alt="Nyers fürjtojás">
+										Füstölt fürjtojás
+										</h2>
+										<p>Az emberiség történetében az élelmiszerek hosszantartó fogyasztásra való alkalmassá tétele mindig is központi téma volt. De hogyan lehet a fürjtojás fogyaszthatósági idejét megnövelni?</p>
+										<p>A fürjtojás nagy fehérjetartalma miatt romlandó termék, megfelelő kezelést és tárolást igényel, hogy a gyors romlástól megóvjuk. A fürjtojás tartósításának módszere a füstölés. A füstölés, mint tartósítási eljárás annyira a régmúltba nyúlik vissza, hogy régészeti ásatások igazolják, hogy a szárítás és sózás mellett ez volt a harmadik legősibb tartósító eljárás. Teljes bizonyossággal kijelenthetjük, hogy amióta az emberiség ismeri a tüzet, füstjét húsok, halak konzerválására is használta. A régmúlt korokban a füstölés hozzátartozott a mindennapi élethez, az ételek mindennapos, házi tartósításához. A húsok és sajtok füstölése mindenki számára ismert eljárás, de hogy a tojást is füstöljük, különösképpen a fürjtojást, ez lehet, hogy sokaknak újdonság.</p>
+										<h2><strong>Fürjtojás füstölés folyamata</strong></h2>
+										<p>A tojásokat alaposan megtisztítjuk, majd megfőzzük. A héját géppel maradéktalanul eltávolítjuk. Ezután pácoljuk, majd Maurer-féle kombinált hőkezelő szekrényben füstöljük a tojásokat. Felöntőként étolajat használunk.&nbsp;A fürjtojás a füstölés révén nemcsak hogy tartós élelmiszerré válik, hanem önmagában is nagyon ízletes, étvágygerjesztő ételt kapunk. A füstölt fürjtojásnak igen nagy szerepe van a vendéglátásban is. Kiválóan alkalmas szendvicsek, hidegtálak díszítésére, ízesítésére illetve sör és borkorcsolyának is kiváló.</p>
+										<p>A füstölés a konzerválás és jobb ízvilág biztosítása mellett egyéb hasznos célt is szolgál az élelmiszerekkel kapcsolatban. A füstöléssel meggátoljuk a baktériumok szaporodását oly módon, hogy a fürjtojás nem veszít tápértékéből sem.</p>',
+		        ], [
+			        'code'        => 'fustolt-furjtojas',
+			        'title'       => 'Füstölt fürjtojás',
+			        'description' => 'Ön is hallott már a füstölt fürjtojásról? Az országban egyedüliként 1989 óta mi készítjük, 10 és 50 darabos kiszerelésben is megrendelheti tőlünk.',
+			        'keywords'    => 'füstölt fürjtojás, főtt tojás, japán fürj',
+			        'text'        => '<h1>A füstölt fürjtojás</h1>
 					<p>Az emberiség történetében az élelmiszerek hosszantartó fogyasztásra való alkalmassá tétele mindig is központi téma volt. De hogyan lehet a fürjtojás fogyaszthatósági idejét megnövelni? Mielőtt ismertetnék a fürjtojás konzerválásának mibenlétét, ejtsünk néhány szót magáról a fürjtojásról.</p>
 					<p>A fürjtojást, mint neve is mutatja a japán fürj madárnak köszönhetjük. A japán fürj egy éven belül általában kétszer kotlik. Tojásait a földön, mélyedésekbe rakja le, egyszerre maximum 8 tojást. A fürjtojás kinézetét tekintve apró, fehér alapon barna pettyes héjú, alakjában a normál tojással megegyező formájú tojás. A fürjtojások színárnyalata és rajzolata azonban mindig más.</p>
 					<p>
@@ -313,16 +314,24 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A tojás eltarthatóságát minden esetben tartalmaznia kell a csomagolásnak. Annak az időpontnak a rábélyegzése, amikor a tyúk tojta, nem kötelező, de a tojás eltarthatósági idejét fel kell tüntetni.</p>
 					<p>A friss tojás tárolására a legcélszerűbb a tojástartó műanyag doboz, un. tojásdoboz használata. A tojásdoboz tiszta, kifolyt tojástartalomtól mentes legyen illetve szellőzőnyílásokkal legyen ellátva. Csak ép, szárazon megtisztított tojást tároljunk, száraz, hűvös helyen, maximum 5-12 C -on. 5 C alatt méginkább eláll a tojás.</p>
 					<p>Ha azt szeretnénk, hogy tovább friss maradjon a tojás, csúcsával felfelé tároljuk (ekkor viszont leereszkedik a sárgája a fenekébe). Akkor tegyük csúcsával lefelé a tojásdobozba, ha azt szeretnénk, hogy sárgája középen legyen – így viszont hamarabb romlik.</p>',
-			],
-			'fott-furjtojas-konzerv'           => ['Főtt fürjtojás konzerv', '<h1><b>Főtt fürjtojás konzerv</b></h1>
+		        ], [
+			        'code'        => 'fott-furjtojas-konzerv',
+			        'title'       => 'Főtt fürjtojás konzerv',
+			        'description' => 'Ön is kóstolta már a főtt fürjtojás konzerv termékünket? Kitűnő kiegészítője a különböző leveseknek! Amennyiben nem ismeri, kattintson!',
+			        'keywords'    => 'főtt tojás, főtt fürjtojás konzerv, fürjtojás',
+			        'text'        => '<h1><b>Főtt fürjtojás konzerv</b></h1>
 					<p>
 					<img src="/uploads/natur-konzerv-furjtojas-10db.jpg" style="float:left; height:346px; width:300px; margin-right:15px;" alt="Főtt füstölt fürjtojás">
 					A 250 darabos dobozokban érkező nyers, friss fürjtojás feldolgozása során egy részéből füstölt fürjtojás, másik részéből natúr konzerv fürjtojást készítünk.</p>
 					<p>A fürjtojások fertőtlenítése két szakaszban történik, a fürjtojás mindkét alkalommal öblítésre is kerül. Így kerül át a feldogozó térbe.</p>
 					<p>A mosás, szárítás és szennyezett tojások fertőtlenítése az első lépés. A friss tojásokat 10 percig fertőtlenítő folyadékba helyezzük, hogy a fertőtlenítés megakadályozza vagy minimalizálja a légi úton történő szennyeződéseket. A héjától megtisztított natúr tojásokat sólével felöntjük, és hőkezelő szekrényben tartósítjuk, ezzel jutunk el a konzerv tojás készítés végső fázisához. A natúr konzerv sós lében tárolt tisztított fürjtojás kínálatunkban ezt követően megvásárolhatóvá válik Vevőink számára.</p>
 					<p>A konzerv fürjtojás használatát kifejezetten ünnepi levesekbe ajánljuk, a tojásokat elég csak a főzés végeztével a levesbe helyezni, hogy éppen csak átmelegedjen, főnie nem kell.</p>',
-			],
-			'szojabab'                         => ['Szójabab', '<h1>Szójabab</h1>
+		        ], [
+			        'code'        => 'szojabab',
+			        'title'       => 'Szójabab',
+			        'description' => 'Tudta Ön, hogy a zöld szójabab kifejezetten hatékony természetes gyógymód vesebetegek számára? Kattintson és ismerje meg ezt a felettébb egészséges növényt!',
+			        'keywords'    => 'vesebetegség, egészséges ételek, természetes gyógymód',
+			        'text'        => '<h1>Szójabab</h1>
 					<p>A szójabab a pillangósvirágúak családjába tartozik, Afrika, Ázsia trópusain honos lágyszárú növény.</p>
 					<p>A szójababnak több fajtája ismert, igen kedvelt íze és közismert gyógyhatása miatt a zöld szójabab, amit Mungnak, Mungóbabnak is neveznek.</p>
 					<p>Kinézete alapján a szója karószerű főgyökérrel rendelkezik, ez 1,5-2 m mélységig is lehatol a földbe. Ebből kiinduló oldalelágazásai és felszívó hajszálgyökerei a talaj felső részén találhatóak. Főhajtásának hossza eléri a 80-100 cm-t. Középzöld, szórt állású levelei vannak, melyek alakja a szójabab fajtáitól függően változó, a kerek tojásdadtól a keskeny lándzsásig terjedhet, éréskor leveleit lehullatja.</p>
@@ -355,8 +364,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A Mung, vagyis zöld szójabab rendkívüli módon igénytelen, nem kíván szakértelmet a kezelése és a termés gondozása, mondhatni ha egyszer már elvetettük, vadon nő.</p>
 					<p>Gyógyhatása révén különösen vesebetegeknek ajánlott, de számos kísérleti tanulmány bizonyítja, hogy összetevői révén a szójából készült ételek fogyasztása a mellrák kockázatát is jelentősen csökkenti.</p>
 					<p>Japánban és az angol nyelvterületeken Edamame néven ismerik. Szezonális, augusztus közepétől szeptember közepéig tudjuk a beérkező rendeléseket teljesíteni, de amennyiben ilyen terméket szeretne rendelni, kérjük mindenképpen érdeklődjön telefonszámainkon vagy emailben.</p>',
-			],
-			'shiso-level'                      => ['Shiso levél', '<h1>Shiso levél</h1>
+		        ], [
+			        'code'        => 'shiso-level',
+			        'title'       => 'Shiso levél',
+			        'description' => 'Ön is kedveli a természetes, növényi alapú bizonyítottan hatékony gyógymódokat? Ismerje meg a japán Shiso levelet és akár meg is rendelheti tőlünk!',
+			        'keywords'    => 'shiso levél, japán gyógymód, egészséges ételek',
+			        'text'        => '<h1>Shiso levél</h1>
 					<p>A Shiso az ajakosvirágúak rendjébe tartozik. Őshazája Délkelet-Ázsia. Igénytelen növény, kellő mennyiségű csapadék és napfény mellett bárhol elél.</p>
 					<p>
 					<img src="/uploads/shiso-level.jpg" style="float:left; height:400px; width:400px; margin-right:15px;" alt="Shiso levél">
@@ -392,15 +405,23 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<li>vágott seb kezelésére</li>
 					</ul>
 					<p>Ez a termékünk szezonális, minden év júliusától október végéig rendelhető. Amennyiben szeretne rendelni, kérjük keressen minket telefonszámainkon.</p>',
-			],
-			'furj-tenyesztojas'                => ['A fürj tenyésztojás', '<h1>A fürj tenyésztojás</h1>
+		        ], [
+			        'code'        => 'furj-tenyesztojas',
+			        'title'       => 'A fürj tenyésztojás',
+			        'description' => 'Szeretne fürjet tenyészteni? Tájékoztatónkból mindent megtudhat a fürj tenyésztojásról és arról, hogy mire érdemes odafigyelni a buktatók elkerüléséhez!',
+			        'keywords'    => 'tenyésztojás, fürjtojás, fürj tenyésztése',
+			        'text'        => '<h1>A fürj tenyésztojás</h1>
 					<p>A fürj tenyésztojás iránti kereslet az utóbbi években jelentősen megugrott. Ez köszönhető a fürj ízletes húsának, gyógyhatású tojásainak, magas tojáshozamának, valamint annak a tényezőnek, hogy a fürjcsibe nagyon hamar (17. napon) kikel a tojásból és ideális körülmények között hamar, általában a hetedik héten belül elkezd tojni. Gazdaságos, egészséges dolog tehát a fürjtenyésztés. A fürj maximálisan esedékese a jövő baromfija címre.</p>
 					<p>Ha valaki fürjet szeretne tartani, első lépés a megbízható minőségű fürj tenyésztojás beszerzése, amire kínálatunkban Önnek is lehetősége nyílik. A fürj tenyésztojás a kifejezetten tojástermelési céllal nevelt fürjek tojása. Az általunk kínált fürj tenyésztojás megbízható feltételek között jön létre, biztonsággal állítjuk, hogy maximális keltetési arányt nyújtanak tenyésztojásaink. Ez köszönhető a megfelelő tenyészállat célzott kiválasztásának és táplálásának.</p>
 					<p>A fürj tenyésztéstojás keltetésének folyamatában a felkészülés első lépcsőfoka a megfelelő tenyészállatok kiválogatása. Célszerű minél több vérvonalból összeállítani a törzseket, főképpen a hím ivarú fürj legyen idegen vérvonalú, legalább minden második évben. A tenyésztés időszakára a fürjeket alaposan fel kell készíteni, vitaminokkal, nyomelemekkel, ásványi anyagokkal, megfelelő takarmánnyal. A tenyésztojások begyűjtése általában január végén kezdődik. Kiemelt figyelmet fordítsunk arra, hogy csak ép, egészséges, tiszta tojások kerüljenek keltetésre.</p>
 					<p>A tenyésztojások gondos tárolást igényelnek, ami nem haladhatja meg a 8-10 napot, mert az a kelés-arány rovására mehet. A fürj tenyésztojás tárolása 8-10 C hőfokon történik, enyhén sötét helyen és naponta egyszer meg kell forgatni őket. A tojáskeltetés keltetőgéppel és fürjkotlós által is történhet. Keltetőgépből 17-18. napon, fürjkotlós által a 18-19. napon kelnek ki.</p>
 					<p>Tudni kell, hogy egy kikelt fürj első tojásai csak étkezésre jók, keltetésre nem. A tojó ivarérettségekor, azaz a 7 hetes korától kezdődően tojik. Keltetés céljára csak 10 héttől tojt tojások alkalmasak. Természetes tartásban egy évben kb. 250 tojást tojik a japánfürj.</p>',
-			],
-			'furjtojas-keltetes'               => ['Fürjtojás keltetés', '<h1>Fürjtojás keltetés</h1>
+		        ], [
+			        'code'        => 'furjtojas-keltetes',
+			        'title'       => 'Fürjtojás keltetés',
+			        'description' => 'A fürjtojás keltetés nem egyszerű dolog! Olvassa el részletes, teljeskörű tájékoztatónkat, hogy elkerülje a lehetséges problémákat!',
+			        'keywords'    => 'fürjtojás keltetés, fürj csibék, japán fürj',
+			        'text'        => '<h1>Fürjtojás keltetés</h1>
 					<p>A tojáskeltetés legfontosabb mozzanatait az alábbiakban foglaljuk össze, melyeket betartva 70%-os kelési arányt érhetünk el.</p>
 					<p>A keltetés leggyakoribb formája a keltetőgép használata. Keltetőnek nevezzük azt a berendezést, melyben biztosítjuk a kelési hőmérsékletet és páratartalmat, s melyben a tojásokat forgatjuk. A keltetés során a tojásokat naponta forgatni kell, de az első három és utolsó három napon a tojásokat nem tanácsos a forgatni.</p>
 					<p>A keltetés optimális hőmérséklete 37,2 – 37,6 C. Az optimális páratartalom 85-95%. Ez azt a célt szolgálja, hogy a tojások haja megpuhuljon.</p>
@@ -416,8 +437,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>Az inkubációs készülékben a tollasodásig maradnak a kis fürjek, mely teljes időtartama kb. 6 hét. Ez idő alatt a hőfok folyamatos csökkentésére is figyelmet kell fordítani. Napról napra kezdetben fél, majd egy fokkal kell csökkenteni a hőmérsékletet, emellett a páratartalmat is.</p>
 					<p>A fürj csibék felneveléséhez a legjobb fácán indítótápok használata, amit egy hetes kortól főtt tojásos lágyeleséggel, apróra vágott zöldséggel célszerű kiegészíteni. A fürj várható élettartama leginkább táplálásától függ, szabad kifutóban sokáig elélhetnek.</p>
 					<p>Amennyiben teljeskörű képet szeretne kapni, ajánljuk Dr. Bogenfürst Ferenc „Keltetés” című szakkönyvét illetve „A japánfürj és tenyésztése” (Czibulyás József – Tóth Sándor) könyvet.</p>',
-			],
-			'tenyesztojas-rendelesi-lehetoseg' => ['Fürj tenyésztojás igénylési lehetőség', '<h1>Fürj tenyésztojás igénylési lehetőség</h1>
+		        ], [
+			        'code'        => 'tenyesztojas-rendelesi-lehetoseg',
+			        'title'       => 'Fürj tenyésztojás igénylési lehetőség',
+			        'description' => 'Amennyiben Ön szeretne fürj tenyésztojást rendelni, nálunk online és telefonon is megteheti! Házhozszállítást vagy személyes átvételt is választhat!',
+			        'keywords'    => 'tojás rendelés, tenyésztojás',
+			        'text'        => '<h1>Fürj tenyésztojás igénylési lehetőség</h1>
 					<p>Önnek lehetősége van eladó fürj tenyésztojás igénylésére regisztráció nélkül.</p>
 					<p>Az eladó tenyésztojások igénylését a Tojás rendelés menüpont alatt tudja leadni. A igénylőlap kitöltése nem minősül online vásárlásnak, csak igényleadásnak, a termékkel kapcsolatos jövőbeli vásárlási szándék kifejezésének. Az eladó tenyésztojás iránti vásárlási szándékának megerősítésére minden esetben telefonos kapcsolatba lépünk Önnel, s az adás-vételi ügylet az áru kiszállításakor realizálódik.</p>
 					<p>A tenyésztojás igénylólap kitöltése után automatikus visszajelzést küldünk email címére, majd rövid időn belül telefonon is felvesszük a kapcsolatot Önnel a megrendelés kiszállításával vagy átvételével kapcsolatban. Rendelési adatait minden esetben telefonos egyeztetés során véglegesítjük. A megrendelés szóbeli, telefonos megerősítést követően minősül csak valós vásárlásnak.</p>
@@ -426,8 +451,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A megrendelt &nbsp;tenyésztojások kifizetése házhozszállítás esetén átvételkor történik.</p>
 					<p>Megrendelheti úgy is a terméket, hogy nem kér házhozszállítást, hanem személyes átvétellel a Csömörön, Szakura utca 5-7 alatt található átvevőhelyen tudja átvenni és kifizetni. Ez az átvételi pont csak tenyésztojások rendelése esetén működik, minden más termékünket központi telephelyünkön tudja személyesen átvenni.</p>
 					<p><strong>Az egy darab, 15 darabos fürj tenyésztojás csomag ára 1125 Forint, az országos lefedettségű futárszolgálattal rendelhető minimum mennyiség 3 csomag (45 darab tenyésztojás) amely 3375 Ft. A futárszolgálat díja 990 Ft, tehát a minimum tenyésztojás rendelés 3375 Ft + 990 Ft = bruttó 4365 Ft . Amennyiben legalább 15.000 Ft összegben igényel fürj tenyésztojást, NEM KELL KISZÁLLÍTÁSI DÍJAT FIZETNIE! &nbsp;(990 Ft.) Természetesen nem szükséges csak tenyésztojást rendelnie, rendelhet késztermékeket is, &nbsp;például füstölt fürjtojást, főtt fürjtojás konzervet, nyers fürjtojást.</strong></p>',
-			],
-			'tojas-eltarthatosag'              => ['Tojás eltarthatóság', '<h1>Tojás eltarthatóság</h1>
+		        ], [
+			        'code'        => 'tojas-eltarthatosag',
+			        'title'       => 'Tojás eltarthatóság',
+			        'description' => 'Szeretné tudni, melyek a legfontosabb szempontok és mi az amire figyelni kell? Ne felejtse ellenőrizni a tojás frissességét sem, megmutatjuk hogyan!',
+			        'keywords'    => 'friss tojás, tojás eltarthatóság',
+			        'text'        => '<h1>Tojás eltarthatóság</h1>
 					<p>A fürjtojás kiemelendő tulajdonsága hosszan tartó eltarthatósága. A friss fürjtojás hűtőben tárolva 90 napig, szobahőmérsékelten 30 napig őrzi meg szavatosságát. Fontos előírás, hogy csak ép, sértetlen tojáshéjú, szárazon megtisztított tojást tároljunk. Az ideális tárolási hőmérsékelt 5-8 C fok közötti. A szobahőmérsékleten tárolt friss tojás egy nap alatt többet veszít frissességéből, mint hűtőben tárolva több napon keresztül.</p>
 					<p>Mint minden tojás, a fürjtojás is az első héten igazán friss, biztonságosan készíthető belőle lágy tojás, buggyantott tojás egyaránt.</p>
 					<p>
@@ -440,8 +469,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fürjtojás kiemelendő tulajdonsága hosszan tartó eltarthatósága. A friss fürjtojás hűtőben tárolva 60 napig (EU-s előírás szerint 3 hétig), szobahőmérsékleten 30 napig őrzi meg szavatosságát. Fontos előírás, hogy csak ép, sértetlen tojáshéjú, szárazon megtisztított tojást tároljunk. Az ideális tárolási hőmérsékelt 5-8 C fok közötti. A szobahőmérsékleten tárolt friss tojás egy nap alatt többet veszít frissességéből, mint hűtőben tárolva több napon keresztül.</p>
 					<p>&nbsp;</p>
 					<p>Mint minden tojás, a fürjtojás is az első héten igazán friss, biztonságosan készíthető belőle lágy tojás, buggyantott tojás és sütemény egyaránt.</p>',
-			],
-			'egeszseges-etelek'                => ['Egészséges ételek', '<h1>Mi számít egészséges ételnek?</h1>
+		        ], [
+			        'code'        => 'egeszseges-etelek',
+			        'title'       => 'Egészséges ételek',
+			        'description' => 'Egészséges ételek - mi az ami valóban egészséges ételnek számít? Mely összetevők az igazán fontosak? És hogyan kerül képbe a fürjtojás?',
+			        'keywords'    => 'egészséges ételek, fürjtojás, tojás',
+			        'text'        => '<h1>Mi számít egészséges ételnek?</h1>
 					<p>Az étkezés, táplálkozás az emberi élet elengedhetetlen része, hisz az emberi szervezet megfelelő és egészséges működéséhez táplálékot vesz magához, amit vérhálózat útján juttat el az egyes sejtekhez. A felvett táplálék egy része elhasznált anyagaink pótlását vagy éppen anyagaink gyarapítását szolgálja, más része pedig az élettevékenységekhez nélkülözhetetlen energiaszükséglet fedezésére szolgál.</p>
 					<p>A táplálkozás mértékét az adott ember szervezetének szükséglete, illetve a felvett tápanyagok tápértéke határozza meg. Egy adott tápanyag, étel tápértékét energiaszolgáltatásának mértékével szokás jellemezni (kalória). Azonban nem közömbös az sem, hogy az egyes tápanyagokból milyen arányban részesül az emberi szervezet. Ételeinknek mindig tartalmaznia kell megfelelő mennyiségű és minőségű fehérjét, mert ebből vonja ki a szervezet azokat az aminosavakat, melyeket önállóan nem képes előállítani. Elengedhetetlen, hogy táplálékunk tartalmazzon un. járulékos tápanyagokat, vitaminokat, melyek nélkül súlyos zavarok léphetnek fel szerveink működésében.</p>
 					<p>Egy felnőtt ember átlagos napi tápanyagigénye: 70 g fehérje, 50 g zsír és 500 g szénhidrát, mely átlagértékek a szervezet igénybevételével arányosan növekednek.&nbsp; Ez tehát az egészséges táplálkozás alapja. Az egészséges ételek összeválogatásának mérvadója&nbsp; különféle ételek, italok megfelelő arányban és mennyiségben megvalósuló rendszeres fogyasztása a fentiek figyelembevételével, s ezáltal számos betegség kockázata minimálisra csökkenthető. Tehát megfelelő mennyiségben kell étkezésünk során a szervezetünk számára energiát adó tápanyagokat (fehérjék, zsírok, szénhidrátok) és energiát nem adó tápanyagokat (vitaminok, ásványi anyagok, nyomelemek) biztosítani. Minél többféle nyersanyag felhasználásával, minél többszínű feldolgozási módszerrel ízletes és változatos étrendet állíthatunk össze a mindennapokban magunk és családunk számára, s biztosítjuk a szervezet optimális működéséhez minden szükséges tápanyagokat.</p>
@@ -455,8 +488,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					</ol>
 					<p>A tojás az emberek legjelentősebb táplálékforrása. Tápértéke a húsével vetekszik, mind fehérje, mind zsírtartalma tekintetében. A baromfitojások közül a tyúktojás fogyasztása a legáltalánosabb, holott a tyúktojás fehérjetartalmához képest a fürj tojása magasabb, 60% tojásfehérje tartalmú. A tojás fehérjekoncentrációja mellett számos egyéb vitamin forrása is.</p>
 					<p>A szervezet normális életműködéséhez nélkülözhetetlen a folyadékpótlás biztosítása, elsősorban tisztított víz, un. pí víz vagy lúgos víz formájában. Napi 2-3 liter folyadékra van szükségünk, amibe szilárd táplálékaink víztartalma is beletartozik.</p>',
-			],
-			'tojas-etel'                       => ['Tojás étel', '<h1>Tojás étel</h1>
+		        ], [
+			        'code'        => 'tojas-etel',
+			        'title'       => 'Tojás étel',
+			        'description' => 'Miért ennyire elterjedtek a tojás ételek? És melyik az a tojás, amely a baromiénál jóval több fehérjét és vitamint tartalmaz? Tudjon meg mindent!',
+			        'keywords'    => 'tojás étel, fürjtojás, baromfi tojás',
+			        'text'        => '<h1>Tojás étel</h1>
 					<p>Évszázadokon keresztül a tojás az emberiség alaptáplálékaként szerepelt és szerepel napjainkban is. A tojás egyik legjelentősebb táplálékforrásunk, ez köszönhető magas tápértékének: fehérje- és&nbsp; zsírtartalmának. A tojás teljes biológiai értékű fehérjéket tartalmaz, azaz az összes esszenciális aminosavat tartalmazzák, melyeket az emberi szervezet önmagában nem képes előállítani. A tojásban ráadásul számos egyéb élelmiszerekben alig fellelhető vitaminok és a különféle biológiai folyamatokban nélkülözhetetlen ásványi sók is megtalálhatóak. Mindez biológiailag könnyen hasznosítható formában van jelen a tojás egyes alkotórészeiben.</p>
 					<p>A tojás tápértékén túl tehát számos kedvező élettani hatás kifejtésére is képes, fehérjén kívül rendkívül gazdag vitaminokban (tulajdonképpen a C-vitamin kivételével valamennyi vitamin megtalálható benne), ideális zsírösszetételű, mindemellett számos betegség megelőzésére ill. az öregedésbeli folyamat lelassítására alkalmas.</p>
 					<p>Többféle népesség étkezési szokásait tanulmányozva 383 kultúrkör fehérjeforrásul 94%-ban a tojást és a baromfihúst használja.</p>
@@ -476,8 +513,13 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<li>A tojásos étel alapos átsütést, főzést igényel, hogy belseje is forró legyen (75 C felett), a sütés-főzés elpusztítja az esetleges baktériumokat, vírusokat!</li>
 					<li>Tojás ételek maradékait se tároljuk, különösen nem szobahőmérsékleten, mert néhány órányi tárolás már veszélyes lehet!</li>
 					<li>Hűtőben tárolt tojásos ételt újrafogyasztás előtt fel kell forrósítani (nem elég csak melegíteni), az ételmaradékban a baktériumok ugyanis felszaporodhatnak, mely csak újabb alapos átsütés-főzés által pusztul el!</li>
-					</ul>'],
-			'furjtojas-recept'                 => ['Fürjtojás recept', '<h1>Fürjtojás recept</h1>
+					</ul>',
+		        ], [
+			        'code'        => 'furjtojas-recept',
+			        'title'       => 'Fürjtojás recept',
+			        'description' => 'Ön is szeretne fürjtojásból ínycsiklandó ételeket készíteni? Olvassa el híres szakácsok és séfek máshol nem megtalálható receptjeit, kiváló ételek!',
+			        'keywords'    => 'fürjtojás recept, egészséges ételek',
+			        'text'        => '<h1>Fürjtojás recept</h1>
 					<p>
 					<img src="/uploads/furjtojas-recept.jpg" style="float:left; height:265px; width:190px; margin-right:15px;" title="fürjtojás recept" alt="fürjtojás recept">
 					Ez a kis fehér alapon barna pettyes, apró tojás főképp az exkluzív hidegkonyhai fogásokra specializálódott szakácsok kedvenc alapanyaga. Mind keményre főzve, mind miniatűr tükörtojássá sütve díszíthetünk vele szendvicseket, salátákat, kész ételeinket. Ugyanakkor jóval több egyszerű dísznél, nagyon finom falat akár héjában megfőzve és meghámozva, akár buggyantott tojásként, de sütve vagy édességé habosítva is ízletes. Hiába olyan pici a mérete (10 gramm, azaz kb. 5 fürjtojás tesz ki egyetlen tyúktojást), szinte minden tojásétel elkészíthető belőle. A fürjtojás több vágyfokozó, hangulatba hozó „bájital” alkotóeleme is.
@@ -541,8 +583,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>Párolt rizs, vagy gombás rizzsel kínáljuk, áfonyát adunk mellé. Kitűnő csemege, előétel.</p>
 					<p>&nbsp;</p>
 					<p><em><strong>Amennyiben további fürjtojás recepteket szeretne, hívjon minket vagy írjon bizalommal és mi elküldünk Önnek további 20 receptet!</strong></em></p>',
-			],
-			'furj-receptek'                    => ['Fürj receptek', '<h1>Fürj receptek</h1>
+		        ], [
+			        'code'        => 'furj-receptek',
+			        'title'       => 'Fürj receptek',
+			        'description' => 'Szeretne kipróbálni fürjből készült ételeket? Nézze meg receptjeinket, biztosan talál közte olyat, amely megfelel az Ön ízlésének és könnyen elkészíthető!',
+			        'keywords'    => 'fürj receptek, japán fürj, egészséges ételek',
+			        'text'        => '<h1>Fürj receptek</h1>
 					<p>
 					<img src="/uploads/furj-recept.jpg" style="float:left; height:266px; width:154px; margin-right:15px;" title="fürj recept" alt="fürj recept">
 					A vadhúsok általánosságban egészséges, koleszterinben és zsírban szegény, vasban, vitaminokban viszont gazdag húsfélék. Ez igaz a fürj húsára is. A fürj melléből, combjából és szárnyából pörkölt, rántott hús, finom sültek készíthetőek, aprólékjából pedig nagyon ízletes leves főzhető. A fürj kis méretéből kifolyólag ezen ételekhez általában két felnőtt fürj szükséges. A fürjhús a csirkehússal összehasonlítva jóval omlósabb, aromásabb, sőt mellhúsa sem száraz. Vadíze miatt a fürj tökéletes vendégváró vagy ünnepi fogás, de pikán családi ebédnek is tökéletes és egészséges választás.</p>
@@ -597,8 +643,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>Hozzávalók (4 személyre): 8 db fürj, 4 db nagyobb burgonya, 1 csokor petrezselyem, ízlés szerint apróra vágott friss rozmaringlevél, ízlés szerint bors.</p>
 					<p>Elkészítés:</p>
 					<p>A fürjeket alaposan megtisztítjuk, besózzuk és fél órát állni hagyjuk. A krumplit megmossuk, leszárítjuk és hosszában kettévágjuk, belsejét kivájjuk. A burgonya kivájt belsejét megsózzuk. 1-2 szál petrezselymet beleteszünk a fürjek hasüregébe, és begöngyöljük őket két szelet szalonnába. A burgonyafészekbe tesszük a fürjeket és megborsozzuk. Egy tűzálló tálat kikenünk olajjal, beletesszük a burgonyafészkes fürjeket, közé szórjuk a krumpli kikapart belsejét. Alufóliával letakarjuk, és 200 fokra előmelegített sütőben kb. 20 percig pároljuk, majd levesszük a fóliát, tetejét megszórjuk apróra vágott friss rozmaringgal, és megsütjük. Párolt vöröskáposztával kínáljuk.</p>',
-			],
-			'potencianovelo-etel'              => ['Potencianövelő étel', '<h1>Potencianövelő étel</h1>
+		        ], [
+			        'code'        => 'potencianovelo-etel',
+			        'title'       => 'Potencianövelő étel',
+			        'description' => 'Ön is természetes, kemikália mentes potencianövelő ételt keres? Hallott már a fürjtojás kúráról? Weboldalunkon mindent megtudhat róla amire kíváncsi!',
+			        'keywords'    => 'potencianövelő étel, fürjtojás, fürjtojás kúra',
+			        'text'        => '<h1>Potencianövelő étel</h1>
 					<p>Azokat az anyagokat, melyek a nemi vágyat és aktivitást növelik, Afrodité, a szerelem görög istennője után afrodiziákumoknak nevezzük. Ilyen hatású némely ételünk is, ezek az un. potencianövelő ételek. Nem újkeletű megfigyelés, hogy bizonyos ételek és növények serkentik vagy felkeltik a nemi vágyat, valamint támogatják a férfierőt. Szinte minden kornak és népnek megvolt a maga afrodiziákuma. A gránátalma vágykeltő hatásáról a Káma-Szútra is említést tesz, a maják és az egyiptomiak a mézet alkalmazták előszeretettel vágykeltőnek, az indiánok fahéjjal kenték be péniszüket, a borsmenta főzetét Hippokratész „szerelmi játékra ösztönző ital”-nak nevezte, a népi gyógyászatban a merevedés idejének meghosszabbítására a petrezselyem szárának rágcsálását javasolták, de a mustármagnak is potencianövelő hatást tulajdonítottak már az ősidőktől fogva, ezért a szerzeteseknek tilos volt fogyasztaniuk.</p>
 					<h2>Melyek ezek a vágykeltő, vágyfokozó potencianövelő étel típusok?</h2>
 					<ol>
@@ -611,8 +661,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<li>Szarvasgomba. „A nőket gyengédebbé, a férfiakat vállalkozóbbá teszi” – írta róla egy híres gasztronómus 1825-ben. Mindezt nyilvánvalóan tartalmának köszönheti, mert a benne lévő anyagok közel állnak a tesztoszteronhoz.</li>
 					<li>Tojás. A hagyomány szerint az egyik legismertebb vágyfokozó. Olcsó, könnyen hozzájuthatunk és feltűnéstől és mellékhatásoktól is mentes potencianövelő étel. Aminosavakban igen gazdag, stabilizálja a vérnyomást és segíti a vér akadálytalan áramlását, ezáltal növeli a szexuális vágyat. Tojások között kiemelendő a fürjtojás, mely valóságos életelixír, férfiasságot serkentő hatása pedig a laikusok számára is ismert.</li>
 					</ol>',
-			],
-			'immunerosito-etel'                => ['Immunerősítő étel', '<h1>Immunerősítő étel</h1>
+		        ], [
+			        'code'        => 'immunerosito-etel',
+			        'title'       => 'Immunerősítő étel',
+			        'description' => 'Önnek is természetes, vegyi anyagoktól mentes immunerősítő ételre lenne szüksége? Hallott már a fürjtojásról amelyet kúraszerűen is alkalmazhat? Kattintson!',
+			        'keywords'    => 'immunerősítő étel, immunerősítés, egészséges étel, fürjtojás',
+			        'text'        => '<h1>Immunerősítő étel</h1>
 					<p>Immunrendszerünk, azaz szervezetünk védekező mechanizmusának működése az immunitásban nyilvánul meg. Az immunitás jelentése védettség, mentesség. Immunrendszerünk fő feladata a testidegen anyagok eltávolítása, megsemmisítése.</p>
 					<p>Immunrendszerünk legyengülhet egy-egy betegség vagy fizikai, lelki megterhelés hatására, diéta, tápanyaghiány esetén is, egyensúlyának fenntartása vagy helyreállítása immunerősítő étel illetve ételek fogyasztása által segíthető.</p>
 					<p>Ha szervezetünk tápanyagkészlete megcsappan, azaz az aminosavak, vitaminok és ásványi anyagok szintje lecsökken, romló egészségi állapothoz, különböző betegségekhez vezethet. Szervezetünk felerősítéséhez immunerősítő étel fogyasztása ajánlott. A nagy mennyiségű természetes vitaminok, ásványi anyagok, esszenciális aminosavak fogyasztása hozzájárul az immunrendszer javításához, a különböző betegségek megszüntetéséhez.</p>
@@ -621,8 +675,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fürjtojás vitaminösszetétele a következő: A-vitamin átlagosan 200-400 NE, D-vitamin 20-30 NE, E-vitamin és számos B-vitamin található a fürjtojás sárgájában. Vitaminok mellett ásványi anyagokban is gazdag a fürjtojás, pl. foszforban, káliumban, cinkben, vasban. A fürjtojás vastartalma kb. 2 gramm, mely mennyiség kizárólag a sárgájában található. Ez elég nagy mennyiség, 3-4 fürjtojással egy fejlődésben levő 20 kg testsúlyú gyermek vasszükséglete fedezhető. Koleszterintartalma viszont kisebb, mint a tyúktojásnak, nem hiába tartják a fürjtojást a legegészségesebb, immunerősítő ételek egyikének.</p>
 					<p>A fürjtojás immunrendszert erősítő hatása nagyban köszönhető lizozim nevű enzimjének, melyet a szervezet természetes antibiotikumának is neveznek. A lizozim bizonyos mikroorganizmusok ellen hat, azok sejtfalában található fehérje szétroncsolásával. Lizozim az emberi szervezetben a könnyben, nyálban lelhető fel és természetesen növelhetjük fürj tojásfehérje fogyasztásával. A lizozim az immunerősítő étel alapja.</p>
 					<p>A fürjtojás fogyasztása kúraszerűen idegkimerültség, általános gyengeség esetén immunerősítőnek, műtétek után roborálásra, légúti fertőzések, gyulladások, asztma, allergia, emésztőrendszeri és egyéb betegségek kiegészítő kezelésére maximálisan ajánlott.</p>',
-			],
-			'magas-vernyomas-kezeles'          => ['Magas vérnyomás kezelés', '<h1>Magas vérnyomás kezelés</h1>
+		        ], [
+			        'code'        => 'magas-vernyomas-kezeles',
+			        'title'       => 'Magas vérnyomás kezelés',
+			        'description' => 'Ön is megoldást keres magas vérnyomásának csökkentésére természetes úton? Olvasson a fürjtojás magas vérnyomásra gyakorolt pozitív hatásairól!',
+			        'keywords'    => 'magas vérnyomás, vérnyomáscsökkentés, egészséges ételek, fürjtojás',
+			        'text'        => '<h1>Magas vérnyomás kezelés</h1>
 					<p>A magas vérnyomás, szakszóval hipertónia egy olyan kóros állapot, melyben emelkedik a vérnyomás az artériákban. Ezen emelkedés a szívtől több, erőteljesebb munkát igényel a vér erekben való keringetéséhez. A normál vérnyomás nyugalmi állapotban 100-140/60-90 Hgmm értéktartományon belül van, magas vérnyomás esetén a felső érték meghaladja a 140, az alsó a 90 Hgmm értéket. A kezeletlen magas vérnyomás veszélyt jelent az érrendszer, a szív- és vesebetegségek kialakulására nézve, valamint az egyik legjelentősebb kockázati tényező a stroke és szívinfarktus tekintetében. A hipertónia tünetmentes, így sajnos sokkal több a beteg, mint aki tud is róla, hogy érintett.</p>
 					<p>A magas vérnyomás étrend- és életmódbeli változásokkal javítható, ezáltal csökken a kapcsolódó egészségügyi szövődmények kockázata is. Sokaknál ez nem elegendő és gyógyszeres magas vérnyomás kezelés szükséges. Azonban tapasztalat, hogy az eredményes életmódbeli változtatások a vérnyomást csökkenthetik ugyanolyan mértékben, mint a vérnyomáscsökkentő gyógyszerek, azaz étrend- és életmódbeli változtatásokkal is normalizálható a vérnyomás.</p>
 					<p>A magas vérnyomás kezelés tekintetében az életmódbeli változtatások az alábbiakat jelentik: étrendi változtatások, testmozgás, testsúlycsökkentés, dohányzás elhagyás, kávé (koffein) fogyasztás mérséklése. Ezek betartása sokaknál meghozza az eredményt és a gyógyszeres kezelés is elmaradhat.</p>
@@ -630,21 +688,29 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fizikai aktivitás értágító, és az erek tágulékonyságát célzó hatása szintén jót tesz a vérnyomás normalizálásának. Aerob mozgás, mint gyaloglás, futás, kerékpározás, úszás legalább heti három alkalommal, de még jobb, ha minden nap 30-60 perces időtartamban megtörténik.</p>
 					<p>Amennyiben a magas vérnyomás nem áll helyre étrend- és életmódbeli változtatások hatására, szükségessé válik vérnyomáscsökkentő gyógyszerek alkalmazása.</p>
 					<p>A magas vérnyomás kezelése terén több természetgyógyász is előszeretettel ajánlja a fürjtojás kúraszerű alkalmazását. A fürjtojás kúra lényege, hogy a tojásokat napi szinten, éhgyomorra és nyersen kell fogyasztani, mert jótékony hatása csak így érvényesül. Aki idegenkedik a nyers tojás ízétől, egy kis mézzel vagy cukorral is kikeverheti. Egy alkalommal felnőtteknek 4-5, gyerekeknek 2-3 darab fürjtojás elfogyasztása ajánlott. A fürjtojás kúra időtartama az adott betegségtől, problémától függ, mert nem csak a magas vérnyomás, számos egyéb betegség kezelésére alkalmas, pl. gyomorfekély, emésztési zavarok, csalánkiütés, szamárköhögés, máj betegségei, cukorbaj, allergiák, asztma, vérszegénység, potenciazavar, köszvény, migrén, vesebántalmak stb. Egy kúra általában több hetet vesz igénybe, s néhány hónapos szünettel célszerű megismételni.</p>',
-			],
-			'japan-furj'                       => ['Japán fürj', '<h1>Japán fürj</h1>
+		        ], [
+			        'code'        => 'japan-furj',
+			        'title'       => 'Japán fürj',
+			        'description' => 'Ön is hallotta már, hogy a japán fürj a jövő baromfija? Ez a kijelentés nem alaptalan, ismertetőnkből megtudhatja miért!',
+			        'keywords'    => 'japán fürj, baromfi, fürjtojás, egészséges ételek',
+			        'text'        => '<h1>Japán fürj</h1>
 					<p>A japán fürj a madarak osztályába tartozó faj. A madarak osztályán belül a tyúkalakúak rendjébe és a fácánfélék családjába tartozik. Rovarokkal és más gerinctelenekkel, valamint magvakkal táplálkozik.</p>
 					<p>A japán fürj kelet-ázsiai madár, a füves területek és a gabonaföldek jellemző faja, kerüli a vizenyős és erdős területet. Háziasítása a XI-XII. századra tehető, Kínában, Koreában és Japánban háziasították először.</p>
 					<p>Természetes körülmények közötti szaporodása évi kétszeri költést jelent, sűrű növényzetbe rejti fészkét és egyszerre 7-8 tojást rak. Tojásai 18 napi kotlás után kelnek ki, fiókái fészekhagyók.</p>
 					<p>A japán fürj húsa igencsak ízletes, az első írásos feljegyzés a XII. századból származik, mely szerint a japán császár fürjhúst fogyasztott, hogy a tuberkulózist elkerülje. 1910-re nemzeti eledellé vált Japánban a fürjhús. Európában az 1900-as évek elején kezdték tenyészteni a japán fürj madarat húsáért.</p>
 					<p>
-					<img src="/uploads/japan-furj.jpg" style="float:left; height:256px; width:400px; margin-right:15px;" title="japán fürj" alt="japán fürj"">
+					<img src="/uploads/japan-furj.jpg" style="float:left; height:256px; width:400px; margin-right:15px;" title="japán fürj" alt="japán fürj">
 					A japán fürj teste zömök, nyaka kissé hosszú, állebenye nincs. Lábai tollatlanok, de nyaka és feje tollal fedett. A kifejlett fürj súlya mindössze 18-20 dkg. A japán fürj többféle színváltozata ismert: vadszínezetű, foltos-tarka, barna, búza, fehér, fehér-vadas, csoki színűek. Tojásátmérője: 6,5-7 mm.&nbsp;A kifejlett japán fürj átlagos testtömege: 18-20 dkg.</p>
 					<p>A japán fürj kakasok melltollazata egyszínű, míg a tojóké pettyezett, ez 4-5 hetes korra realizálódik. Egyéb színváltozatú fürjek nemét csak az ivarérettségi kor elérésekor lehet megállapítani, a kakasok kloákája feletti dudor alapján. A japán fürj ivarérettsége tojóknál a 42. naptól, kakasoknál szintén 42. naptól kezdődik.</p>
 					<p>&nbsp;</p>
 					<p>&nbsp;</p>
 					<p>A fürjtojók intenzív tartásnál (fűtött, világított helyen) 6 hetesen, természetes tartásnál 10-12 hetesen kezdenek el tojni; éves tojáshozamuk körülbelül 250 tojás, melyek átlagtömege 16-17 gramm. A fürjtojás a legegészségesebb baromfitojás, a tyúktojáshoz képest fehérjetartalma magasabb, több vitamint és ásványi anyagot, mindemellett kevesebb koleszterint tartalmaz. A japán fürj tojásának gyógyhatása felmérhetetlen, de kitűnő kozmetikum is.</p>',
-			],
-			'furj-tartasa'                     => ['Fürj tartása', '<h1>Fürj tartása</h1>
+		        ], [
+			        'code'        => 'furj-tartasa',
+			        'title'       => 'Fürj tartása',
+			        'description' => 'Ön is szeretné tudni, hogy mi a fürj tartás helyes módja? Olvassa el részletes útmutatónkat, hogy biztosan elkerülje a buktatókat!',
+			        'keywords'    => 'fürj tartása, fürj nevelése, japánfürj',
+			        'text'        => '<h1>Fürj tartása</h1>
 					<p>A fürj tartás kapcsán beszélhetünk intenzív és extenzív tartásról. A lényeg, hogy állatbarát környezet és bánásmód valósuljon meg, hogy a fürjek egészséges fejlődését ne gátoljuk. Szem előtt kell tartani a fürjek alapvető életszükségleteinek biztosítását, lehetőleg oly módon, hogy ez közelítsen a természetben élő vad fajtársaik életmódjához.</p>
 					<p>Extenzív tartás esetén élnek és táplálkoznak a fürjek eredeti életmódjukhoz leginkább hasonló körülmények között. Bár a fürj jól repülő madár, a szökésveszély miatt zárva tartható csak, pl. épületen belül vagy kint a szabadban, de zártan úgy, hogy extenzív tartásmódnál a mozgásigényük maximálisan meg van hagyva. Az így tartott japán fürj élénk, egészséges, kedvére mozoghat, kapirgálhat, fürdőzhet.</p>
 					<p>Az extenzív tartáson belül beszélhetünk még ökológiai vagy bio tartásról, amikor szigorú szabályok és feltételek betartása mellett zajlik a fürj tartása, a fürjtenyészet, s eredményeképp a fürj tojása és húsa mentes minden ipari előállítású takarmánytól és teljesen mentes minden kémiai vegyszertől, gyógyszertől.</p>
@@ -655,8 +721,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					Tojófészek kiépítése nem szükséges, de megpróbálkozhatunk vele, akár egy kisebb kartondoboz szénával, szalmával vagy puha faforgáccsal kibélelve is megteszi.</p>
 					<p>&nbsp;</p>
 					<p>A fürj tartása mellett a takarmányozása kapcsán a legfőbb elírás, hogy ha táppal etetünk, annak fehérjetartalma legalább 18%-os legyen, ilyen pl. a fácán indító- és nevelő táp, ez tökéletes a fürjek táplálására is. De ne feledkezzünk el a vitaminozásról sem, erre a célra kiváló termékek állnak rendelkezésre és ahhoz, hogy az állatok jó kondícióban, egészségesen éljenek, állatnak való ecet vízbe adagolását is javasoljuk. Ezeket havonta egyszer egy héten keresztül az ivóvizükbe keverve kell adagolni. A fürjek nagyon szeretik az apró magvakat, pl. repce, köles, valamint a zöldeket, pl. tyúkhúr.</p>',
-			],
-			'furj-tenyesztese'                 => ['Fürj tenyésztése', '<h1>Fürj tenyésztése</h1>
+		        ], [
+			        'code'        => 'furj-tenyesztese',
+			        'title'       => 'Fürj tenyésztése',
+			        'description' => 'A fürj tenyésztése nem egyszerű dolog, de megfelelő körültekintéssel komoly sikereket érhet el Ön is! Olvassa el minden részletre kiterjedő tájékoztatónkat!',
+			        'keywords'    => 'fürj tenyésztése, fürjtojás, japán fürj',
+			        'text'        => '<h1>Fürj tenyésztése</h1>
 					<p>A japán fürj gyors fejlődésének köszönhetően – 35 napos korában már ivarérett -, 40-45 napos kortól bevonható a tenyésztésbe. A tenyészállomány takarmányába vagy vizébe Laktiferm M+C adagolása ajánlott a sikeres hozam érdekében.</p>
 					<p>A fürj tenyésztése kapcsán hasznos tudni, hogy a fürj ritkán kotlik, ezért tojásait keltetőgéppel vagy törpetyúkkal tudjuk kikeltetni. Keltetési célra 2 hetesnél régebbi tojásokat ne használjunk. A keltetőben a hőmérséklet a 8. napig 37,8 °C, majd 37,5 °C, utolsó két napon pedig mindössze 37,2-37,3 °C legyen.</p>
 					<p>A páratartalom 55-65%, az utolsó két napban 75-80% legyen. A tojásokat napi kétszer meg kell forgatni. Ezen előírások betartása mellett a kelési eredmény 80-85%-os.</p>
@@ -666,15 +736,23 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fürj táplálása kapcsán a legfontosabb figyelni arra, hogy étrendjükben fehérjék, ásványi anyagok, nyomelemek, vitaminok aránya megfelelő legyen. A táppal történő etetéshez kiváló a fácán indító- és nevelő táp, figyeljünk annak fehérjetartalmára, legalább 18%-os legyen. Vitaminozásra kiváló termékek közül választhatunk, mint Jolovit, Laktiferm M+C, Columba stb. Ezeket az ivóvízbe keverten kell adagolni, havi egy héten keresztül. A fürjek etetése kiegészíthető apró magvak és zöldek által.</p>
 					<p>Tenyészetből vásárolt japánfürjek optimális tartásmód mellett általában a 8-10. héten kezdenek tojni. Első tojásuk tenyésztésre nem alkalmas, de étkezési célokra igen. Kifejezetten tojástermelési céllal tartott fürjek esetében célszerű tojófészek elhelyezése.</p>
 					<p>Egyes fürjtípusokat kizárólag hústermelésre tenyésztenek. 40 napos kortól lehet a fürjet táplálkozás céljából levágni és húsát felhasználni. Fürjhúsból ízletes levesek, sültek készíthetők.</p>',
-			],
-			'furjtojas-tarto'                  => ['Fürjtojás tartó', '<h1>Fürjtojás tartó</h1>
+		        ], [
+			        'code'        => 'furjtojas-tarto',
+			        'title'       => 'Fürjtojás tartó',
+			        'description' => 'Így néz ki az általunk használt Fürjtojás tartó. Amennyiben szeretné, szívesen megtöltjük Önnek füstölt vagy nyers fürjtojással! :)',
+			        'keywords'    => 'fürjtojás tartó, japán fürj, nyers fürjtojás, füstölt fürjtojás',
+			        'text'        => '<h1>Fürjtojás tartó</h1>
 					<p>Fürjtojás tárolására alkalmas tojástartó áttetsző műanyagból készül, csukható tetővel van ellátva és matricázható.</p>
 					<p>Méretét, illetve a tárolt tojás mennyiségét tekintve van 15 db fürjtojás tárolására alkalmas.</p>
 					<p>
 					<img style="height:747px; width:500px;" src="/uploads/furjtojas_15_darabos.jpg" alt="Fürjtojás 15 darabos">
 					</p>',
-			],
-			'furj-ketrecek'                    => ['Fürj ketrecek', '<h1>Fürj ketrecek</h1>
+		        ], [
+			        'code'        => 'furj-ketrecek',
+			        'title'       => 'Fürj ketrecek',
+			        'description' => 'A fürjtojás ketrec elkészítése nem túl bonyolult, olvass el leírásunkat! Tudja meg, melyek azok a fontos szempontok amelyekre oda kell figyelni!',
+			        'keywords'    => 'fürjtojás ketrec, ketrec készítés, japán fürj',
+			        'text'        => '<h1>Fürj ketrecek</h1>
 					<p>A fürj tartásához biztonságos, praktikus ketrecre van szükségünk</p>
 					<p><strong>A fürj ketrec ajánlott mérete</strong>: 125 x 60 x 35 centiméter.</p>
 					<p><strong>Padozat</strong>: Alapesetben rács, de a rács funkciója csak annyi hogy megtartsa a belehelyezett padlót, ami lehet OSB, CK lap, karton papír vagy műanyag háló. A padozat tálcaként is kihúzható a takarítást megkönnyítendő.</p>
@@ -683,8 +761,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fürj itató elmaradhatatlan kelléke a ketrecnek. Ahány tenyésztő, annyi fajta itató megoldás létezik. Van ki kívül, van ki belül, más lógatva vagy a padlóból kiindulva, olcsó vagy éppen drága berendezést használ itatásra. Kis ráfordítással, kreatívan mi magunk is készíthetünk itatóberendezést egyszerű üdítős flakon felhasználásával. Hogyan?</p>
 					<p>Szükségeltetik 1 db, nyulaknak szánt itatószelep, 1 db tetszés szerinti literes ásványvizes flakon kupakkal, spárga.</p>
 					<p>Első lépésként az ásványvizes flakon kupakját előbb vékony fúróval, majd 8,5-ös fúróval óvatosan sorja menetesre kifúrjuk, majd az itatószelepből eltávolítjuk az erős rugót, s rugó nélkül összerakjuk a szelepet és óvatosan a kupakba csavarozzuk. A flakon aljára spárgát kötünk, s egy kampóra akasztjuk. Ezután teletöltjük vízzel a flakont, és megfordítva, fejjel lefelé felakasztjuk. A fürjek a szelepen keresztül csipkedik ki a fizet a flakonból, s a felesleges víz összegyűjtésére a flakon alá edényt helyezhetünk, közepére célszerű nehezéket is tenni, nehogy felboruljon. Az itt összegyűlő koszos víz egyszerűen kiönthető.</p>',
-			],
-			'furjtojas-kura'                   => ['Fürjtojás kúra', '<h1>Fürjtojás kúra</h1>
+		        ], [
+			        'code'        => 'furjtojas-kura',
+			        'title'       => 'Fürjtojás kúra',
+			        'description' => 'Ön is hallott már a fürjtojás kúra csodálatos hatásairól? Tudjon meg róla mindent részletes tájékoztatónkból és tőlünk akár még a tojást is megrendelheti!',
+			        'keywords'    => 'fürjtojás kúra, nyers fürjtojás, japánfürj, egészséges ételek',
+			        'text'        => '<h1>Fürjtojás kúra</h1>
 					<p>A természetgyógyászat körében nem ismeretlen a fürjtojás kúra. A fürjtojás kúraszerű fogyasztása jótékony hatással van az emberi szervezetre, számos betegség megelőzésében és kezelésében alkalmazható.</p>
 					<p>A fürjtojás kúra lényege abból áll, hogy a fürjtojásokat éhgyomorra, nyersen kell elfogyasztani, csak így érvényesül jótékony hatásuk. A kúraszerű alkalmazás logikusan napi szinten történő fogyasztást jelent, egy alkalommal felnőtteknek 4-5, gyerekeknek 2-3 darab fürjtojás elfogyasztásával.</p>
 					<p>
@@ -765,8 +847,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					</table>
 					<p>&nbsp;</p>
 					<p>A vázolt fürjtojás kúra kétszer-háromszor megismétlendő, 1-4 hónapos szünet közbeiktatásával a biztos és tartós eredmény kedvéért. Egészséges emberek is nyugodtan fogyaszthatják, megelőzés céljából, ősszel-télen az immunrendszer védekezőképességének megerősítésére kimondottan ajánlott.</p>',
-			],
-			'furjtojas-hatasa'                 => ['Fürjtojás hatása', '<h1>Fürjtojás hatása></h1>
+		        ], [
+			        'code'        => 'furjtojas-hatasa',
+			        'title'       => 'Fürjtojás hatása',
+			        'description' => 'Tudta Ön, hogy a fürjtojás minden tojás közül a legegészségesebb? Olvassa el részletes tájékoztatónkat, így kedvet kap majd a fürjtojás kúrához is!',
+			        'keywords'    => 'fürjtojás hatása, fürjtojás kúra, fürjtojás, japán fürj',
+			        'text'        => '<h1>Fürjtojás hatása></h1>
 					<p>Ha az emberi szervezetből hiányzik a szükséges ásványi anyag, vitamin vagy aminosav készlet, romló egészségi állapothoz és betegségekhez vezethet. A vitamin és nyomelem-pótlás mellett az esszenciális aminosavak rendszeres használata hozzájárul a szervezet egyensúlyának visszaállításához és egészséges működéséhez.</p>
 					<p>A nyers fürjtojás fogyasztásának számos gyógyhatást tulajdonítanak. A fürjtojás kúra jótékony hatását már két hét múlva elkezdi kifejteni, de tartós eredmény természetesen csak rendszeres, megszakítás nélküli, ténylegesen kúraszerű fogyasztás után várható. A gyógyító fürjtojás hatása nyers fogyasztás esetén a leghatékonyabb, de a szervezetre gyakorolt pozitív élettani hatását főtt tojásként is kifejti, viszont figyeljünk a főzési időre, mert 15 perces hőkezelés után a vitaminok teljesen megsemmisülnek benne.</p>
 					<p>
@@ -777,8 +863,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>A fürjtojás hatása élettani is, hisz ott koncentrálódik az emberi szervezetben, ahol szükséges, kipótolja a szervezeti biológiai működéséhez szükséges meglévő hiányosságokat. A fürjtojás kúra alatt azonban életmódbeli változtatások betartása is szükséges, mint dohányzás mellőzése, koffeintartalmú italok és alkohol elhagyása, így erősíthető a test és állítható helyre az immunrendszer egyensúlya.</p>
 					<p>Jótékony beltartalma mellett a fürjtojás hatása kiemelendő azon a területen is, hogy energiaértéke igen magas, zsírsavjának 2/3-a telítetlen, 1/3-a telített zsírsav. A telítetlen zsírsavak jótékony hatást gyakorolnak az emberi szervezetre. Az omega-3 és omega-6 zsírsavak esszenciális zsírsavak, melyeket szervezetünk nem képes előállítani, csak táplálékkal tudjuk bejuttatni.</p>
 					<p>A japán fürj tojása vitaminokban is igen gazdag, megtalálhatóak benne az alábbi vitaminok: A-vitamin, Karotinoidok, Béta-karotin, E-vitamin, B1-vitamin, B2-vitamin, B6-vitamin, B12-vitamin, Nikotinsav, Folsav, Pantonénsav, Biotin, C-vitamin.</p>',
-			],
-			'furjtojas-tapasztalatok'          => ['Fürjtojás fogyasztásával kapcsolatos tapasztalatok', '<h1>Fürjtojás fogyasztásával kapcsolatos tapasztalatok</h1>
+		        ], [
+			        'code'        => 'furjtojas-tapasztalatok',
+			        'title'       => 'Fürjtojás fogyasztásával kapcsolatos tapasztalatok',
+			        'description' => 'Ön is szeretné kipróbálni a fürjtojás kúrát? Összegyűjtöttük Önnek azok tapasztalatait, akik már kipróbálták. Igény esetén még a tojásokat is megrendelheti!',
+			        'keywords'    => 'fürjtojás kúra, fürjtojás tapasztalatok, japán fürj, egészséges ételek',
+			        'text'        => '<h1>Fürjtojás fogyasztásával kapcsolatos tapasztalatok</h1>
 					<p>„Egy magazinban találtam rá a fürjtojás kúra hasznosságára. A cikk arról szólt, hogy japán, amerikai és orosz klinikákon folytatott kutatások kimutatták, hogy a fürj tojása számos betegségre gyógyhatással van. Én évek óta érelmeszesedéssel küzdök, mely bizony megkeseríti a mindennapjaim. A cikkben leírtak szerint 240 darab nyers fürjtojást kell elfogyasztani egy kúra alkalmával, napi 5 darab mennyiséggel, majd szünet után a kúra megismételendő. Nagy reménnyel fordultam a szokatlan „gyógyszerhez”, máris fürjtojás bevásárló-körútra indultam.</p>
 					<p>
 					<img src="/uploads/furjtojas.jpg" style="float:left; height:245px; width:368px; margin-right:15px;" title="Fürjtojás" alt="Fürjtojás">
@@ -787,17 +877,25 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<p>&nbsp;</p>
 					<p>„Férjemmel hosszabb ideje gyermeket tervezünk, de a gyermekáldás folyamatosan elkerül minket. Már ott jártunk, hogy meddőségi intézethez fordulunk és belevágunk egy lombik programba, amikor a reumámat kezelő természetgyógyászom javasolta, hogy végezzünk el egy fürjtojás kúrát. Soha nem hallottam még erről a dologról és megvallom, idegenkedve fogadtam a lehetőséget. Mind én, mind a férjem végigcsináltuk a fürjtojás kúrát, maximálisan betartva az előírásokat és a szünetet. A kontroll orvosi ellenőrző vizsgálaton megállapították, hogy férjem spermaszáma növekedett. Rövid idő múlva sikeresen megfogantam és spontán megszületett ma már 9 hónapos kislányunk. Azóta vettünk néhány fürjet otthonra és a mindennapi étkezésünk részévé vált a fürjtojás fogyasztása, amit csak ajánlani tudok a hasonló problémával küzdő pároknak.”</p>
 					<p>&nbsp;</p>
-					<p>„Egy kontroll orvosi vérképvizsgálaton derült fény arra, hogy vércukor szintem a megengedett érték négyszerese. Teljesen letaglózott a hír, hisz nem vagyok gyógyszerpárti, ezért örültem nagyon, amikor egy internetes fórumon rátaláltam a fürjtojás kúrára. Kapva a lehetőségen nekiláttam a 240 tojásos fürjtojás kúrának. Olvastam, hogy a fürjtojás kúra a cukorbetegség mellett számos egyéb baj esetén megoldást hozhat és megelőző céllal is alkalmazható. Nagyon érdekelt a dolog, bár nem tudtam mit várhatok tőle. Reggelente, éhgyomorra, nyersen, ízesítés nélkül megittam a napi öt darab fürjtojást, és betartottam, hogy csak 1,5-2 óra múlva reggelizhetek. Sokszor azt vettem észre, hogy egyáltalán nem vagyok éhes, annyira eltelített ez a tojásmennyiség, és csak délben éreztem éhségérzetet. Már egy hónap után felére csökkent a vércukor értékem. Természetesen megtartottam a szakorvosi tanácsot is, és beleegyeztem a legenyhébb gyógyszer (Meforal) szedésébe, s táplálkozási szokásaimon is változtattam, tudatosan étkeztem. A második hónapban tovább süllyedtek az értékeim, harmadik hónapban pedig 6,5-re csökkent a reggeli előtt mért vércukor szintem úgy, hogy két- és fél hónap után már csak fél szem tablettát vettem be esténként. A 250. darab fürjtojás elfogyasztása utáni négyhetes szünetben kíváncsian vártam hogyan változik vércukor értékem és örömmel konstatáltam, hogy sem a gyógyszer felezése, sem a fürjtojás-kúra szüneteltetése kapcsán nem romlottak az értékeim, hanem stagnáltak. Az egy hónapos kényszerszünet után alig vártam, hogy folytathassam a kúrát, s a második kúra végére vércukor értékem teljesen a normál állományba került és azóta sem volt problémám. Félve, de elhagytam a kapott gyógyszerem is, és vércukor szintem beállt az 5,8-6,2 közötti állományba és az eltelt 4 hónap óta sem emelkedett vissza. Vércukor értékem optimalizálásán túl a fürjtojás kúrának köszönhetem, hogy több energiám van napközben, reggelente magamtól ébredek, nemi aktivitásom is nőtt. A fürjtojás fogyasztás azóta is életem részévé vált, továbbra is nyersen fogyasztok alkalmilag pár darab fürjtojást.” – Forrás: Borbély László / <a title="Furjhaz.hu" href="http://www.furjhaz.hu" target="_blank" rel="nofollow">Furjhaz.hu',
-			],
-			'miert-a-furjtojas'                => ['Miért a fürjtojás?', '<h1>Miért a fürjtojás?</h1>
+					<p>„Egy kontroll orvosi vérképvizsgálaton derült fény arra, hogy vércukor szintem a megengedett érték négyszerese. Teljesen letaglózott a hír, hisz nem vagyok gyógyszerpárti, ezért örültem nagyon, amikor egy internetes fórumon rátaláltam a fürjtojás kúrára. Kapva a lehetőségen nekiláttam a 240 tojásos fürjtojás kúrának. Olvastam, hogy a fürjtojás kúra a cukorbetegség mellett számos egyéb baj esetén megoldást hozhat és megelőző céllal is alkalmazható. Nagyon érdekelt a dolog, bár nem tudtam mit várhatok tőle. Reggelente, éhgyomorra, nyersen, ízesítés nélkül megittam a napi öt darab fürjtojást, és betartottam, hogy csak 1,5-2 óra múlva reggelizhetek. Sokszor azt vettem észre, hogy egyáltalán nem vagyok éhes, annyira eltelített ez a tojásmennyiség, és csak délben éreztem éhségérzetet. Már egy hónap után felére csökkent a vércukor értékem. Természetesen megtartottam a szakorvosi tanácsot is, és beleegyeztem a legenyhébb gyógyszer (Meforal) szedésébe, s táplálkozási szokásaimon is változtattam, tudatosan étkeztem. A második hónapban tovább süllyedtek az értékeim, harmadik hónapban pedig 6,5-re csökkent a reggeli előtt mért vércukor szintem úgy, hogy két- és fél hónap után már csak fél szem tablettát vettem be esténként. A 250. darab fürjtojás elfogyasztása utáni négyhetes szünetben kíváncsian vártam hogyan változik vércukor értékem és örömmel konstatáltam, hogy sem a gyógyszer felezése, sem a fürjtojás-kúra szüneteltetése kapcsán nem romlottak az értékeim, hanem stagnáltak. Az egy hónapos kényszerszünet után alig vártam, hogy folytathassam a kúrát, s a második kúra végére vércukor értékem teljesen a normál állományba került és azóta sem volt problémám. Félve, de elhagytam a kapott gyógyszerem is, és vércukor szintem beállt az 5,8-6,2 közötti állományba és az eltelt 4 hónap óta sem emelkedett vissza. Vércukor értékem optimalizálásán túl a fürjtojás kúrának köszönhetem, hogy több energiám van napközben, reggelente magamtól ébredek, nemi aktivitásom is nőtt. A fürjtojás fogyasztás azóta is életem részévé vált, továbbra is nyersen fogyasztok alkalmilag pár darab fürjtojást.” – Forrás: Borbély László / <a title="Furjhaz.hu" href="http://www.furjhaz.hu" target="_blank" rel="nofollow">Furjhaz.hu</a></p>',
+		        ], [
+			        'code'        => 'miert-a-furjtojas',
+			        'title'       => 'Miért a fürjtojás?',
+			        'description' => 'A fürjre sokszor mondják, hogy a jövő baromfija, és nem alaptalanul. Ennek oka a fürjtojásban és a fürj húsában keresendő. Tudja meg miért!',
+			        'keywords'    => 'fürjtojás, japán fürj, fürj hús, fürj tartás',
+			        'text'        => '<h1>Miért a fürjtojás?</h1>
 					<p>A tojás az emberek legjelentősebb táplálékforrása. Ez így van napjainkban és így volt mindig is. A tojás mindig is egyszerűbben megszerezhető volt, mint például a hús, s mind tápértéke, mind fehérje- és zsírtartalma vetekszik a húséval. Számos szárnyas tojását fogyaszthatjuk, mégis az emberi étkezésben a tyúktojás fogyasztása a legelterjedtebb.</p>
 					<p>A fürjtojás tojásfehérje tartalma az összes többi emberi fogyasztásra alkalmas madár tojásától nagyobb. Míg pl. a tyúktojás 55% fehérjét tartalmaz, a fürj tojása 60% tojásfehérje tartalmú. Az egészségtudatos életmódra törekvő emberek többsége felfedezte már a fürjtojás abszolút elsőbbségét, amiben nemcsak tojásfehérje koncentrációjának mennyisége, hanem számos egyéb vitamintartalma is kiemelhető. Napjainkban egyre inkább előtérbe helyeződik a fürjtojás, szemben a hagyományos tyúktojással, a japán fürjet a jövő baromfijaként emlegetik.</p>
 					<p>Miért van szükségünk fehérjére, ezáltal miért hasznost tehát az emberi szervezet számára a tojásfehérje és a fürjtojás fehérjéje?</p>
 					<p>A fehérje a legjobb aminosav. Fehérjékre a szervezet minden sejtjének szüksége van, mindenféle szövet, szerv, izom növekedése és az elpusztult sejtek pótlása fehérjét kíván.&nbsp; A tojásfehérje, más néven albumin élettani jelentősége abban emelhető ki leginkább, hogy a baromfi a kevésbé értékes növényi fehérjék fogyasztása révén nagy értékű tökéletes fehérjét állít elő, erre az emberi szervezet nem képes. A fürjtojás igazi kincs, a legmagasabb biológia értékkel rendelkező fehérje-forrás. Egyetlen fürjtojás fehérjéje közel 3 dkg húsnak felel meg. A tojásfehérje pozitívuma, hogy könnyen és maximálisan emészthető, különösen főtt állapotban, s átalakítás, azaz sütés-főzés közben sem veszít értékéből. A fürjtojás fogyasztható nyersen, főzve, sütve, aszpikba, feldolgozva és füstölve egyaránt.</p>
 					<p>A fürjtojás tojásfehérje koncentrációja magasabb, mint a tyúktojásé, emellett beltartalma és magas vitaminértéke, valamint alacsony koleszterinszintje miatt is jóval hasznosabb az emberi szervezetnek, mint a hétköznapokban elterjedt tyúktojás. Kiemelendő tulajdonsága továbbá az eltarthatósága, hűtőben tárolva 90 napig, szobahőmérsékelten 30 napig őrzi meg szavatosságát.</p>
-					<p>Egy japán fürj éves tojáshozama megközelítőleg 300 darabra tehető.</p>
-			'],
-			'cegunkrol'                        => ['Céginformációk', '<h1>Céginformációk:</h1>
+					<p>Egy japán fürj éves tojáshozama megközelítőleg 300 darabra tehető.</p>',
+		        ], [
+			        'code'        => 'cegunkrol',
+			        'title'       => 'Céginformációk',
+			        'description' => 'Ismerje meg az 1989-ben Hiroe Akihisa által alapított vállalkozást, amely az egyetlen magyarországi fürjtojás feldolgozására specializálódott cég hazánkban.',
+			        'keywords'    => 'Tamago Kft, fürjtojás feldolgozás, füstölt fürjtojás, japán fürj',
+			        'text'        => '<h1>Céginformációk:</h1>
 					<ul>
 					<li>Cégünk hivatalos elnevezése: TAMAGO Fürjtojás Feldolgozó Korlátolt felelősségű társaság; Hatályos: 1991/03/08-tól</li>
 					<li>A cég rövidített elnevezés: TAMAGO Kft.; Hatályos: 1991/03/08-tól</li>
@@ -831,9 +929,12 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					<li>OMÉK’96 élelmiszeripari nagydíjas</li>
 					<li>FOODAPEST ’96 Élelmiszeripari kiállítás – Újdonság díj</li>
 					</ul>',
-			],
-			'kapcsolat'                        => ['Kapcsolat', '
-					<div class="right_map">
+		        ], [
+			        'code'        => 'kapcsolat',
+			        'title'       => 'Kapcsolat',
+			        'description' => 'Ön szeretne füstölt, nyers vagy natúr konzerv fürjtojást rendelni? Nálunk megteheti, országosan házhozszállítással vagy akár személyes átvétellel is!',
+			        'keywords'    => 'fürjtojás, tojás rendelés, elérhetőségeink',
+			        'text'        => '<div class="right_map">
 						<iframe scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=hu&geocode=&q=1163 Budapest, Albán Street 1, Hungary|47.5087086,19.175843699999973;t=m&z=10&iwloc=A&output=embed&iwloc=near" height="300" frameborder="0" width="400"></iframe>
 					</div>
 					<p>Tamago Kft.<br>
@@ -841,9 +942,8 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					Telefon: (06-1)-403-0459<br>
 					E-mail: info@furjtojas.eu<br>
 					Web: www.furjtojas.eu</p>
-					<p>Fürjtojás rendelése&nbsp;telefonon: (06)-30-655-8977</p>
-		'],
-		];
+					<p>Fürjtojás rendelése&nbsp;telefonon: (06)-30-655-8977</p>',
+		        ]];
 	}
 	
 	/**

@@ -6,8 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Controller\AbstractEggShopController;
-use App\Entity;
-use App\Service\Content\TextEntityFinder;
+use App\Service\Content\PageEntityFinder;
 
 /**
  * Class PageController
@@ -24,12 +23,12 @@ class PageController extends AbstractEggShopController {
 	 * @Route("/")
 	 * @Template("site/content/page/text.html.twig")
 	 *
-	 * @param TextEntityFinder $textFinder
+	 * @param PageEntityFinder $pageFinder
 	 * @return array
 	 */
-	public function indexAction(TextEntityFinder $textFinder) {
+	public function indexAction(PageEntityFinder $pageFinder) {
 		return [
-			'textEntity' => $textFinder->get('index'),
+			'textEntity' => $pageFinder->get('index'),
 		];
 	}
 	
@@ -41,12 +40,12 @@ class PageController extends AbstractEggShopController {
 	 * @Template
 	 *
 	 * @param string $code
-	 * @param TextEntityFinder $textFinder
+	 * @param PageEntityFinder $pageFinder
 	 * @return array
 	 */
-	public function textAction($code, TextEntityFinder $textFinder) {
+	public function textAction($code, PageEntityFinder $pageFinder) {
 		return [
-			'textEntity' => $textFinder->get($code),
+			'textEntity' => $pageFinder->get($code),
 		];
 		
 	}

@@ -25,12 +25,6 @@ class Text {
 	private $code;
 	
 	/**
-	 * @var string Page title.
-	 * @ORM\Column(name="title", type="string", length=255, nullable=true, options={"fixed" = true})
-	 */
-	private $title;
-	
-	/**
 	 * @var string
 	 * @ORM\Column(name="text", type="text")
 	 */
@@ -62,23 +56,6 @@ class Text {
 	 */
 	public function setCode($code) {
 		$this->code = $code;
-		
-		return $this;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
-	
-	/**
-	 * @param string $title
-	 * @return Text
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
 		
 		return $this;
 	}

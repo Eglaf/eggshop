@@ -27,6 +27,10 @@ class RegistrationType extends AbstractType {
 			->add('email', Type\EmailType::class, [
 				'label' => 'email',
 			])
+			->add('phone', Type\TextType::class, [
+				'label'    => 'phone',
+				'required' => FALSE,
+			])
 			->add('plainPassword', Type\RepeatedType::class, [
 				'type'            => Type\PasswordType::class,
 				'invalid_message' => 'form.user.two_password_must_match',

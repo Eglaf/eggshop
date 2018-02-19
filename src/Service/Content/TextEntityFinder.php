@@ -4,7 +4,6 @@ namespace App\Service\Content;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Service\Content\TextWithParams;
 use App\Entity\Content\Text;
 
 /**

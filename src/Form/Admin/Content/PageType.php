@@ -7,12 +7,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use App\Entity\Content\Text;
+use App\Entity\Content\Page;
 
 /**
- * Class TextType
+ * Class PageType
  */
-class TextType extends AbstractType {
+class PageType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -24,6 +24,18 @@ class TextType extends AbstractType {
 			->add('code', Type\TextType::class, [
 				'label' => 'identifier',
 				'disabled' => TRUE,
+			])
+			->add('title', Type\TextType::class, [
+				'label' => 'title',
+				'required' => FALSE,
+			])
+			->add('description', Type\TextareaType::class, [
+				'label' => 'title',
+				'required' => FALSE,
+			])
+			->add('keywords', Type\TextType::class, [
+				'label' => 'keywords',
+				'required' => FALSE,
 			])
 			->add('text', Type\TextareaType::class, [
 				'label' => 'text',
@@ -39,7 +51,7 @@ class TextType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Text::class,
+			'data_class' => Page::class,
 		]);
 	}
 	

@@ -3,19 +3,18 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'page_title.admin.file.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.page.list'|trans }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
-    {% include 'admin/adminMenu.html.twig' with {activeMenu:'file'} %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'page'} %}
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_content_file_create', 'create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'page_title.admin.file.list'|trans }}
+    {{ 'page_title.admin.page.list'|trans }}
 {% endblock %}
 
 {% block adminContent %}
@@ -50,8 +49,13 @@
                 globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "label"|trans }}',
-                property: 'label',
+                text:     '{{ "identifier"|trans }}',
+                property: 'code',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     '{{ "title"|trans }}',
+                property: 'title',
                 search:   'string',
                 sort:     true
             }, {
@@ -60,17 +64,12 @@
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "image"|trans }}',
-                func: function (row) {
-                    return "<img src='{{ uploadsDir }}" + row.storageName + "' style='max-height:50px;' />";
-                }
-            }, {
                 text: '',
                 func: function (row) {
                     var url = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_content_file_update', {'file':'_id_'}) }}')
+                        .setRoute('{{ path('app_admin_content_page_update', {'code':'_code_'}) }}')
                         .setParams({
-                            '_id_': row.id
+                            '_code_': row.code
                         })
                         .getUrl();
 

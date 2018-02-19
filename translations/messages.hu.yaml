@@ -39,6 +39,8 @@ name: Név
 next: Következő
 order: Rendelés
 orders: Rendelések
+page: Oldal
+pages: Oldalak
 password: Jelszó
 password_new: Új jelszó
 password_old: Régi jelszó
@@ -104,6 +106,9 @@ page_title:
     text:
       list: Szöveges tartalmak
       update: Szöveg módosítás (%text%)
+    page:
+      list: Oldalak
+      update: Oldal módosítás
     file:
       list: Feltöltött filék
       create: Új file
@@ -135,6 +140,8 @@ form:
   user:
     old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
     no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
+  page:
+    keywords: Kereső szavak, vesszővel elválasztva.
 
 nav:
   order:

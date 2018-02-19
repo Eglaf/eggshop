@@ -54,6 +54,12 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	private $email;
 	
 	/**
+	 * @var string
+	 * @ORM\Column(type="string", length=32, nullable=true, options={"fixed" = true})
+	 */
+	private $phone;
+	
+	/**
 	 * @var string Temporally password.
 	 * @Assert\NotBlank(groups={"registration"})
 	 * @Assert\Length(min=8, max=64)
@@ -466,6 +472,23 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	 */
 	public function setOrders($orders) {
 		$this->orders = $orders;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPhone() {
+		return $this->phone;
+	}
+	
+	/**
+	 * @param string $phone
+	 * @return User
+	 */
+	public function setPhone($phone) {
+		$this->phone = $phone;
 		
 		return $this;
 	}

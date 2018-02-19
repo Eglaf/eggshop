@@ -115,6 +115,10 @@ class NewOrderController extends AbstractEggShopController {
 			$this->addressToSession($session, $addressesForm, 'delivery');
 			$this->addressToSession($session, $addressesForm, 'billing');
 			
+			if ($addressesForm->get('comment')->getData() && strlen($addressesForm->get('comment')->getData())) {
+				$session->set('order_comment', $addressesForm->get('comment')->getData());
+			}
+			
 			return $this->redirectToRoute('app_site_simpleshop_neworder_confirmbeforeorder');
 		}
 		
@@ -196,6 +200,11 @@ class NewOrderController extends AbstractEggShopController {
 		}
 		
 		$this->getDm()->flush();
+		
+		// Check new order.
+		if ( ! Util::isNaturalNumber($order->getId())) {
+			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
+		}
 		
 		$session->set('cart', []);
 		$session->set("deliveryAddressId", NULL);
