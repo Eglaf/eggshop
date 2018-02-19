@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Content;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
@@ -20,8 +21,8 @@ class PageController extends AbstractController {
 	
 	/**
 	 * List of Product Categories.
-	 * @param Serializer     $serializer     Service to convert entities into json.
-	 * @param PageRepository $pageRepository Repository service of categories.
+	 * @param Serializer          $serializer     Service to convert entities into json.
+	 * @param PageRepository      $pageRepository Repository service of categories.
 	 * @return array
 	 *
 	 * RouteName: app_admin_content_page_list
@@ -38,28 +39,29 @@ class PageController extends AbstractController {
 	
 	/**
 	 * Update a Page.
+	 * @param string              $code
+	 * @param TranslatorInterface $translator
+	 * @param PageRepository      $pageRepository
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_content_page_update
 	 * @Route("/admin/page/update/{code}")
 	 * @Template("admin/content/page/form.html.twig")
-	 *
-	 * @param string         $code
-	 * @param PageRepository $pageRepository
-	 * @return array|RedirectResponse
 	 */
-	public function updateAction($code, PageRepository $pageRepository) {
+	public function updateAction($code, TranslatorInterface $translator, PageRepository $pageRepository) {
 		/** @var Page $page */
 		$page = $pageRepository->findOneBy(['code' => $code]);
 		
-		return $this->form($page);
+		return $this->form($page, $translator);
 	}
 	
 	/**
 	 * Generate form view to Product Page.
-	 * @param Page $page
+	 * @param Page                $page
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Page $page) {
+	protected function form(Page $page, TranslatorInterface $translator) {
 		// Create form.
 		$form = $this->createForm(PageFormType::class, $page);
 		$form->handleRequest($this->getRq());
@@ -69,7 +71,9 @@ class PageController extends AbstractController {
 			$this->getDm()->persist($page);
 			$this->getDm()->flush();
 			
-			// return $this->redirectToRoute('app_admin_content_page_list');
+			$this->addFlash('success', $translator->trans('message.success.saved'));
+			
+			return $this->redirectToRoute('app_admin_content_page_list');
 		}
 		
 		// Form view.

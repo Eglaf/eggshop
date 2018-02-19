@@ -38,7 +38,7 @@ class UserUpdateType extends AbstractType {
 			->add('plainPassword', Type\RepeatedType::class, [
 				'required'        => FALSE,
 				'type'            => Type\PasswordType::class,
-				'invalid_message' => 'message.user.two_password_must_match',
+				'invalid_message' => 'two_password_must_match',
 				'options'         => ['attr' => ['class' => 'password-field']],
 				'first_options'   => ['label' => 'password_new'],
 				'second_options'  => ['label' => 'password_repeat'],

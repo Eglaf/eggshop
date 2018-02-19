@@ -2,6 +2,7 @@
 
 namespace App\Entity\User;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,24 +35,32 @@ class Address {
 	
 	/**
 	 * @var string
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=2, max=255, minMessage="too_short", maxMessage="too_long")
 	 * @ORM\Column(name="city", type="string", length=255, options={"fixed" = true})
 	 */
 	private $city;
 	
 	/**
 	 * @var string
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=16, minMessage="too_short", maxMessage="too_long")
 	 * @ORM\Column(name="zipCode", type="string", length=16, options={"fixed" = true})
 	 */
 	private $zipCode;
 	
 	/**
 	 * @var string
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=128, minMessage="too_short", maxMessage="too_long")
 	 * @ORM\Column(name="street", type="string", length=128, options={"fixed" = true})
 	 */
 	private $street;
 	
 	/**
 	 * @var string
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=1, max=16, minMessage="too_short", maxMessage="too_long")
 	 * @ORM\Column(name="houseNumber", type="string", length=16, options={"fixed" = true})
 	 */
 	private $houseNumber;

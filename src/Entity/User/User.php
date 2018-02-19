@@ -40,22 +40,24 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	
 	/**
 	 * @var string
-	 * @Assert\NotBlank()
-	 * @Assert\Length(min=4, max=64)
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=64, minMessage="too_short", maxMessage="too_long")
 	 * @ORM\Column(type="string", length=64, options={"fixed" = true})
 	 */
 	private $name;
 	
 	/**
 	 * @var string
-	 * @Assert\Email
+	 * @Assert\Email(message="invalid_email")
 	 * @ORM\Column(type="string", length=128, unique=true, options={"fixed" = true})
 	 */
 	private $email;
 	
 	/**
 	 * @var string
-	 * @ORM\Column(type="string", length=32, nullable=true, options={"fixed" = true})
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=7, max=16, minMessage="too_short", maxMessage="too_long")
+	 * @ORM\Column(type="string", length=16, options={"fixed" = true})
 	 */
 	private $phone;
 	

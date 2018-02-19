@@ -62,7 +62,7 @@
 
         {{ self.printAddress('delivery', delivery.title, delivery.city, delivery.zipCode, delivery.street, delivery.houseNumber, delivery.doorBell, delivery.floor, delivery.door) }}
     {% else %}
-        {{ 'message.order.no_delivery_address'|trans }}
+        {{ 'message.info.no_delivery_address'|trans }}
     {% endif %}
 
     {% if billingAddress or app.session.get('newBillingAddress') %} {# Billing address #}
@@ -74,7 +74,7 @@
 
         {{ self.printAddress('billing', billing.title, billing.city, billing.zipCode, billing.street, billing.houseNumber, billing.doorBell, billing.floor, billing.door) }}
     {% else %}
-        {{ 'message.order.no_billing_address'|trans }}
+        {{ 'message.info.no_billing_address'|trans }}
     {% endif %}
 
     {% if app.session.get('order_comment') %}

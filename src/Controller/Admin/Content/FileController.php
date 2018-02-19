@@ -2,16 +2,18 @@
 
 namespace App\Controller\Admin\Content;
 
-use App\Egf\Ancient\AbstractController;
-use App\Egf\Util;
-use App\Entity\Content\File;
-use App\Form\Admin\Content\FileType as FileFormType;
-use App\Service\Serializer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
+
+use App\Egf\Ancient\AbstractController;
+use App\Egf\Util;
+use App\Entity\Content\File;
+use App\Form\Admin\Content\FileType as FileFormType;
+use App\Service\Serializer;
 
 /**
  * Class FileController
@@ -87,39 +89,40 @@ class FileController extends AbstractController {
 	
 	/**
 	 * Create a File.
+	 * @param TranslatorInterface $translator
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_content_file_create
 	 * @Route("/admin/file/create")
 	 * @Template("admin/content/file/form.html.twig")
-	 *
-	 * @return array|RedirectResponse
 	 */
-	public function createAction() {
-		return $this->form(new File());
+	public function createAction(TranslatorInterface $translator) {
+		return $this->form(new File(), $translator);
 	}
 	
 	/**
 	 * Update a File File.
+	 * @param File $file
+	 * @param TranslatorInterface $translator
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_content_file_update
 	 * @Route("/admin/file/update/{file}", requirements={"file"="\d+|_id_"})
 	 * @Template("admin/content/file/form.html.twig")
-	 *
-	 * @param File $file
-	 * @return array|RedirectResponse
 	 */
-	public function updateAction(File $file) {
+	public function updateAction(File $file, TranslatorInterface $translator) {
 		$file->setFile(new \Symfony\Component\HttpFoundation\File\File("{$this->getParameter('app.uploads_save_directory')}/{$file->getStorageName()}"));
 		
-		return $this->form($file);
+		return $this->form($file, $translator);
 	}
 	
 	/**
 	 * Generate form view to File File.
 	 * @param File $file
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(File $file) {
+	protected function form(File $file, TranslatorInterface $translator) {
 		// Create form.
 		$form = $this->createForm(FileFormType::class, $file);
 		$form->handleRequest($this->getRq());
@@ -137,6 +140,8 @@ class FileController extends AbstractController {
 				$file->setStorageName($fileName)
 				     ->setMimeType($uploadedFile->getClientMimeType());
 			}
+			
+			$this->addFlash('success', $translator->trans('message.success.saved'));
 			
 			$this->getDm()->persist($file);
 			$this->getDm()->flush();

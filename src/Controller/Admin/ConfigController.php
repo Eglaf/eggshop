@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Controller\AbstractEggShopController;
@@ -35,24 +36,25 @@ class ConfigController extends AbstractEggShopController {
 	
 	/**
 	 * Update a Product Config.
+	 * @param Config $config
+	 * @param TranslatorInterface $translator
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_config_update
 	 * @Route("/admin/config/update/{config}", requirements={"config"="\d+|_id_"})
 	 * @Template("admin/config/form.html.twig")
-	 *
-	 * @param Config $config
-	 * @return array|RedirectResponse
 	 */
-	public function updateAction(Config $config) {
-		return $this->form($config);
+	public function updateAction(Config $config, TranslatorInterface $translator) {
+		return $this->form($config, $translator);
 	}
 	
 	/**
 	 * Generate form view to Product Config.
 	 * @param Config $config
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Config $config) {
+	protected function form(Config $config, $translator) {
 		// Create form.
 		$form = $this->createForm(ConfigFormType::class, $config);
 		$form->handleRequest($this->getRq());
@@ -61,6 +63,8 @@ class ConfigController extends AbstractEggShopController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->getDm()->persist($config);
 			$this->getDm()->flush();
+			
+			$this->addFlash('success', $translator->trans('message.success.saved'));
 			
 			return $this->redirectToRoute('app_admin_config_list');
 		}

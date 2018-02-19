@@ -21,7 +21,7 @@ class File {
 	
 	/**
 	 * @var \Symfony\Component\HttpFoundation\File\File The file itself.
-	 * @Assert\NotBlank(message="Please upload a file.")
+	 * @Assert\NotBlank(message="file_upload")
 	 * @Assert\File(mimeTypes={"image/jpeg", "image/png"})
 	 */
 	private $file;

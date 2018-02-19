@@ -31,8 +31,10 @@ class CategoryRepository extends ServiceEntityRepository {
 	public function findAllWithActiveProducts() {
 		return $this
 			->createQueryBuilder('c')
-			->addSelect('p')
 			->leftJoin('c.products', 'p')
+			->addSelect('p')
+			->leftJoin('p.image', 'i')
+			->addSelect('i')
 			->where('p.active = true')
 			->getQuery()
 			->getResult();

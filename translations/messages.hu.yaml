@@ -70,23 +70,6 @@ value: Érték
 zip_code: Irányítószám
 
 page_title:
-  site:
-    base: Fürjtojás - Japán fürj
-    registration: Regisztrálás
-    login: Bejelentkezés
-    new_order:
-      select_products: Termékek kiválasztása
-      select_addresses: Címek kiválasztása
-      confirm: Rendelés megerősítése
-      submitted: Rendelés feladva
-    profile:
-      main: Profil oldal
-      earlier_orders: Korábbi rendelések
-      earlier_order_details: Korábbi rendelés részletei
-      address_list: Címek
-      address_create: Cím létrehozás
-      address_update: Cím szerkesztés
-      user_update: Bejelentkezési adatok szerkesztése
   admin:
     base: Admin
     order:
@@ -120,6 +103,23 @@ page_title:
     config:
       list: Beállítások
       update: Beállítás módosítás (%config%)
+  site:
+    base: Fürjtojás - Japán fürj
+    registration: Regisztrálás
+    login: Bejelentkezés
+    new_order:
+      select_products: Termékek kiválasztása
+      select_addresses: Címek kiválasztása
+      confirm: Rendelés megerősítése
+      submitted: Rendelés feladva
+    profile:
+      main: Profil oldal
+      earlier_orders: Korábbi rendelések
+      earlier_order_details: Korábbi rendelés részletei
+      address_list: Címek
+      address_create: Cím létrehozás
+      address_update: Cím szerkesztés
+      user_update: Bejelentkezési adatok szerkesztése
 
 menu:
   site:
@@ -128,6 +128,8 @@ menu:
     admin: Admin felület
 
 form:
+  order:
+    delete_confirm_text: Biztos törli?
   order_address:
     ask_for_delivery_address: Kiszállítási cím megadása
     select_delivery_address: Kiszállítási cím
@@ -137,11 +139,11 @@ form:
     select_billing_address: Számlázási cím
     ask_for_new_billing_address: Új számlázási cím
     new_billing_address: Számázási cím
+  page:
+    keywords: Kereső szavak, vesszővel elválasztva.
   user:
     old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
     no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
-  page:
-    keywords: Kereső szavak, vesszővel elválasztva.
 
 nav:
   order:
@@ -149,6 +151,7 @@ nav:
       back_to_products: Vissza a termékekhez
       back_to_addresses: Vissza a címekhez
       submit_order: Rendelés feladása
+    add_item: Termék hozzáadás
   profile:
     earlier_orders: Korábbi rendelések
     user_update: Aadatok megváltoztatása
@@ -160,14 +163,21 @@ nav:
     back_to_product_update: Termék adatok módosítása
     currently_selected: Jelenleg kiválasztott
     select_this_one: Kiválaszás
+  user:
+    new_order: Új rendelés
 
 message:
-  order:
-    no_delivery_address: Nincs szállítási cím kiválasztva
-    no_billing_address: Nincs számlázási cím kiválasztva
-  user:
-    two_password_must_match: A két jelszó nem egyezik
-    old_password_invalid: A régi jelszó nem érvényes
+  success:
+    saved: Sikeres mentés.
+    user_changes_saved: Felhasználói adatok megváltoztatása sikeres.
+  info:
+    no_delivery_address: Nincs szállítási cím kiválasztva.
+    no_billing_address: Nincs számlázási cím kiválasztva.
+  warning:
+    order_with_duplicated_products: Egy termék többször van beállítva (%product%)!
+  error:
+    order_wasnt_created: Probléma volt a rendelés létrehozása során. Kérjük próbálja meg újra.
+    old_password_invalid: A régi jelszó nem érvénye!
 
 exception:
   404:

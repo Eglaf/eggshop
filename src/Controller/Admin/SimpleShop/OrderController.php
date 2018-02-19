@@ -4,6 +4,7 @@ namespace App\Controller\Admin\SimpleShop;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
@@ -44,6 +45,7 @@ class OrderController extends AbstractController {
 	/**
 	 * Details of an Order.
 	 * @param Order           $order
+	 * @param ConfigReader    $configReader
 	 * @param OrderRepository $orderRepository
 	 * @return array
 	 *
@@ -63,39 +65,42 @@ class OrderController extends AbstractController {
 	 * Create an Order.
 	 * It should come from the list of users page.
 	 * @param User $user
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_order_create
 	 * @Route("/admin/order/create/{user}", requirements={"user"="\d+|_id_"})
 	 * @Template("admin/simple_shop/order/form.html.twig")
 	 */
-	public function createAction(User $user) {
+	public function createAction(User $user, TranslatorInterface $translator) {
 		$order = (new Order())
 			->setUser($user)
 			->setDate(new \DateTime());
 		
-		return $this->form($order);
+		return $this->form($order, $translator);
 	}
 	
 	/**
 	 * Update an Order.
 	 * @param Order $order
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_order_update
 	 * @Route("/admin/order/update/{order}", requirements={"order"="\d+|_id_"})
 	 * @Template("admin/simple_shop/order/form.html.twig")
 	 */
-	public function updateAction(Order $order) {
-		return $this->form($order);
+	public function updateAction(Order $order, TranslatorInterface $translator) {
+		return $this->form($order, $translator);
 	}
 	
 	/**
 	 * Generate form view to Order.
 	 * @param Order $order
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Order $order) {
+	protected function form(Order $order, TranslatorInterface $translator) {
 		// Original items.
 		$originalItems = [];
 		foreach ($order->getItems() as $originalItem) {
@@ -133,12 +138,16 @@ class OrderController extends AbstractController {
 			foreach ($order->getItems() as $item) {
 				foreach ($order->getItems() as $itemAgain) {
 					if ($item->getId() !== $itemAgain->getId() && $item->getProduct()->getId() === $itemAgain->getProduct()->getId()) {
-						$this->addFlash('warning', "Duplicated products! ({$item->getProduct()->getLAbel()})");
+						$warning = $translator->trans('message.warning.order_with_duplicated_products', ['%product%' => $item->getProduct()->getLabel()]);
+						$this->addFlash('warning', $warning);
 						
 						return $this->redirectToRoute('app_admin_simpleshop_order_update', ['order' => $order->getId()]);
 					}
 				}
 			}
+			
+			$warning = $translator->trans('message.success.saved');
+			$this->addFlash('success', $warning);
 			
 			return $this->redirectToRoute('app_admin_simpleshop_order_list');
 		}

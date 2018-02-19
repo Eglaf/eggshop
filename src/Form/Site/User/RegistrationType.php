@@ -33,7 +33,7 @@ class RegistrationType extends AbstractType {
 			])
 			->add('plainPassword', Type\RepeatedType::class, [
 				'type'            => Type\PasswordType::class,
-				'invalid_message' => 'form.user.two_password_must_match',
+				'invalid_message' => 'two_password_must_match',
 				'options'         => ['attr' => ['class' => 'password-field']],
 				'required'        => TRUE,
 				'first_options'   => ['label' => 'password'],

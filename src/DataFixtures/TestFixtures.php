@@ -21,6 +21,7 @@ class TestFixtures extends AbstractFixture implements DependentFixtureInterface 
 		$u1 = $this->newEntity(User::class, [
 			'name'     => 'teszt juzer',
 			'email'    => 'teszt@teszt.ts',
+			'phone'    => '1234567',
 			'password' => '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC',
 			'role'     => 'ROLE_USER',
 			'active'   => TRUE,

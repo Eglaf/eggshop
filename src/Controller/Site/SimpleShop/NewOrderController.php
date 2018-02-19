@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Util;
@@ -41,6 +42,8 @@ class NewOrderController extends AbstractEggShopController {
 			'productEntities' => $this->getSimpleShopProductRepository()->findBy(['active' => TRUE]),
 			'cart'            => $session->get('cart'),
 		]);
+		
+		$configReader->preload(['minimum-order-price-to-deliver', 'order-delivery-price', 'order-no-delivery-price-above-sum', 'admin-email', 'admin-phone']);
 		
 		return [
 			'categories'              => $this->getSimpleShopCategoryRepository()->findAllWithActiveProducts(),
@@ -168,13 +171,14 @@ class NewOrderController extends AbstractEggShopController {
 	
 	/**
 	 * Save the submitted order.
+	 * @param TranslatorInterface $translator
 	 * @param SessionInterface $session
 	 * @return RedirectResponse
 	 *
 	 * RouteName: app_site_simpleshop_neworder_submitorder
 	 * @Route("online-rendeles/mentes")
 	 */
-	public function submitOrderAction(SessionInterface $session) {
+	public function submitOrderAction(SessionInterface $session, TranslatorInterface $translator) {
 		$cartProducts = $this->getCartProducts($session);
 		
 		// If no product is selected.
@@ -203,6 +207,8 @@ class NewOrderController extends AbstractEggShopController {
 		
 		// Check new order.
 		if ( ! Util::isNaturalNumber($order->getId())) {
+			$this->addFlash('error', $translator->trans('message.error.order_wasnt_created'));
+			
 			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
 		}
 		

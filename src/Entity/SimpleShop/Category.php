@@ -60,7 +60,8 @@ class Category {
 	/**
 	 * @var string
 	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=64, minMessage="too_short", maxMessage="too_long")
 	 */
 	private $label;
 	

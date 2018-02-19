@@ -17,7 +17,6 @@ use App\Entity\User\User;
 
 /**
  * Class ProfileController
- * todo remove username! email only!
  */
 class ProfileController extends AbstractEggShopController {
 	
@@ -91,6 +90,7 @@ class ProfileController extends AbstractEggShopController {
 	/**
 	 * Details of an earlier order.
 	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param TranslatorInterface $translator
 	 * @return array
 	 *
 	 * RouteName: app_site_user_profile_userupdate
@@ -113,10 +113,12 @@ class ProfileController extends AbstractEggShopController {
 					$user->setPassword($newPassword);
 				}
 				
+				$this->addFlash('success', $translator->trans('message.success.user_changes_saved'));
+				
 				$this->getDm()->flush();
 			}
 			else {
-				$form->addError(new FormError($translator->trans('message.user_data.old_password_invalid')));
+				$form->addError(new FormError($translator->trans('message.error.old_password_invalid')));
 			}
 		}
 		

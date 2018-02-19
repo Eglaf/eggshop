@@ -4,6 +4,7 @@ namespace App\Controller\Admin\SimpleShop;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Controller\AbstractEggShopController;
@@ -38,38 +39,38 @@ class CategoryController extends AbstractEggShopController {
 	
 	/**
 	 * Create a Product Category.
+	 * @param TranslatorInterface $translator
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_category_create
 	 * @Route("/admin/category/create")
 	 * @Template("admin/simple_shop/category/form.html.twig")
-	 *
-	 * @return array|RedirectResponse
 	 */
-	
-	public function createAction() {
-		return $this->form(new Category());
+	public function createAction(TranslatorInterface $translator) {
+		return $this->form(new Category(), $translator);
 	}
 	
 	/**
 	 * Update a Product Category.
+	 * @param Category $category
+	 * @param TranslatorInterface $translator
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_category_update
 	 * @Route("/admin/category/update/{category}", requirements={"category"="\d+|_id_"})
 	 * @Template("admin/simple_shop/category/form.html.twig")
-	 *
-	 * @param Category $category
-	 * @return array|RedirectResponse
 	 */
-	public function updateAction(Category $category) {
-		return $this->form($category);
+	public function updateAction(Category $category, TranslatorInterface $translator) {
+		return $this->form($category, $translator);
 	}
 	
 	/**
 	 * Generate form view to Product Category.
 	 * @param Category $category
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Category $category) {
+	protected function form(Category $category, TranslatorInterface $translator) {
 		// Create form.
 		$form = $this->createForm(CategoryFormType::class, $category);
 		$form->handleRequest($this->getRq());
@@ -79,7 +80,9 @@ class CategoryController extends AbstractEggShopController {
 			$this->getDm()->persist($category);
 			$this->getDm()->flush();
 			
-			return $this->redirectToRoute('app_admin_category_list');
+			$this->addFlash('success', $translator->trans('message.success.saved'));
+			
+			return $this->redirectToRoute('app_admin_simpleshop_category_list');
 		}
 		
 		// Form view.

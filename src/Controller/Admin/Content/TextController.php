@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Content;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Ancient\AbstractController;
@@ -38,28 +39,29 @@ class TextController extends AbstractController {
 	
 	/**
 	 * Update a Product Text.
+	 * @param string         $code
+	 * @param TranslatorInterface $translator
+	 * @param TextRepository $textRepository
+	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_content_text_update
 	 * @Route("/admin/text/update/{code}")
 	 * @Template("admin/content/text/form.html.twig")
-	 *
-	 * @param string         $code
-	 * @param TextRepository $textRepository
-	 * @return array|RedirectResponse
 	 */
-	public function updateAction($code, TextRepository $textRepository) {
+	public function updateAction($code, TranslatorInterface $translator, TextRepository $textRepository) {
 		/** @var Text $text */
 		$text = $textRepository->findOneBy(['code' => $code]);
 		
-		return $this->form($text);
+		return $this->form($text, $translator);
 	}
 	
 	/**
 	 * Generate form view to Product Text.
 	 * @param Text $text
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Text $text) {
+	protected function form(Text $text, TranslatorInterface $translator) {
 		// Create form.
 		$form = $this->createForm(TextFormType::class, $text);
 		$form->handleRequest($this->getRq());
@@ -69,7 +71,9 @@ class TextController extends AbstractController {
 			$this->getDm()->persist($text);
 			$this->getDm()->flush();
 			
-			// return $this->redirectToRoute('app_admin_content_text_list');
+			$this->addFlash('success', $translator->trans('message.success.saved'));
+			
+			return $this->redirectToRoute('app_admin_content_text_list');
 		}
 		
 		// Form view.

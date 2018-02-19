@@ -1,0 +1,6 @@
+not_blank: Ezt a mezőt ne hagyja üresen!
+too_short: Minimum {{ limit }} karaktert adjon meg!
+too_long: Maximum {{ limit }} karaktert adjon meg!
+invalid_email: Érvényes e-mail címet adjon meg!
+file_upload: Töltse fel a fájlt!
+two_password_must_match: A két jelszó nem egyezik!

@@ -49,7 +49,7 @@
 
         <div class="col-sm-10 pull-right">
             <a href="#" id="add-another-item" class="btn btn-default">
-                {{ 'admin.order.add_item'|trans }}
+                {{ 'nav.order.add_item'|trans }}
             </a>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <script type="text/javascript">
         var itemsCount = '{{ formView.items|length }}';
         var deleteLabel = '{{ "delete"|trans }}';
-        var deleteConfirmText = '{{ "admin.order.delete_confirm_text"|trans }}';
+        var deleteConfirmText = '{{ "form.order.delete_confirm_text"|trans }}';
     </script>
 
     <script type="text/javascript" src="{{ asset('js/admin/simpleshop-order-form.js') }}"></script>

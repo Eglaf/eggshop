@@ -2,6 +2,7 @@
 
 namespace App\Entity\SimpleShop;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -75,6 +76,8 @@ class Product {
 	/**
 	 * @var string
 	 * @ORM\Column(name="label", type="string", length=128, options={"fixed" = true})
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=64, minMessage="too_short", maxMessage="too_long")
 	 */
 	private $label;
 	

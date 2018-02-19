@@ -4,6 +4,7 @@ namespace App\Controller\Admin\SimpleShop;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Egf\Util;
@@ -39,35 +40,38 @@ class ProductController extends AbstractEggShopController {
 	
 	/**
 	 * Create a Product.
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_product_create
 	 * @Route("/admin/product/create")
 	 * @Template("admin/simple_shop/product/form.html.twig")
 	 */
-	public function createAction() {
-		return $this->form(new Product());
+	public function createAction(TranslatorInterface $translator) {
+		return $this->form(new Product(), $translator);
 	}
 	
 	/**
 	 * Update a Product.
 	 * @param Product $product
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_product_update
 	 * @Route("/admin/product/update/{product}", requirements={"product"="\d+|_id_"})
 	 * @Template("admin/simple_shop/product/form.html.twig")
 	 */
-	public function updateAction(Product $product) {
-		return $this->form($product);
+	public function updateAction(Product $product, TranslatorInterface $translator) {
+		return $this->form($product, $translator);
 	}
 	
 	/**
 	 * Generate form view to Product.
 	 * @param Product $product
+	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 */
-	protected function form(Product $product) {
+	protected function form(Product $product, TranslatorInterface $translator) {
 		// Create form.
 		$form = $this->createForm(ProductFormType::class, $product);
 		$form->handleRequest($this->getRq());
@@ -76,6 +80,8 @@ class ProductController extends AbstractEggShopController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->getDm()->persist($product);
 			$this->getDm()->flush();
+			
+			$this->addFlash('success', $translator->trans('message.success.order.saved'));
 			
 			return $this->redirectToRoute('app_admin_simpleshop_product_list');
 		}
@@ -109,14 +115,17 @@ class ProductController extends AbstractEggShopController {
 	 * Add the selected imageFile to the Product.
 	 * @param Product $product
 	 * @param File    $file
+	 * @param TranslatorInterface $translator
 	 * @return RedirectResponse
 	 *
 	 * RouteName: app_admin_simpleshop_product_selectimagesubmit
 	 * @Route("/admin/product/submit-selected-image/{product}/{file}", requirements={"image"="\d+|_id_"})
 	 */
-	public function selectImageSubmitAction(Product $product, File $file) {
+	public function selectImageSubmitAction(Product $product, File $file, TranslatorInterface $translator) {
 		$product->setImage($file);
 		$this->getDm()->flush();
+		
+		$this->addFlash('success', $translator->trans('message.success.saved'));
 		
 		return $this->redirectToRoute('app_admin_simpleshop_product_update', [
 			'product' => $product->getId(),

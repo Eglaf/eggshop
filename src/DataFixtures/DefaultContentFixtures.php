@@ -51,6 +51,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		$this->newEntity(User::class, [
 			'name'     => 'kovacs attila',
 			'email'    => 'admin@admin.ad',
+			'phone'    => '+36-30-6587639',
 			'password' => '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC',
 			'role'     => 'ROLE_ADMIN',
 			'active'   => TRUE,
@@ -76,8 +77,8 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		// Short texts with parameters. The sendEnabledParameters method has to be called out separately.
 		$this
 			->newEntity(Text::class, [
-				'code'  => 'new-order-select-products-before',
-				'text'  => '
+				'code' => 'new-order-select-products-before',
+				'text' => '
 					<p>Cégünk 25 éve a fürjtojás specialistája és az egész Európai Unióban egyedül mi működtetünk engedéllyel fürjtojás feldolgozó üzemet. Weblapunkon étkezési fürjtojás és fürj tenyésztojás rendelésére nyílik lehetősége. Étkezési fürjtojás három fajtáját kínáljuk az érdeklődőknek:  nyers fürjtojás,  natúr konzerv fürjtojás (sós lében)   és füstölt fürjtojás étolajban, fóliatasakba,  díszdobozba csomagolva.</p>
 					<p><span style="color:#ee2210;"><strong>Termékeink semmilyen tartósítószert nem tartalmaznak, ízesítéshez pedig Himalája sót használunk!</strong></span></p>
 					<p>A rendelés nincs előzetes regisztrációhoz kötve, így szolgáltatásaink korlátozás nélkül minden látogató számára elérhetőek.</p>
@@ -101,15 +102,15 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		
 		$this
 			->newEntity(Text::class, [
-				'code'  => 'new-order-select-products-after',
-				'text'  => '',
+				'code' => 'new-order-select-products-after',
+				'text' => '',
 			])
 			->setEnabledParameters(['admin-email', 'admin-phone', 'minimum-order-price-to-deliver', 'order-delivery-price', 'order-no-delivery-price-above-sum']);
 		
 		$this
 			->newEntity(Text::class, [
-				'code'  => 'new-order-select-addresses-warning-below-delivery-limit',
-				'text'  => '
+				'code' => 'new-order-select-addresses-warning-below-delivery-limit',
+				'text' => '
 					<p>
 					Kiszállítást csak akkor tudunk vállalni, ha a vásárlás összege eléri a {{ minimum-order-price-to-deliver }} Ft-t.<br />
 					Az ön kosarában csak {{ order-sum-price }} Ft van, így a kiszállítási címet nem tudja kiválasztani.
