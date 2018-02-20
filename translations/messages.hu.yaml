@@ -142,6 +142,8 @@ form:
   page:
     keywords: Kereső szavak, vesszővel elválasztva.
   user:
+    accept_terms: Elfogadom az ászf-t
+    click_to_read_terms: Ide kattintva elolvashatja az ászf-t.
     old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
     no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
 

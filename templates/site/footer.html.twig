@@ -60,13 +60,30 @@
     </div>
     <div id="text-2" class="widget-container-right widget_text"><span class="widget-title">Elérhetőségeink</span>
         <div class="textwidget">
-            <p>
+            <ul class="menu">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="{{ path('app_site_content_page_text', {'code': 'cegunkrol'}) }}">
+                        Cégünkről
+                    </a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="{{ path('app_site_content_page_text', {'code': 'kapcsolat'}) }}">
+                        Kapcsolat
+                    </a>
+                </li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                    <a href="{{ path('app_site_content_page_text', {'code': 'aszf'}) }}">
+                        Ászf
+                    </a>
+                </li>
+            </ul>
+            {#<p>
                 Tamago Kft.<br/>
                 1161 Budapest, Albán utca 1.<br/>
                 Telefon: (06-1)-403-0459<br/>
                 E-mail: info@furjtojas.eu<br/>
                 Web: www.furjtojas.eu
-            </p>
+            </p>#}
         </div>
     </div>
     <div class="clear"></div>

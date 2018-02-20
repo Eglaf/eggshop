@@ -3,17 +3,6 @@
 </a>
 <nav class="small">
     <ul id="menu-legfelso" class="menu">
-        <li>
-            <a href="{{ path('app_site_content_page_text', {'code': 'cegunkrol'}) }}">
-                CÉGÜNKRŐL
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('app_site_content_page_text', {'code': 'kapcsolat'}) }}">
-                Kapcsolat
-            </a>
-        </li>
-
 
         {% if is_granted('ROLE_USER') %}
             {# Profile page #}
@@ -41,7 +30,6 @@
                 <a href="{{ path('app_admin_dashboard_index') }}" target="_blank">{{ "menu.site.admin"|trans }}</a>
             </li>
         {% endif %}
-
 
     </ul>
 </nav>

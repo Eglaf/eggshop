@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin/bootstrap.min.css') }}"/>
 
     {{ parent() }}
 {% endblock %}
@@ -17,7 +17,7 @@
     <h1>{{ 'page_title.site.registration'|trans }}</h1>
 
     {{ beforeTextEntity.getText()|raw }}
-    <br /><br />
+    <br/><br/>
 
     {{ form_start(form) }}
 
@@ -26,6 +26,21 @@
     {{ form_row(form.phone) }}
     {{ form_row(form.plainPassword.first) }}
     {{ form_row(form.plainPassword.second) }}
+
+    {{ form_row(form.termsAccepted) }}
+
+    <div class="form-group">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <a href="{{ path('app_site_content_page_text', {'code': 'aszf'}) }}">
+                {{ 'form.user.click_to_read_terms'|trans }}
+            </a>
+        </div>
+    </div>
+
+    <div class="form_comment">
+
+    </div>
 
     {{ form_end(form) }}
 

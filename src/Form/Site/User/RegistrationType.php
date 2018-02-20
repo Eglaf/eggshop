@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 use App\Entity\User\User;
 
@@ -38,6 +39,11 @@ class RegistrationType extends AbstractType {
 				'required'        => TRUE,
 				'first_options'   => ['label' => 'password'],
 				'second_options'  => ['label' => 'password_repeat'],
+			])
+			->add('termsAccepted', Type\CheckboxType::class, [
+				'label'       => 'form.user.accept_terms',
+				'mapped'      => FALSE,
+				'constraints' => new IsTrue(),
 			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'registration',
