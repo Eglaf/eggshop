@@ -77,23 +77,29 @@
             }, {
                 text: '',
                 func: function (row) {
-                    var updateUrl = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_user_user_update', {'user':'_id_'}) }}')
-                        .setParams({
-                            '_id_': row.id
-                        })
-                        .getUrl();
-
-                    var html = "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
-
                     var newOrderUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_order_create', {'user':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
+                    var html = "<a href='" + newOrderUrl + "' class='btn btn-default'>{{ 'nav.user.new_order'|trans }}</a> ";
 
-                    html += "<a href='" + newOrderUrl + "' class='btn btn-default'>{{ 'nav.user.new_order'|trans }}</a> ";
+                    var updateUrl = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_user_user_update', {'user':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+                    html += "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+
+                    var addressesUrl = new Egf.Sf.Route()
+                        .setRoute('{{ path('app_admin_user_address_list', {'user':'_id_'}) }}')
+                        .setParams({
+                            '_id_': row.id
+                        })
+                        .getUrl();
+                    html += "<a href='" + addressesUrl + "' class='btn btn-default'>{{ 'addresses'|trans }}</a> ";
 
                     return html;
                 }

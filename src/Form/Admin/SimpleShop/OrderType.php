@@ -10,6 +10,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\SimpleShop\Order;
 use App\Entity\SimpleShop\OrderStatus;
+use App\Entity\User\Address;
+use App\Repository\User\AddressRepository;
 
 /**
  * Class OrderType
@@ -22,6 +24,8 @@ class OrderType extends AbstractType {
 	 * @param array                $options
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		$user = $builder->getData()->getUser();
+		
 		$builder
 			->add('status', EntityType::class, [
 				'label'        => 'status',
@@ -31,6 +35,24 @@ class OrderType extends AbstractType {
 			->add('comment', Type\TextareaType::class, [
 				'label'    => 'comment',
 				'required' => FALSE,
+			])
+			->add('shippingAddress', EntityType::class, [
+				'label'         => 'delivery_address',
+				'required'      => FALSE,
+				'class'         => Address::class,
+				'choice_label'  => 'titleCityStreet',
+				'query_builder' => function(AddressRepository $er) use ($user) {
+					return $er->queryByUser($user);
+				},
+			])
+			->add('billingAddress', EntityType::class, [
+				'label'         => 'billing_address',
+				'required'      => FALSE,
+				'class'         => Address::class,
+				'choice_label'  => 'titleCityStreet',
+				'query_builder' => function(AddressRepository $er) use ($user) {
+					return $er->queryByUser($user);
+				},
 			])
 			->add('items', Type\CollectionType::class, [
 				'label'        => ' ',

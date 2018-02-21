@@ -22,7 +22,7 @@ class UserController extends AbstractController {
 	 * @param Serializer $serializer Service to convert entities into json.
 	 * @return array
 	 *
-	 * RouteName: app_admin_content_user_list
+	 * RouteName: app_admin_user_user_list
 	 * @Route("/admin/user/list")
 	 * @Template
 	 */
@@ -41,7 +41,7 @@ class UserController extends AbstractController {
 	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
-	 * RouteName: app_admin_content_user_create
+	 * RouteName: app_admin_user_user_create
 	 * @Route("/admin/user/create")
 	 * @Template("admin/user/user/form.html.twig")
 	 */
@@ -55,7 +55,7 @@ class UserController extends AbstractController {
 	 * @param TranslatorInterface $translator
 	 * @return array|RedirectResponse
 	 *
-	 * RouteName: app_admin_content_user_update
+	 * RouteName: app_admin_user_user_update
 	 * @Route("/admin/user/update/{user}", requirements={"user"="\d+|_id_"})
 	 * @Template("admin/user/user/form.html.twig")
 	 */

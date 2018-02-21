@@ -1,0 +1,53 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% import 'admin/macro.html.twig' as macro %}
+
+{% form_theme formView 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}
+    {% if address.id %}
+        {{ 'page_title.admin.user_address.update'|trans({'%user%':user.name, '%address%':address.title}) }}
+    {% else %}
+        {{ 'page_title.admin.user_address.create'|trans({'%user%':user.name}) }}
+    {% endif %}
+    - {{ parent() }}
+{% endblock %}
+
+{% block adminMenu %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'user'} %}
+{% endblock %}
+
+{% block buttons %}
+    {{ macro.buttonToUrl(path('app_admin_user_address_list', {'user':user.id}), 'back_to_list'|trans) }}
+{% endblock %}
+
+{% block contentTitle %}
+    {% if address.id %}
+        {{ 'page_title.admin.user_address.update'|trans({'%user%':user.name, '%address%':address.title}) }}
+    {% else %}
+        {{ 'page_title.admin.user_address.create'|trans({'%user%':user.name}) }}
+    {% endif %}
+{% endblock %}
+
+{% block adminContent %}
+
+    {{ form_start(formView) }}
+    {{ form_widget(formView) }}
+    {{ form_end(formView) }}
+
+    <script type="text/javascript">
+    </script>
+
+{% endblock %}
+
+{% block preScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block postScripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}

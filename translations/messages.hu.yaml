@@ -63,6 +63,7 @@ street: Út/Utca
 text: Szöveg
 texts: Szövegek
 title: Cím
+total: Összeg
 update: Módosítás
 user: Felhasználó
 users: Felhasználók
@@ -100,6 +101,10 @@ page_title:
       list: Felhasználók
       create: Felhasználó létrehozás
       update: Felhasználó módosítás (%user%)
+    user_address:
+      list: Felhasználóhoz tartotozó címek (%user%)
+      create: Új cím létrehozás a felhasználónak (%user%)
+      update: Felhasználóhoz tartozó cím módosítása (%user%, %address%)
     config:
       list: Beállítások
       update: Beállítás módosítás (%config%)

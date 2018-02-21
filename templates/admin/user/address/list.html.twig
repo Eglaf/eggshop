@@ -3,22 +3,22 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 {% block title %}
-    {{ 'page_title.admin.order.list'|trans }} - {{ parent() }}
+    {{ 'page_title.admin.user_address.list'|trans({'%user%':user.name}) }} - {{ parent() }}
 {% endblock %}
 
 {% block adminMenu %}
-    {% include 'admin/adminMenu.html.twig' with {activeMenu:'order'} %}
+    {% include 'admin/adminMenu.html.twig' with {activeMenu:'user'} %}
 {% endblock %}
 
 {% block buttons %}
+    {{ macro.buttonToUrl(path('app_admin_user_address_create', {'user':user.id}), 'create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
-    {{ 'page_title.admin.order.list'|trans }}
+    {{ 'page_title.admin.user_address.list'|trans({'%user%':user.name}) }}
 {% endblock %}
 
 {% block adminContent %}
-    {# Template for egf table. #}
     {% include 'admin/js-templates/egf-table-template.html' %}
     {% include 'admin/js-templates/egf-table-row-template.html' %}
     {% include 'admin/js-templates/egf-pagination-template.html' %}
@@ -41,56 +41,47 @@
             .setContainerElemId('table-container')
             .setContents(JSON.parse('{{ listAsJson|raw }}'))
             .setConfig({
-                sortByColumnKey: 1,
-                sortByReversed:  true,
+                sortByColumnKey: 0,
+                sortByReversed:  false,
                 rowsOnPage:      10
             })
             .setTranslations({
                 globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
-                text:   '{{ "id"|trans }}',
-                search: 'string',
-                property: 'id'
-            }, {
-                text:   '{{ "status"|trans }}',
-                search: 'string',
-                func:   function (row) {
-                    return row.status.label;
-                },
-                sort:   function (row) {
-                    return row.id;
-                }
-            }, {
-                text:     '{{ "date"|trans }}',
-                property: 'date',
+                text:     '{{ "title"|trans }}',
+                property: 'title',
+                search:   'string',
                 sort:     true
             }, {
-                text: '{{ "total"|trans }}',
-                func: function (row) {
-                    return row.priceSum + ' {{ "currency_short"|trans }}';
-                },
-                sort: true
+                text:     '{{ "city"|trans }}',
+                property: 'city',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     '{{ "zipCode"|trans }}',
+                property: 'zipCode',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     '{{ "street"|trans }}',
+                property: 'street',
+                search:   'string',
+                sort:     true
+            }, {
+                text:     '{{ "houseNumber"|trans }}',
+                property: 'houseNumber'
             }, {
                 text: '',
                 func: function (row) {
-                    var detailsUrl = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_simpleshop_order_details', {'order':'_id_'}) }}')
-                        .setParams({
-                            '_id_': row.id
-                        })
-                        .getUrl();
-
-                    var html = "<a href='" + detailsUrl + "' class='btn btn-default'>{{ 'details'|trans }}</a> ";
-
                     var updateUrl = new Egf.Sf.Route()
-                        .setRoute('{{ path('app_admin_simpleshop_order_update', {'order':'_id_'}) }}')
+                        .setRoute('{{ path('app_admin_user_address_update', {'address':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
 
-                    html += "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+                    var html = "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
 
                     return html;
                 }

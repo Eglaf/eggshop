@@ -34,6 +34,8 @@
     {{ form_start(formView) }}
     {{ form_row(formView.status) }}
     {{ form_row(formView.comment) }}
+    {{ form_row(formView.shippingAddress) }}
+    {{ form_row(formView.billingAddress) }}
 
     <div class="form-group order-items">
         {{ form_label(formView.items, 'products', {'class': 'col-sm-2 control-label'}) }}
