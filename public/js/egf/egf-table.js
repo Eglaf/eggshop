@@ -175,6 +175,9 @@ Egf.Table = function () {
 
         // Show content.
         this.showCurrentContents();
+
+        // SortBy css.
+        this.applySortByCss();
     };
 
     /**
@@ -249,12 +252,39 @@ Egf.Table = function () {
                     that.config.sortByReversed  = false;
                 }
 
+                that.applySortByCss();
+
                 that.calculateSortedContents()
                     .calculateLimitedContents();
 
                 that.showCurrentContents();
             }
         });
+
+        return this;
+    };
+
+    /**
+     * Refresh the sortBy css on headers, depending on the config sort attributes.
+     * @return {Egf.Table}
+     */
+    this.applySortByCss = function () {
+        console.log("applySortByCss");
+
+        var thElements = Egf.Elem.find(this.containerElemId + ' .egf-table-head');
+
+        Egf.Util.forEach(thElements, function(th) {
+            Egf.Elem.cssClass(th, 'egf-table-sortby-asc', false);
+            Egf.Elem.cssClass(th, 'egf-table-sortby-desc', false);
+        });
+
+        if (thElements[that.config.sortByColumnKey]) {
+            if (that.config.sortByReversed) {
+                Egf.Elem.cssClass(thElements[that.config.sortByColumnKey], 'egf-table-sortby-desc', true);
+            } else {
+                Egf.Elem.cssClass(thElements[that.config.sortByColumnKey], 'egf-table-sortby-asc', true);
+            }
+        }
 
         return this;
     };

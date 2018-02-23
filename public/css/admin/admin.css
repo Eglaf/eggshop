@@ -89,3 +89,25 @@ ul#items-field-list > li:not(:first-child) {
     color: #333;
     text-decoration: none;
 }
+
+/*** Table SortBy ***/
+
+.egf-table-head {
+    cursor: pointer;
+}
+
+.egf-table-sortby-asc {
+    font-weight: bold;
+}
+
+.egf-table-sortby-asc:after {
+    content: " ▾";
+}
+
+.egf-table-sortby-desc {
+    font-weight: bold;
+}
+
+.egf-table-sortby-desc:after {
+    content: " ▴";
+}
