@@ -64,6 +64,8 @@ class TestFixtures extends AbstractFixture implements DependentFixtureInterface 
 			'count'   => mt_rand(3, 10),
 		]);
 		
+		sleep(2);
+		
 		
 		$o2 = $this->newEntity(ShopEntity\Order::class, [
 			'user'            => $u1,

@@ -51,6 +51,33 @@ class Order {
 	private $billingAddress;
 	
 	/**
+	 * @var int
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime", name="date")
+	 */
+	private $date;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(name="comment", type="text", nullable=true)
+	 */
+	private $comment;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Custom methods                                             **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
+	
+	/**
 	 * Order constructor.
 	 */
 	public function __construct() {
@@ -93,33 +120,6 @@ class Order {
 	}
 	
 	/**
-	 * @var int
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
-	
-	/**
-	 * @var \DateTime
-	 * @ORM\Column(type="datetime", name="date")
-	 */
-	private $date;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(name="comment", type="text", nullable=true)
-	 */
-	private $comment;
-	
-	
-	/**************************************************************************************************************************************************************
-	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 * Custom methods                                             **         **         **         **         **         **         **         **         **         **
-	 *                                                          **         **         **         **         **         **         **         **         **         **
-	 *************************************************************************************************************************************************************/
-	
-	/**
 	 * Get the price summarized of the order.
 	 * @return int
 	 */
@@ -132,13 +132,21 @@ class Order {
 		return $finalPrice;
 	}
 	
+	/**
+	 * @return \App\Entity\User\Address
+	 */
 	public function getDeliveryAddress() {
 		return $this->getShippingAddress();
 	}
 	
-	public function setDeliveryAddress($a) {
-		return $this->setShippingAddress($a);
+	/**
+	 * @param $address
+	 * @return Order
+	 */
+	public function setDeliveryAddress($address) {
+		return $this->setShippingAddress($address);
 	}
+	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **

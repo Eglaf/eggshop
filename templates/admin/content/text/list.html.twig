@@ -43,7 +43,7 @@
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  false,
-                rowsOnPage:      10
+                rowsOnPage:      15
             })
             .setTranslations({
                 globalSearchPlaceholder: '{{ "search"|trans }}'
@@ -51,11 +51,6 @@
             .setColumns([{
                 text:     '{{ "identifier"|trans }}',
                 property: 'code',
-                search:   'string',
-                sort:     true
-            }, {
-                text:     '{{ "title"|trans }}',
-                property: 'title',
                 search:   'string',
                 sort:     true
             }, {
@@ -68,7 +63,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a>";
                 }
             }])
             .init();

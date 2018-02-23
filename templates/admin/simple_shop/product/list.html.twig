@@ -39,22 +39,44 @@
 {% block postScripts %}
     {{ parent() }}
     <script type="text/javascript">
+
+        // Because of the strange number in string comparison in JS.
+        var products = JSON.parse('{{ listAsJson|raw }}');
+        Egf.Util.forEach(products, function (product) {
+            product.productSort = Egf.Util.addLeadingZero(product.category.sequence, 8) + " " + Egf.Util.addLeadingZero(product.sequence, 8);
+        });
+
+        // Table.
         new Egf.Table()
             .setContainerElemId('table-container')
-            .setContents(JSON.parse('{{ listAsJson|raw }}'))
+            .setContents(products)
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  false,
-                rowsOnPage:      10
+                rowsOnPage:      15
             })
             .setTranslations({
                 globalSearchPlaceholder: '{{ "search"|trans }}'
             })
             .setColumns([{
+                text: '{{ "sequence"|trans }}',
+                func: function (row) {
+                    return row.category.sequence + " / " + row.sequence;
+                },
+                sort: function (row) {
+                    return row.productSort;
+                }
+            }, {
                 text:     '{{ "label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
+            }, {
+                text: '{{ "category"|trans }}',
+                func: function (row) {
+                    return row.category.label;
+                },
+                sort: true
             }, {
                 text: '{{ "active"|trans }}',
                 func: function (row) {
@@ -65,39 +87,38 @@
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: '{{ "category"|trans }}',
-                func: function (row) {
-                    return row.category.label;
-                },
-                sort: true
-            }, {
                 text: '{{ "price"|trans }}',
                 func: function (row) {
                     return row.price + ' {{ "currency_short"|trans }}';
-                }
+                },
+                sort: function (row) {
+                    return parseInt(row.price);
+                },
             }, {
                 text: '',
                 func: function (row) {
-                    var url = new Egf.Sf.Route()
+                    var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_product_update', {'product':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
+                    var html = "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
-                }
-            }, {
-                text: '',
-                func: function (row) {
-                    var url = new Egf.Sf.Route()
+                    var selectImageUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_product_selectimagelist', {'product':'_id_'}) }}')
                         .setParams({
                             '_id_': row.id
                         })
                         .getUrl();
+                    html += "<a href='" + selectImageUrl + "' class='btn btn-default btn-xs'>{{ 'nav.select_image.select_image'|trans }}</a> ";
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'nav.select_image.select_image'|trans }}</a>";
+                    return html;
+                }
+            }, {
+                text: '',
+                func: function (row) {
+
                 }
             }])
             .init();

@@ -16,8 +16,44 @@ class Category {
 	/**
 	 * @var Collection|Product[]
 	 * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist"})
+	 * @ORM\OrderBy({"sequence" = "ASC"})
 	 */
 	private $products;
+	
+	/**
+	 * @var int
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(name="active", type="boolean")
+	 */
+	private $active;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
+	 * @Assert\NotBlank(message="not_blank")
+	 * @Assert\Length(min=4, max=64, minMessage="too_short", maxMessage="too_long")
+	 */
+	private $label;
+	
+	/**
+	 * @var number
+	 * @ORM\Column(name="sequence", type="smallint")
+	 */
+	private $sequence;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Custom methods                                             **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
 	
 	/**
 	 * Category constructor.
@@ -42,28 +78,6 @@ class Category {
 		
 		return $this;
 	}
-	
-	/**
-	 * @var int
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
-	
-	/**
-	 * @var boolean
-	 * @ORM\Column(name="active", type="boolean")
-	 */
-	private $active;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(name="label", type="string", length=255, options={"fixed" = true})
-	 * @Assert\NotBlank(message="not_blank")
-	 * @Assert\Length(min=4, max=64, minMessage="too_short", maxMessage="too_long")
-	 */
-	private $label;
 	
 	
 	/**************************************************************************************************************************************************************
@@ -118,6 +132,23 @@ class Category {
 	 */
 	public function getProducts() {
 		return $this->products;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getSequence() {
+		return $this->sequence;
+	}
+	
+	/**
+	 * @param mixed $sequence
+	 * @return Category
+	 */
+	public function setSequence($sequence) {
+		$this->sequence = $sequence;
+		
+		return $this;
 	}
 	
 }

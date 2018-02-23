@@ -28,6 +28,9 @@ class CategoryType extends AbstractType {
 				'label' => 'active',
 				'required' => false,
 			])
+			->add('sequence', Type\NumberType::class, [
+				'label' => 'sequence',
+			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'save',
 			]);

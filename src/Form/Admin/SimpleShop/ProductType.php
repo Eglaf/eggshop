@@ -42,6 +42,9 @@ class ProductType extends AbstractType {
 			->add('price', Type\NumberType::class, [
 				'label' => 'price',
 			])
+			->add('sequence', Type\NumberType::class, [
+				'label' => 'sequence',
+			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'save',
 			]);

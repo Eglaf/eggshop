@@ -32,7 +32,7 @@ class CategoryController extends AbstractEggShopController {
 		
 		return [
 			'listAsJson' => $serializer->toJson($categoryRows, ['attributes' => [
-				'id', 'label', 'active', 'products' => ['label'],
+				'id', 'label', 'active', 'sequence', 'products' => ['label'],
 			]]),
 		];
 	}

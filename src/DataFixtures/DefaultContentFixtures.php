@@ -49,10 +49,19 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 */
 	protected function loadUsers() {
 		$this->newEntity(User::class, [
-			'name'     => 'kovacs attila',
-			'email'    => 'admin@admin.ad',
-			'phone'    => '+36-30-6587639',
+			'name'     => 'Akihisa Hiroe',
+			'email'    => 'admin@furjtojas.eu',
+			'phone'    => '+36-30-655-8977',
 			'password' => '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC',
+			'role'     => 'ROLE_ADMIN',
+			'active'   => TRUE,
+		]);
+		
+		$this->newEntity(User::class, [
+			'name'     => 'Kovács Attila',
+			'email'    => 'eglafx@gmail.com',
+			'phone'    => '+36-30-658-7639',
+			'password' => '$2y$13$MeRlcVui61y.bob1z4dyU.ZXHsatu60x4OSGXuCoaOaqmN7ceWUau',
 			'role'     => 'ROLE_ADMIN',
 			'active'   => TRUE,
 		]);
@@ -156,10 +165,13 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	 * @return $this
 	 */
 	protected function loadSimpleShop() {
+		$sequence = 10;
+		
 		foreach ($this->getSimpleShopContents() as $categoryData) {
 			$category = $this->newEntity(Category::class, [
-				'label'  => $categoryData['label'],
-				'active' => TRUE,
+				'label'    => $categoryData['label'],
+				'active'   => TRUE,
+				'sequence' => $sequence += 10,
 			]);
 			
 			foreach ($categoryData['products'] as $productData) {
@@ -169,6 +181,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 					'description' => $productData['description'],
 					'price'       => $productData['price'],
 					'active'      => TRUE,
+					'sequence'    => $sequence += 10,
 					'image'       => $this->om->getRepository(File::class)->findOneBy([
 						'storageName' => $productData['image'],
 					]),
@@ -224,7 +237,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			'furjtojas_15_darabos.jpg'                    => 'Fürjtojás 15 darabos',
 			'furjtojas-kura-300x200.jpg'                  => 'Fürjtojás kúra',
 			'furjtojas.jpg'                               => 'Fürjtojás',
-			'fustolt-furjtojas-10darabos-300x169.jpg'     => 'füstölt fürjtojás 10 darabos',
+			'fustolt-furjtojas-10darabos-300x169.jpg'     => 'Füstölt fürjtojás 10 darabos',
 			'fustolt-furjtojas-50darabos-300x169.jpg'     => 'Főtt, füstölt fürjtojás 50 darabos',
 			'natur-fott-furjtojas-300x169.jpg'            => 'Natúr főtt fürjtojás sólében (Himalája sóval)',
 			'natur-konzerv-furjtojas-10db-260x300.jpg'    => 'Főtt fürjtojás konzerv - 10 darabos',

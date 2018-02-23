@@ -472,7 +472,7 @@ Egf.Table = function () {
         if (typeof this.config.sortByColumnKey === 'number') {
             this.sortedContents = this.getContentsWithSortValues(this.config.sortByColumnKey);
 
-            Egf.Util.sortObjects(this.sortedContents, '_sort_value', this.config.sortByReversed)
+            Egf.Util.sortObjects(this.sortedContents, '_sort_value', this.config.sortByReversed);
         }
         // No sorting is needed.
         else {

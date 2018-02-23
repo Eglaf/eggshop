@@ -36,30 +36,6 @@ class Product {
 	private $image;
 	
 	/**
-	 * Product constructor.
-	 */
-	public function __construct() {
-		$this->orderItems = new ArrayCollection();
-	}
-	
-	/**
-	 * Add OrderItem to Product.
-	 * @param OrderItem $orderItem
-	 * @return Product
-	 */
-	public function addOrderItem(OrderItem $orderItem) {
-		if ( ! $this->orderItems->contains($orderItem)) {
-			$this->orderItems[] = $orderItem;
-		}
-		
-		if ($orderItem->getProduct() !== $this) {
-			$orderItem->setProduct($this);
-		}
-		
-		return $this;
-	}
-	
-	/**
 	 * @var int
 	 * @ORM\Id
 	 * @ORM\GeneratedValue
@@ -92,6 +68,43 @@ class Product {
 	 * @ORM\Column(type="integer", name="price")
 	 */
 	private $price;
+	
+	/**
+	 * @var number
+	 * @ORM\Column(name="sequence", type="smallint")
+	 */
+	private $sequence;
+	
+	
+	/**************************************************************************************************************************************************************
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 * Custom methods                                             **         **         **         **         **         **         **         **         **         **
+	 *                                                          **         **         **         **         **         **         **         **         **         **
+	 *************************************************************************************************************************************************************/
+	
+	/**
+	 * Product constructor.
+	 */
+	public function __construct() {
+		$this->orderItems = new ArrayCollection();
+	}
+	
+	/**
+	 * Add OrderItem to Product.
+	 * @param OrderItem $orderItem
+	 * @return Product
+	 */
+	public function addOrderItem(OrderItem $orderItem) {
+		if ( ! $this->orderItems->contains($orderItem)) {
+			$this->orderItems[] = $orderItem;
+		}
+		
+		if ($orderItem->getProduct() !== $this) {
+			$orderItem->setProduct($this);
+		}
+		
+		return $this;
+	}
 	
 	
 	/**************************************************************************************************************************************************************
@@ -222,6 +235,23 @@ class Product {
 	 */
 	public function setImage(File $image = NULL) {
 		$this->image = $image;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return number
+	 */
+	public function getSequence() {
+		return $this->sequence;
+	}
+	
+	/**
+	 * @param number $sequence
+	 * @return Product
+	 */
+	public function setSequence($sequence) {
+		$this->sequence = $sequence;
 		
 		return $this;
 	}

@@ -43,7 +43,7 @@
             .setConfig({
                 sortByColumnKey: 0,
                 sortByReversed:  false,
-                rowsOnPage:      10
+                rowsOnPage:      15
             })
             .setTranslations({
                 globalSearchPlaceholder: '{{ "search"|trans }}'
@@ -83,7 +83,7 @@
                             '_id_': row.id
                         })
                         .getUrl();
-                    var html = "<a href='" + newOrderUrl + "' class='btn btn-default'>{{ 'nav.user.new_order'|trans }}</a> ";
+                    var html = "<a href='" + newOrderUrl + "' class='btn btn-default btn-xs'>{{ 'nav.user.new_order'|trans }}</a> ";
 
                     var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_user_user_update', {'user':'_id_'}) }}')
@@ -91,7 +91,7 @@
                             '_id_': row.id
                         })
                         .getUrl();
-                    html += "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
 
                     var addressesUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_user_address_list', {'user':'_id_'}) }}')
@@ -99,7 +99,7 @@
                             '_id_': row.id
                         })
                         .getUrl();
-                    html += "<a href='" + addressesUrl + "' class='btn btn-default'>{{ 'addresses'|trans }}</a> ";
+                    html += "<a href='" + addressesUrl + "' class='btn btn-default btn-xs'>{{ 'addresses'|trans }}</a> ";
 
                     return html;
                 }

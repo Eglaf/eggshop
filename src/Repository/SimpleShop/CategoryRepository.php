@@ -36,6 +36,7 @@ class CategoryRepository extends ServiceEntityRepository {
 			->leftJoin('p.image', 'i')
 			->addSelect('i')
 			->where('p.active = true')
+			->orderBy('c.sequence', 'ASC')
 			->getQuery()
 			->getResult();
 	}

@@ -43,7 +43,7 @@
             .setConfig({
                 sortByColumnKey: 1,
                 sortByReversed:  true,
-                rowsOnPage:      10
+                rowsOnPage:      15
             })
             .setTranslations({
                 globalSearchPlaceholder: '{{ "search"|trans }}'
@@ -51,7 +51,10 @@
             .setColumns([{
                 text:   '{{ "id"|trans }}',
                 search: 'string',
-                property: 'id'
+                property: 'id',
+                sort: function (row) {
+                    return row.id;
+                }
             }, {
                 text:   '{{ "status"|trans }}',
                 search: 'string',
@@ -59,18 +62,22 @@
                     return row.status.label;
                 },
                 sort:   function (row) {
-                    return row.id;
+                    return row.status.label;
                 }
             }, {
                 text:     '{{ "date"|trans }}',
                 property: 'date',
-                sort:     true
+                sort:     function (row) {
+                    return row.date;
+                }
             }, {
                 text: '{{ "total"|trans }}',
                 func: function (row) {
                     return row.priceSum + ' {{ "currency_short"|trans }}';
                 },
-                sort: true
+                sort: function (row) {
+                    return parseInt(row.priceSum);
+                }
             }, {
                 text: '',
                 func: function (row) {
@@ -81,7 +88,7 @@
                         })
                         .getUrl();
 
-                    var html = "<a href='" + detailsUrl + "' class='btn btn-default'>{{ 'details'|trans }}</a> ";
+                    var html = "<a href='" + detailsUrl + "' class='btn btn-default btn-xs'>{{ 'details'|trans }}</a> ";
 
                     var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_order_update', {'order':'_id_'}) }}')
@@ -90,7 +97,7 @@
                         })
                         .getUrl();
 
-                    html += "<a href='" + updateUrl + "' class='btn btn-default'>{{ 'update'|trans }}</a> ";
+                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
 
                     return html;
                 }

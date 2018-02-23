@@ -34,7 +34,7 @@ class ProductController extends AbstractEggShopController {
 		$productRows = $productRepository->findAllWithCategory();
 		
 		return [
-			'listAsJson' => $serializer->toJson($productRows, ['attributes' => ['id', 'label', 'active', 'price', 'category' => ['label']]]),
+			'listAsJson' => $serializer->toJson($productRows, ['attributes' => ['id', 'sequence', 'label', 'active', 'price', 'category' => ['sequence', 'label']]]),
 		];
 	}
 	
@@ -81,7 +81,7 @@ class ProductController extends AbstractEggShopController {
 			$this->getDm()->persist($product);
 			$this->getDm()->flush();
 			
-			$this->addFlash('success', $translator->trans('message.success.order.saved'));
+			$this->addFlash('success', $translator->trans('message.success.saved'));
 			
 			return $this->redirectToRoute('app_admin_simpleshop_product_list');
 		}
