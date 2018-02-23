@@ -1,6 +1,14 @@
+<script type="text/javascript">
+    var altTexts = {};
+</script>
+
 {% for file in images %}
 
     <img onclick="clickImg('{{ path }}{{ file.storageName }}')" src="{{ path }}{{ file.storageName }}" style="max-height:100px;"/>
+
+    <script type="text/javascript">
+        altTexts['{{ path }}{{ file.storageName }}'] = '{{ file.label }} {{ file.description }}';
+    </script>
 
 {% endfor %}
 
@@ -11,7 +19,13 @@
      * @param imagePath
      */
     function clickImg(imagePath) {
-        window.parent.opener.CKEDITOR.tools.callFunction(1, imagePath, '');
+        window.parent.opener.CKEDITOR.tools.callFunction(1, imagePath, function () {
+            var element, dialog = this.getDialog();
+            element = dialog.getContentElement( 'info', 'txtAlt' );
+            if ( element ) {
+                element.setValue(altTexts[imagePath]);
+            }
+        });
         self.close();
     }
 

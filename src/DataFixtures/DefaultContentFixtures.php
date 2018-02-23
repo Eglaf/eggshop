@@ -139,7 +139,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			$this->newEntity(File::class, [
 				'storageName' => $path,
 				'label'       => $label,
-				'description' => $label,
+				'description' => '',
 				'mimeType'    => 'image/jpeg',
 				'active'      => TRUE,
 			]);
