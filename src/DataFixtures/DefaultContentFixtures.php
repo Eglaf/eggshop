@@ -206,7 +206,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 	protected function getShortTextContents() {
 		return ['registration-form-before'          => 'Kérjük töltse ki az adatokat.',
 		        'registration-form-after'           => 'Gombra kattintás után egy emailt fog kapni az aktiváló linkkel.',
-		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.',
+		        'registration-confirm-email-sent'   => 'Regisztrációs email kiküldtük.<br /><br />Amennyiben nem kapja meg rövid időn belűl, kérjük ellenőrizze, hogy nem akadt-e fent a SPAM szűrőn.',
 		        'new-order-select-addresses-before' => 'Amennyiben kér kiszállítást vagy számlázást, adja meg a címeket.',
 		        'new-order-select-addresses-after'  => '',
 		        'new-order-confirm-before'          => 'Kérjük ellenőrizze a megadott adatokat.',
@@ -865,7 +865,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			        'title'       => 'Fürjtojás hatása',
 			        'description' => 'Tudta Ön, hogy a fürjtojás minden tojás közül a legegészségesebb? Olvassa el részletes tájékoztatónkat, így kedvet kap majd a fürjtojás kúrához is!',
 			        'keywords'    => 'fürjtojás hatása, fürjtojás kúra, fürjtojás, japán fürj',
-			        'text'        => '<h1>Fürjtojás hatása></h1>
+			        'text'        => '<h1>Fürjtojás hatása</h1>
 						<p>Ha az emberi szervezetből hiányzik a szükséges ásványi anyag, vitamin vagy aminosav készlet, romló egészségi állapothoz és betegségekhez vezethet. A vitamin és nyomelem-pótlás mellett az esszenciális aminosavak rendszeres használata hozzájárul a szervezet egyensúlyának visszaállításához és egészséges működéséhez.</p>
 						<p>A nyers fürjtojás fogyasztásának számos gyógyhatást tulajdonítanak. A fürjtojás kúra jótékony hatását már két hét múlva elkezdi kifejteni, de tartós eredmény természetesen csak rendszeres, megszakítás nélküli, ténylegesen kúraszerű fogyasztás után várható. A gyógyító fürjtojás hatása nyers fogyasztás esetén a leghatékonyabb, de a szervezetre gyakorolt pozitív élettani hatását főtt tojásként is kifejti, viszont figyeljünk a főzési időre, mert 15 perces hőkezelés után a vitaminok teljesen megsemmisülnek benne.</p>
 						<p>

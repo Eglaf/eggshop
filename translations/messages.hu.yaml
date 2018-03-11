@@ -133,6 +133,12 @@ menu:
     registration: Regisztrálás
     admin: Admin felület
 
+email_content:
+  registration:
+    subject: Fűrjtojás.eu regisztráció
+    link: Megerősítés
+    text: A regisztráció befejezéséhez kattintson a megerősítő linkre. Amennyiben a link nem kattintható, másolja azt a böngésző URL sávjába.
+
 form:
   order:
     delete_confirm_text: Biztos törli?
@@ -150,6 +156,7 @@ form:
   user:
     accept_terms: Elfogadom az ászf-t
     click_to_read_terms: Ide kattintva elolvashatja az ászf-t.
+    email_change: Email változtatás után újra be kell jelentkezni.
     old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
     no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
 
@@ -178,14 +185,19 @@ message:
   success:
     saved: Sikeres mentés.
     user_changes_saved: Felhasználói adatok megváltoztatása sikeres.
+    user_confirmed: Felhasználói e-mail cím megerősítve. Kérjük jelentkezzen be.
   info:
+    no_address: Nincs cím kiválasztva.
     no_delivery_address: Nincs szállítási cím kiválasztva.
     no_billing_address: Nincs számlázási cím kiválasztva.
   warning:
-    order_with_duplicated_products: Egy termék többször van beállítva (%product%)!
+    no_products_selected: Válasszon ki terméket.
+    order_with_duplicated_products: Egy termék többször van beállítva (%product%).
   error:
     order_wasnt_created: Probléma volt a rendelés létrehozása során. Kérjük próbálja meg újra.
-    old_password_invalid: A régi jelszó nem érvénye!
+    old_password_invalid: A régi jelszó nem érvénye.
+    email_taken: A megadott e-mail cím már foglalt.
+    email_sending_problem: Probléma volt az e-mail küldéssel. Kérjük próbálja meg újra. Amennyiben nem először látja ezt az üzenetet, lépjen kapcsolatba velünk.
 
 exception:
   404:

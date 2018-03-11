@@ -2,6 +2,7 @@
 
 namespace App\Controller\Site\User;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -61,7 +62,8 @@ class ProfileController extends AbstractEggShopController {
 	
 	/**
 	 * Details of an earlier order.
-	 * @param Order $order
+	 * @param Order        $order
+	 * @param ConfigReader $configReader
 	 * @return array
 	 *
 	 * RouteName: app_site_user_profile_earlierorderdetails
@@ -74,7 +76,7 @@ class ProfileController extends AbstractEggShopController {
 		}
 		
 		return [
-			'order' => $order,
+			'order'                => $order,
 			'deliveryPrice'        => $configReader->get('order-delivery-price'),
 			'noDeliveryPriceAbove' => $configReader->get('order-no-delivery-price-above-sum'),
 		];
@@ -90,32 +92,49 @@ class ProfileController extends AbstractEggShopController {
 	/**
 	 * Details of an earlier order.
 	 * @param UserPasswordEncoderInterface $passwordEncoder
-	 * @param TranslatorInterface $translator
-	 * @return array
+	 * @param TranslatorInterface          $translator
+	 * @return array|RedirectResponse
 	 *
-	 * RouteName: app_site_user_profile_userupdate
+	 * RouteName: app_site_user_profile_userupdateform
 	 * @Route("/user/adatok-modositas")
 	 * @Template
 	 */
 	public function userUpdateFormAction(UserPasswordEncoderInterface $passwordEncoder, TranslatorInterface $translator) {
 		/** @var User $user Current user. */
-		$user = $this->getUser();
+		$user     = $this->getUser();
+		$oldEmail = $user->getEmail();
 		
 		// Create form.
 		$form = $this->createForm(UserUpdateType::class, $user);
 		$form->handleRequest($this->getRq());
 		
-		// Save form.
+		// If eMail was changed.
+		if ($oldEmail !== $form->get('email')->getData()) {
+			// Check if given eMail is used by another user.
+			$existingUser = $this->getUserUserRepository()->findOneBy(['email' => $form->get('email')->getData()]);
+			if ($existingUser instanceof User && $existingUser !== $user) {
+				// Set back to old eMail, so the login data in session won't be invalid.
+				$this->getUser()->setEmail($oldEmail);
+				
+				$this->addFlash('error', $translator->trans('message.error.email_taken'));
+				
+				return $this->redirectToRoute('app_site_user_profile_userupdateform');
+			}
+		}
+		
+		// Check and save form.
 		if ($form->isSubmitted() && $form->isValid()) {
+			// Check old password.
 			if ($passwordEncoder->isPasswordValid($user, $form->get('oldPassword')->getData())) {
+				// Password changing.
 				if ($form->get('plainPassword')->getData()) {
 					$newPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
 					$user->setPassword($newPassword);
 				}
 				
-				$this->addFlash('success', $translator->trans('message.success.user_changes_saved'));
-				
 				$this->getDm()->flush();
+				
+				$this->addFlash('success', $translator->trans('message.success.user_changes_saved'));
 			}
 			else {
 				$form->addError(new FormError($translator->trans('message.error.old_password_invalid')));

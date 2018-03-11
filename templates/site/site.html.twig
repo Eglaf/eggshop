@@ -10,6 +10,11 @@
         </header>
 
         <div class="body">
+
+            <div id="site-flashmessages-container">
+                {% include 'site/flashMessages.html.twig' %}
+            </div><!-- #site-flashmessages-container -->
+
             {% block siteContent %}{% endblock %}
         </div>
 

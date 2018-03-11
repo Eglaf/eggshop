@@ -24,22 +24,27 @@ class NewOrderController extends AbstractEggShopController {
 	/** @var TextEntityFinder */
 	protected $textFinder;
 	
-	/** @var SessionInterface */
-	protected $session;
-	
 	/** @var ConfigReader */
 	protected $configReader;
 	
+	/** @var SessionInterface */
+	protected $session;
+	
+	/** @var TranslatorInterface $trans */
+	protected $translator;
+	
 	/**
 	 * NewOrderController constructor.
-	 * @param TextEntityFinder $textFinder
-	 * @param SessionInterface $session
-	 * @param ConfigReader     $configReader
+	 * @param TextEntityFinder    $textFinder
+	 * @param ConfigReader        $configReader
+	 * @param SessionInterface    $session
+	 * @param TranslatorInterface $translator
 	 */
-	public function __construct(TextEntityFinder $textFinder, SessionInterface $session, ConfigReader $configReader) {
+	public function __construct(TextEntityFinder $textFinder, ConfigReader $configReader, SessionInterface $session, TranslatorInterface $translator) {
 		$this->textFinder   = $textFinder;
-		$this->session      = $session;
 		$this->configReader = $configReader;
+		$this->session      = $session;
+		$this->translator   = $translator;
 	}
 	
 	/**
@@ -94,6 +99,8 @@ class NewOrderController extends AbstractEggShopController {
 			return $this->redirectToRoute('app_site_simpleshop_neworder_selectaddresses');
 		}
 		else {
+			$this->addFlash('warning', $this->translator->trans('message.warning.no_products_selected'));
+			
 			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
 		}
 	}
@@ -115,6 +122,7 @@ class NewOrderController extends AbstractEggShopController {
 		// Form.
 		$addressesForm = $this->createForm(SimpleShopFormType\SelectAddressType::class, NULL, [
 			'method' => 'POST',
+			'user'   => $this->getUser(),
 		]);
 		$addressesForm->handleRequest($this->getRq());
 		
@@ -173,13 +181,12 @@ class NewOrderController extends AbstractEggShopController {
 	
 	/**
 	 * Save the submitted order.
-	 * @param TranslatorInterface $translator
 	 * @return RedirectResponse
 	 *
 	 * RouteName: app_site_simpleshop_neworder_submitorder
 	 * @Route("online-rendeles/mentes")
 	 */
-	public function submitOrderAction(TranslatorInterface $translator) {
+	public function submitOrderAction() {
 		$cartProducts = $this->getCartProducts();
 		
 		// If no product is selected.
@@ -209,7 +216,7 @@ class NewOrderController extends AbstractEggShopController {
 		
 		// Check new order.
 		if ( ! Util::isNaturalNumber($order->getId())) {
-			$this->addFlash('error', $translator->trans('message.error.order_wasnt_created'));
+			$this->addFlash('error', $this->translator->trans('message.error.order_wasnt_created'));
 			
 			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
 		}
@@ -307,7 +314,10 @@ class NewOrderController extends AbstractEggShopController {
 		
 		// Existing address selected.
 		if (Util::isNaturalNumber($this->session->get("{$type}AddressId"))) {
-			return $this->getUserAddressRepository()->find($this->session->get("{$type}AddressId"));
+			return $this->getUserAddressRepository()->findOneBy([
+				'id'   => $this->session->get("{$type}AddressId"),
+				'user' => $this->getUser(),
+			]);
 		}
 		// New address.
 		elseif (is_array($this->session->get("new{$ucfType}Address")) && count($this->session->get("new{$ucfType}Address"))) {

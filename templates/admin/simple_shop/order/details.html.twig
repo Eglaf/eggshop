@@ -27,7 +27,7 @@
     <span class="col-sm-10">{{ order.user.email }}</span>
 
     <span class="col-sm-2 bold">{{ 'phone'|trans }}</span>
-    <span class="col-sm-10">TODO</span>
+    <span class="col-sm-10">{{ order.user.phone }}</span>
 
     <div class="col-sm-12 separator"></div>
 
@@ -87,7 +87,7 @@
             {{ macro.address(order.deliveryAddress, 'delivery_address'|trans) }}
         </div>
     {% else %}
-        <div class="text-center bold">
+        <div class="col-sm-12 text-center bold">
             {{ 'message.info.no_delivery_address'|trans }}
         </div>
     {% endif %}
@@ -97,7 +97,7 @@
             {{ macro.address(order.deliveryAddress, 'billing_address'|trans) }}
         </div>
     {% else %}
-        <div class="text-center bold">
+        <div class="col-sm-12 text-center bold">
             {{ 'message.info.no_billing_address'|trans }}
         </div>
     {% endif %}
