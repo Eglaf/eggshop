@@ -17,7 +17,7 @@
 
     <br /><br />
     <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
-        {{ 'back'|trans }}
+        {{ 'common.back'|trans }}
     </a>
 
 {% endblock %}
@@ -43,14 +43,14 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ 'search'|trans }}'
+                globalSearchPlaceholder: '{{ 'common.search'|trans }}'
             })
             .setColumns([{
-                text: "{{ 'date'|trans }}",
+                text: "{{ 'common.date'|trans }}",
                 property: 'date',
                 sort: true
             }, {
-                text: "{{ 'status'|trans }}",
+                text: "{{ 'common.status'|trans }}",
                 search:   'string',
                 func: function (row) {
                     return row.status.label;
@@ -59,10 +59,10 @@
                     return row.id;
                 }
             }, {
-                text: "{{ 'sum_total'|trans }}",
+                text: "{{ 'common.sum_total'|trans }}",
                 property: 'priceSum',
                 func: function (row) {
-                    return row.priceSum + " {{ 'currency_short'|trans }}";
+                    return row.priceSum + " {{ 'common.currency_short'|trans }}";
                 },
                 sort: true
             }, {
@@ -75,7 +75,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'details'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'common.details'|trans }}</a>";
                 }
             }])
             .init();

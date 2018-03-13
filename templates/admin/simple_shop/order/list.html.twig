@@ -46,17 +46,17 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:   '{{ "id"|trans }}',
+                text:   '{{ "common.id"|trans }}',
                 search: 'string',
                 property: 'id',
                 sort: function (row) {
                     return row.id;
                 }
             }, {
-                text:   '{{ "status"|trans }}',
+                text:   '{{ "common.status"|trans }}',
                 search: 'string',
                 func:   function (row) {
                     return row.status.label;
@@ -65,15 +65,15 @@
                     return row.status.label;
                 }
             }, {
-                text:     '{{ "date"|trans }}',
+                text:     '{{ "common.date"|trans }}',
                 property: 'date',
                 sort:     function (row) {
                     return row.date;
                 }
             }, {
-                text: '{{ "total"|trans }}',
+                text: '{{ "common.total"|trans }}',
                 func: function (row) {
-                    return row.priceSum + ' {{ "currency_short"|trans }}';
+                    return row.priceSum + ' {{ "common.currency_short"|trans }}';
                 },
                 sort: function (row) {
                     return parseInt(row.priceSum);
@@ -88,7 +88,7 @@
                         })
                         .getUrl();
 
-                    var html = "<a href='" + detailsUrl + "' class='btn btn-default btn-xs'>{{ 'details'|trans }}</a> ";
+                    var html = "<a href='" + detailsUrl + "' class='btn btn-default btn-xs'>{{ 'common.details'|trans }}</a> ";
 
                     var updateUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_simpleshop_order_update', {'order':'_id_'}) }}')
@@ -97,7 +97,7 @@
                         })
                         .getUrl();
 
-                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
+                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a> ";
 
                     return html;
                 }

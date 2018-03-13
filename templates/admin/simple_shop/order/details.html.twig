@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_order_list', 'back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_order_list', 'common.back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -20,36 +20,36 @@
 
 {% block adminContent %}
 
-    <span class="col-sm-2 bold">{{ 'name'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.name'|trans }}</span>
     <span class="col-sm-10">{{ order.user.name }}</span>
 
-    <span class="col-sm-2 bold">{{ 'email'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.email'|trans }}</span>
     <span class="col-sm-10">{{ order.user.email }}</span>
 
-    <span class="col-sm-2 bold">{{ 'phone'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.phone'|trans }}</span>
     <span class="col-sm-10">{{ order.user.phone }}</span>
 
     <div class="col-sm-12 separator"></div>
 
-    <span class="col-sm-2 bold">{{ 'status'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.status'|trans }}</span>
     <span class="col-sm-10">{{ order.status.label }}</span>
 
-    <span class="col-sm-2 bold">{{ 'date'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.date'|trans }}</span>
     <span class="col-sm-10">{{ order.date|date }}</span>
 
     <div class="col-sm-12 separator"></div>
 
-    <span class="col-sm-2 bold">{{ 'products'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.products'|trans }}</span>
     <span class="col-sm-10"></span>
 
     <div class="table-container">
     <table class="table table-stripped">
         <thead>
         <tr>
-            <th>{{ 'product'|trans }}</th>
-            <th>{{ 'quantity'|trans }}</th>
-            <th>{{ 'price'|trans }}</th>
-            <th>{{ 'sum_total'|trans }}</th>
+            <th>{{ 'common.product'|trans }}</th>
+            <th>{{ 'common.quantity'|trans }}</th>
+            <th>{{ 'common.price'|trans }}</th>
+            <th>{{ 'common.sum_total'|trans }}</th>
         </tr>
         </thead>
 
@@ -62,9 +62,9 @@
 
             <tr>
                 <td>{{ item.product.label }}</td>
-                <td>{{ item.count }} {{ 'quantity_short'|trans }}</td>
-                <td>{{ price }} {{ 'currency_short'|trans }}</td>
-                <td>{{ rowPrice }} {{ 'currency_short'|trans }}</td>
+                <td>{{ item.count }} {{ 'common.quantity_short'|trans }}</td>
+                <td>{{ price }} {{ 'common.currency_short'|trans }}</td>
+                <td>{{ rowPrice }} {{ 'common.currency_short'|trans }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -72,11 +72,11 @@
         {% if order.deliveryAddress and sumPrice < noDeliveryPriceAbove %}
             {% set sumPrice = sumPrice + deliveryPrice %}
 
-            <div class="col-sm-2">{{ 'delivery_price'|trans }}:</div>
-            <div class="col-sm-10">{{ deliveryPrice }} {{ 'currency_short'|trans }}</div>
+            <div class="col-sm-2">{{ 'common.delivery_price'|trans }}:</div>
+            <div class="col-sm-10">{{ deliveryPrice }} {{ 'common.currency_short'|trans }}</div>
         {% endif %}
-        <div class="col-sm-2">{{ 'sum_total'|trans }}:</div>
-        <div class="col-sm-10 bold">{{ sumPrice }} {{ 'currency_short'|trans }}</div>
+        <div class="col-sm-2">{{ 'common.sum_total'|trans }}:</div>
+        <div class="col-sm-10 bold">{{ sumPrice }} {{ 'common.currency_short'|trans }}</div>
 
     </div>
 
@@ -84,7 +84,7 @@
 
     {% if order.deliveryAddress %}
         <div class="table-container">
-            {{ macro.address(order.deliveryAddress, 'delivery_address'|trans) }}
+            {{ macro.address(order.deliveryAddress, 'common.delivery_address'|trans) }}
         </div>
     {% else %}
         <div class="col-sm-12 text-center bold">
@@ -94,7 +94,7 @@
 
     {% if order.billingAddress %}
         <div class="table-container">
-            {{ macro.address(order.deliveryAddress, 'billing_address'|trans) }}
+            {{ macro.address(order.deliveryAddress, 'common.billing_address'|trans) }}
         </div>
     {% else %}
         <div class="col-sm-12 text-center bold">
@@ -104,7 +104,7 @@
 
     <div class="col-sm-12 separator"></div>
 
-    <span class="col-sm-2 bold">{{ 'comment'|trans }}</span>
+    <span class="col-sm-2 bold">{{ 'common.comment'|trans }}</span>
     <span class="col-sm-10">{{ order.comment }}</span>
 
     <div class="col-sm-12 separator"></div>

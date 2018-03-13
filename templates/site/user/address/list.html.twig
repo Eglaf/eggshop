@@ -14,7 +14,7 @@
 
     {# Buttons #}
     <a href="{{ path('app_site_user_address_create') }}" class="btn btn-default">
-        {{ 'create'|trans }}
+        {{ 'common.create'|trans }}
     </a>
 
     {# Content #}
@@ -22,7 +22,7 @@
 
     <br /><br />
     <a href="{{ path('app_site_user_profile_main') }}" class="btn btn-default">
-        {{ 'back'|trans }}
+        {{ 'common.back'|trans }}
     </a>
 
 {% endblock %}
@@ -48,35 +48,35 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ 'search'|trans }}'
+                globalSearchPlaceholder: '{{ 'common.search'|trans }}'
             })
             .setColumns([{
-                text:     "{{ 'title'|trans }}",
+                text:     "{{ 'common.title'|trans }}",
                 property: 'title',
                 sort:     true
             }, {
-                text:     "{{ 'city'|trans }}",
+                text:     "{{ 'common.city'|trans }}",
                 property: 'city',
                 sort:     true
             }, {
-                text:     "{{ 'zip_code'|trans }}",
+                text:     "{{ 'common.zip_code'|trans }}",
                 property: 'zipCode',
                 sort:     true
             }, {
-                text:     "{{ 'street'|trans }}",
+                text:     "{{ 'common.street'|trans }}",
                 property: 'street',
                 sort:     true
             }, {
-                text:     "{{ 'house_number'|trans }}",
+                text:     "{{ 'common.house_number'|trans }}",
                 property: 'houseNumber'
             }, {
-                text:     "{{ 'floor'|trans }}",
+                text:     "{{ 'common.floor'|trans }}",
                 property: 'floor'
             }, {
-                text:     "{{ 'door'|trans }}",
+                text:     "{{ 'common.door'|trans }}",
                 property: 'door'
             }, {
-                text:     "{{ 'door_bell'|trans }}",
+                text:     "{{ 'common.door_bell'|trans }}",
                 property: 'door_bell'
             }, {
                 text: '',
@@ -88,7 +88,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default'>{{ 'update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default'>{{ 'common.update'|trans }}</a>";
                 }
             }])
             .init();

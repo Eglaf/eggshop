@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.buttonToUrl(path('app_admin_user_address_create', {'user':user.id}), 'create'|trans) }}
+    {{ macro.buttonToUrl(path('app_admin_user_address_create', {'user':user.id}), 'common.create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -46,30 +46,30 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "title"|trans }}',
+                text:     '{{ "common.title"|trans }}',
                 property: 'title',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "city"|trans }}',
+                text:     '{{ "common.city"|trans }}',
                 property: 'city',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "zipCode"|trans }}',
+                text:     '{{ "common.zipCode"|trans }}',
                 property: 'zipCode',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "street"|trans }}',
+                text:     '{{ "common.street"|trans }}',
                 property: 'street',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "houseNumber"|trans }}',
+                text:     '{{ "common.houseNumber"|trans }}',
                 property: 'houseNumber'
             }, {
                 text: '',
@@ -81,7 +81,7 @@
                         })
                         .getUrl();
 
-                    var html = "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
+                    var html = "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a> ";
 
                     return html;
                 }

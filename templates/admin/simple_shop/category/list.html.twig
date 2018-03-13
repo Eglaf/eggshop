@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_category_create', 'create'|trans) }}
+    {{ macro.button('app_admin_simpleshop_category_create', 'common.create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -47,30 +47,30 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text: '{{ "sequence"|trans }}',
+                text: '{{ "common.sequence"|trans }}',
                 property: 'sequence',
                 sort: function (row) {
                     return row.sequence;
                 }
             }, {
-                text:     '{{ "label"|trans }}',
+                text:     '{{ "common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "active"|trans }}',
+                text: '{{ "common.active"|trans }}',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? '{{ "active"|trans }}' : '{{ "inactive"|trans }}';
+                    return Egf.Util.boolVal(row.active) ? '{{ "common.active"|trans }}' : '{{ "common.inactive"|trans }}';
                 },
                 sort: function (row) {
                     // On sorting, put active first.
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: '{{ "products"|trans }}',
+                text: '{{ "common.products"|trans }}',
                 func: function (row) {
                     return row.products.length;
                 },
@@ -87,7 +87,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a>";
                 }
             }])
             .init();

@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_user_user_create', 'create'|trans) }}
+    {{ macro.button('app_admin_user_user_create', 'common.create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -46,28 +46,28 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "name"|trans }}',
+                text:     '{{ "common.name"|trans }}',
                 property: 'name',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "email"|trans }}',
+                text:     '{{ "common.email"|trans }}',
                 property: 'email',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "active"|trans }}',
+                text: '{{ "common.active"|trans }}',
                 func: function (row) {
-                    return Egf.Util.boolVal(row.active) ? '{{ "active"|trans }}' : '{{ "inactive"|trans }}';
+                    return Egf.Util.boolVal(row.active) ? '{{ "common.active"|trans }}' : '{{ "common.inactive"|trans }}';
                 },
                 sort: function (row) {
                     return (row.active ? 1 : 2);
                 }
             }, {
-                text: '{{ "role"|trans }}',
+                text: '{{ "common.role"|trans }}',
                 func: function (row) {
                     return row.role === 'ROLE_ADMIN' ? 'Admin' : '';
                 },
@@ -91,7 +91,7 @@
                             '_id_': row.id
                         })
                         .getUrl();
-                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a> ";
+                    html += "<a href='" + updateUrl + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a> ";
 
                     var addressesUrl = new Egf.Sf.Route()
                         .setRoute('{{ path('app_admin_user_address_list', {'user':'_id_'}) }}')
@@ -99,7 +99,7 @@
                             '_id_': row.id
                         })
                         .getUrl();
-                    html += "<a href='" + addressesUrl + "' class='btn btn-default btn-xs'>{{ 'addresses'|trans }}</a> ";
+                    html += "<a href='" + addressesUrl + "' class='btn btn-default btn-xs'>{{ 'common.addresses'|trans }}</a> ";
 
                     return html;
                 }

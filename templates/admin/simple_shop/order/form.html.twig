@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_order_list', 'back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_order_list', 'common.back_to_list'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -73,7 +73,7 @@
 
     <script type="text/javascript">
         var itemsCount = '{{ formView.items|length }}';
-        var deleteLabel = '{{ "delete"|trans }}';
+        var deleteLabel = '{{ "common.delete"|trans }}';
         var deleteConfirmText = '{{ "form.order.delete_confirm_text"|trans }}';
     </script>
 

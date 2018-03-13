@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_content_file_create', 'create'|trans) }}
+    {{ macro.button('app_admin_content_file_create', 'common.create'|trans) }}
 {% endblock %}
 
 {% block contentTitle %}
@@ -47,20 +47,20 @@
                 rowsOnPage:      10
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "label"|trans }}',
+                text:     '{{ "common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "description"|trans }}',
+                text:     '{{ "common.description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true
             }, {
-                text: '{{ "image"|trans }}',
+                text: '{{ "common.image"|trans }}',
                 func: function (row) {
                     return "<img src='{{ uploadsDir }}" + row.storageName + "' style='max-height:50px;' />";
                 }
@@ -74,7 +74,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a>";
                 }
             }])
             .init();

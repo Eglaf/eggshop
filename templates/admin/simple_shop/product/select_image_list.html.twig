@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_product_list', 'back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_product_list', 'common.back_to_list'|trans) }}
     {{ macro.buttonToUrl(path('app_admin_simpleshop_product_update', {product: product.id}), 'nav.select_image.back_to_product_update'|trans) }}
 {% endblock %}
 
@@ -48,15 +48,15 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "label"|trans }}',
+                text:     '{{ "common.label"|trans }}',
                 property: 'label',
                 search:   'string',
                 sort:     true
             }, {
-                text:     '{{ "description"|trans }}',
+                text:     '{{ "common.description"|trans }}',
                 property: 'description',
                 search:   'string',
                 sort:     true

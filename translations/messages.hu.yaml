@@ -1,75 +1,76 @@
-active: Aktív
-address: Cím
-addresses: Címek
-back: Vissza
-back_to_list: Vissza a listához
-billing_address: Számlázási cím
-category: Kategória
-categories: Kategóriák
-city: Város
-comment: Komment
-configs: Beállítások
-create: Létrehozás
-currency_short: Ft
-date: Dátum
-description: Leirás
-delete: Törlés
-delivery_price: Szállítási díj
-delivery_address: Szállítási cím
-details: Részletek
-door: Ajtó
-door_bell: Ajtócsengő
-email: Email cím
-file: Fájl
-files: Fájlok
-first: Első
-floor: Emelet
-forth: Tovább
-house_number: Házszám
-id: Azonosító
-identifier: Azonosító
-image: Kép
-images: Képek
-inactive: Inaktiv
-last: Utolsó
-label: Megnevezés
-login: Bejelentkezés
-logout: Kijelentkezés
-name: Név
-next: Következő
-order: Rendelés
-orders: Rendelések
-page: Oldal
-pages: Oldalak
-password: Jelszó
-password_new: Új jelszó
-password_old: Régi jelszó
-password_repeat: Jelszó mégegyszer
-phone: Telefonszám
-previous: Előző
-price: Ár
-product: Termék
-products: Termékek
-quantity: Darabszám
-quantity_short: Db
-registration: Regisztrálás
-role: Jogosultság
-save: Mentés
-search: Keresés
-sequence: Sorrend
-status: Státusz
-submit: Mentés
-sum_total: Összesen
-street: Út/Utca
-text: Szöveg
-texts: Szövegek
-title: Cím
-total: Összeg
-update: Módosítás
-user: Felhasználó
-users: Felhasználók
-value: Érték
-zip_code: Irányítószám
+common:
+  active: Aktív
+  address: Cím
+  addresses: Címek
+  back: Vissza
+  back_to_list: Vissza a listához
+  billing_address: Számlázási cím
+  category: Kategória
+  categories: Kategóriák
+  city: Város
+  comment: Komment
+  configs: Beállítások
+  create: Létrehozás
+  currency_short: Ft
+  date: Dátum
+  description: Leirás
+  delete: Törlés
+  delivery_price: Szállítási díj
+  delivery_address: Szállítási cím
+  details: Részletek
+  door: Ajtó
+  door_bell: Ajtócsengő
+  email: Email cím
+  file: Fájl
+  files: Fájlok
+  first: Első
+  floor: Emelet
+  forth: Tovább
+  house_number: Házszám
+  id: Azonosító
+  identifier: Azonosító
+  image: Kép
+  images: Képek
+  inactive: Inaktiv
+  last: Utolsó
+  label: Megnevezés
+  login: Bejelentkezés
+  logout: Kijelentkezés
+  name: Név
+  next: Következő
+  order: Rendelés
+  orders: Rendelések
+  page: Oldal
+  pages: Oldalak
+  password: Jelszó
+  password_new: Új jelszó
+  password_old: Régi jelszó
+  password_repeat: Jelszó mégegyszer
+  phone: Telefonszám
+  previous: Előző
+  price: Ár
+  product: Termék
+  products: Termékek
+  quantity: Darabszám
+  quantity_short: Db
+  registration: Regisztrálás
+  role: Jogosultság
+  save: Mentés
+  search: Keresés
+  sequence: Sorrend
+  status: Státusz
+  submit: Mentés
+  sum_total: Összesen
+  street: Út/Utca
+  text: Szöveg
+  texts: Szövegek
+  title: Cím
+  total: Összeg
+  update: Módosítás
+  user: Felhasználó
+  users: Felhasználók
+  value: Érték
+  zip_code: Irányítószám
 
 page_title:
   admin:
@@ -133,7 +134,7 @@ menu:
     registration: Regisztrálás
     admin: Admin felület
 
-email_content:
+email:
   registration:
     subject: Fűrjtojás.eu regisztráció
     link: Megerősítés

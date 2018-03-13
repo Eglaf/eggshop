@@ -11,19 +11,19 @@
 
     <table class="table">
         <tr>
-            <td>{{ 'id'|trans }}</td>
+            <td>{{ 'common.id'|trans }}</td>
             <td>{{ order.id }}</td>
         </tr>
         <tr>
-            <td>{{ 'date'|trans }}</td>
+            <td>{{ 'common.date'|trans }}</td>
             <td>{{ order.date|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <td>{{ 'status'|trans }}</td>
+            <td>{{ 'common.status'|trans }}</td>
             <td>{{ order.status.label }}</td>
         </tr>
         <tr>
-            <td colspan="2">{{ 'products'|trans }}</td>
+            <td colspan="2">{{ 'common.products'|trans }}</td>
         </tr>
         <tr>
             <td colspan="2">
@@ -33,10 +33,10 @@
                 <table class="earlier-orders-inner-table">
                     <thead>
                     <tr>
-                        <th>{{ 'product'|trans }}</th>
-                        <th>{{ 'quantity'|trans }}</th>
-                        <th>{{ 'price'|trans }}</th>
-                        <th>{{ 'sum_total'|trans }}</th>
+                        <th>{{ 'common.product'|trans }}</th>
+                        <th>{{ 'common.quantity'|trans }}</th>
+                        <th>{{ 'common.price'|trans }}</th>
+                        <th>{{ 'common.sum_total'|trans }}</th>
                     </tr>
                     </thead>
                     {% for item in order.items %}
@@ -46,9 +46,9 @@
 
                         <tr>
                             <td>{{ item.product.label }}</td>
-                            <td>{{ item.count }} {{ 'quantity_short'|trans }}</td>
-                            <td>{{ price }} {{ 'currency_short'|trans }}</td>
-                            <td>{{ rowPrice }} {{ 'currency_short'|trans }}</td>
+                            <td>{{ item.count }} {{ 'common.quantity_short'|trans }}</td>
+                            <td>{{ price }} {{ 'common.currency_short'|trans }}</td>
+                            <td>{{ rowPrice }} {{ 'common.currency_short'|trans }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -57,18 +57,18 @@
 
         {% if order.deliveryAddress and sumPrice < noDeliveryPriceAbove %}
             <tr>
-                <td>{{ 'delivery_price'|trans }}</td>
-                <td>{{ deliveryPrice }} {{ 'currency_short'|trans }}</td>
+                <td>{{ 'common.delivery_price'|trans }}</td>
+                <td>{{ deliveryPrice }} {{ 'common.currency_short'|trans }}</td>
             </tr>
         {% endif %}
         <tr>
-            <td>{{ 'sum_total'|trans }}</td>
-            <td>{{ order.priceSum }} {{ 'currency_short'|trans }}</td>
+            <td>{{ 'common.sum_total'|trans }}</td>
+            <td>{{ order.priceSum }} {{ 'common.currency_short'|trans }}</td>
         </tr>
     </table>
 
     <a href="{{ path('app_site_user_profile_earlierorders') }}" class="btn btn-default">
-        {{ 'back_to_list'|trans }}
+        {{ 'common.back_to_list'|trans }}
     </a>
 
 {% endblock %}

@@ -13,14 +13,14 @@
     {{ beforeTextEntity.getText()|raw }}
     <br/><br/>
 
-    <h4>{{ 'products'|trans }}</h4>
+    <h4>{{ 'common.products'|trans }}</h4>
     <table class="table">
         <thead>
         <tr>
-            <th>{{ 'products'|trans }}</th>
-            <th class="text-right">{{ 'price'|trans }}</th>
-            <th class="text-right">{{ 'quantity'|trans }}</th>
-            <th class="text-right">{{ 'sum_total'|trans }}</th>
+            <th>{{ 'common.products'|trans }}</th>
+            <th class="text-right">{{ 'common.price'|trans }}</th>
+            <th class="text-right">{{ 'common.quantity'|trans }}</th>
+            <th class="text-right">{{ 'common.sum_total'|trans }}</th>
         </tr>
         </thead>
 
@@ -31,9 +31,9 @@
 
             <tr>
                 <td>{{ product.label }}</td>
-                <td class="text-right">{{ product.price }} {{ 'currency_short'|trans }}</td>
+                <td class="text-right">{{ product.price }} {{ 'common.currency_short'|trans }}</td>
                 <td class="text-right">{{ app.session.get('cart')[product.id] }}</td>
-                <td class="text-right"><strong>{{ rowSum|number_format(0, ',', ' ') }}</strong> {{ 'currency_short'|trans }}</td>
+                <td class="text-right"><strong>{{ rowSum|number_format(0, ',', ' ') }}</strong> {{ 'common.currency_short'|trans }}</td>
             </tr>
         {% endfor %}
     </table>
@@ -42,16 +42,16 @@
         {% if deliveryAddress and tableSum < noDeliveryPriceAbove %}
             {% set tableSum = tableSum + deliveryPrice %}
 
-            {{ 'delivery_price'|trans }}: {{ deliveryPrice|number_format(0, ',', ' ') }} {{ 'currency_short'|trans }}
+            {{ 'common.delivery_price'|trans }}: {{ deliveryPrice|number_format(0, ',', ' ') }} {{ 'common.currency_short'|trans }}
             <br />
         {% endif %}
 
         <br />
-        {{ 'sum_total'|trans }}: <strong>{{ tableSum|number_format(0, ',', ' ') }} {{ 'currency_short'|trans }}</strong>
+        {{ 'common.sum_total'|trans }}: <strong>{{ tableSum|number_format(0, ',', ' ') }} {{ 'common.currency_short'|trans }}</strong>
     </div>
     <br/><br/>
 
-    <h4>{{ 'addresses'|trans }}</h4>
+    <h4>{{ 'common.addresses'|trans }}</h4>
 
     {% if deliveryAddress or app.session.get('newDeliveryAddress') %} {# Delivery address #}
         {% if deliveryAddress %} {# Selected #}
@@ -79,7 +79,7 @@
 
     {% if app.session.get('order_comment') %}
         <div class="order_comment">
-            <span>{{ 'comment'|trans }}</span>
+            <span>{{ 'common.comment'|trans }}</span>
             {{ app.session.get('order_comment') }}
         </div>
     {% endif %}
@@ -106,35 +106,35 @@
         </thead>
         <tbody>
         <tr>
-            <td>{{ 'title'|trans}}</td>
+            <td>{{ 'common.title'|trans}}</td>
             <td>{{ title }}</td>
         </tr>
         <tr>
-            <td>{{ 'city'|trans}}</td>
+            <td>{{ 'common.city'|trans}}</td>
             <td>{{ city }}</td>
         </tr>
         <tr>
-            <td>{{ 'zip_code'|trans}}</td>
+            <td>{{ 'common.zip_code'|trans}}</td>
             <td>{{ zipCode }}</td>
         </tr>
         <tr>
-            <td>{{ 'street'|trans}}</td>
+            <td>{{ 'common.street'|trans}}</td>
             <td>{{ street }}</td>
         </tr>
         <tr>
-            <td>{{ 'house_number'|trans}}</td>
+            <td>{{ 'common.house_number'|trans}}</td>
             <td>{{ houseNumber }}</td>
         </tr>
         <tr>
-            <td>{{ 'door_bell'|trans}}</td>
+            <td>{{ 'common.door_bell'|trans}}</td>
             <td>{{ doorBell }}</td>
         </tr>
         <tr>
-            <td>{{ 'floor'|trans}}</td>
+            <td>{{ 'common.floor'|trans}}</td>
             <td>{{ floor }}</td>
         </tr>
         <tr>
-            <td>{{ 'door'|trans}}</td>
+            <td>{{ 'common.door'|trans}}</td>
             <td>{{ door }}</td>
         </tr>
         </tbody>

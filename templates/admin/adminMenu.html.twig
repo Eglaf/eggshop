@@ -1,13 +1,13 @@
 {% import 'admin/macro.html.twig' as macro %}
 
 <ul id="admin-menu" class="nav nav-tabs">
-    {{ macro.menuItem(activeMenu == 'order',    'orders'|trans, 'app_admin_simpleshop_order_list') }}
-    {{ macro.menuItem(activeMenu == 'category', 'categories'|trans, 'app_admin_simpleshop_category_list') }}
-    {{ macro.menuItem(activeMenu == 'product',  'products'|trans, 'app_admin_simpleshop_product_list') }}
-    {{ macro.menuItem(activeMenu == 'text',     'texts'|trans, 'app_admin_content_text_list') }}
-    {{ macro.menuItem(activeMenu == 'page',     'pages'|trans, 'app_admin_content_page_list') }}
-    {{ macro.menuItem(activeMenu == 'file',     'files'|trans, 'app_admin_content_file_list') }}
-    {{ macro.menuItem(activeMenu == 'user',     'users'|trans, 'app_admin_user_user_list') }}
-    {{ macro.menuItem(activeMenu == 'config',   'configs'|trans, 'app_admin_config_list') }}
-    {{ macro.menuItem(activeMenu == 'logout',   'logout'|trans, 'logout') }}
+    {{ macro.menuItem(activeMenu == 'order',    'common.orders'|trans, 'app_admin_simpleshop_order_list') }}
+    {{ macro.menuItem(activeMenu == 'category', 'common.categories'|trans, 'app_admin_simpleshop_category_list') }}
+    {{ macro.menuItem(activeMenu == 'product',  'common.products'|trans, 'app_admin_simpleshop_product_list') }}
+    {{ macro.menuItem(activeMenu == 'text',     'common.texts'|trans, 'app_admin_content_text_list') }}
+    {{ macro.menuItem(activeMenu == 'page',     'common.pages'|trans, 'app_admin_content_page_list') }}
+    {{ macro.menuItem(activeMenu == 'file',     'common.files'|trans, 'app_admin_content_file_list') }}
+    {{ macro.menuItem(activeMenu == 'user',     'common.users'|trans, 'app_admin_user_user_list') }}
+    {{ macro.menuItem(activeMenu == 'config',   'common.configs'|trans, 'app_admin_config_list') }}
+    {{ macro.menuItem(activeMenu == 'logout',   'common.logout'|trans, 'logout') }}
 </ul>

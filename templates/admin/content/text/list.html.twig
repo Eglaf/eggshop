@@ -46,10 +46,10 @@
                 rowsOnPage:      15
             })
             .setTranslations({
-                globalSearchPlaceholder: '{{ "search"|trans }}'
+                globalSearchPlaceholder: '{{ "common.search"|trans }}'
             })
             .setColumns([{
-                text:     '{{ "identifier"|trans }}',
+                text:     '{{ "common.identifier"|trans }}',
                 property: 'code',
                 search:   'string',
                 sort:     true
@@ -63,7 +63,7 @@
                         })
                         .getUrl();
 
-                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'update'|trans }}</a>";
+                    return "<a href='" + url + "' class='btn btn-default btn-xs'>{{ 'common.update'|trans }}</a>";
                 }
             }])
             .init();

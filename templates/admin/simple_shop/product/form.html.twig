@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {{ macro.button('app_admin_simpleshop_product_list', 'back_to_list'|trans) }}
+    {{ macro.button('app_admin_simpleshop_product_list', 'common.back_to_list'|trans) }}
     {% if product.id %}
         {{ macro.buttonToUrl(path('app_admin_simpleshop_product_selectimagelist', {product: product.id}), 'nav.select_image.select_image'|trans) }}
     {% endif %}

@@ -154,7 +154,7 @@ class RegistrationController extends AbstractEggShopController {
 			'hash' => $user->getActivationHash(),
 		], UrlGeneratorInterface::ABSOLUTE_URL);
 		
-		$message = (new \Swift_Message($this->translator->trans('email_content.registration.subject')))
+		$message = (new \Swift_Message($this->translator->trans('email.registration.subject')))
 			->setFrom($this->configReader->get('sender-email'))
 			->setTo($user->getEmail())
 			->setBody($this->renderView('email/registration.html.twig', [

@@ -11,16 +11,16 @@
             </li>
             {# Logout #}
             <li>
-                <a href="{{ path('logout') }}">{{ "logout"|trans }}</a>
+                <a href="{{ path('logout') }}">{{ "common.logout"|trans }}</a>
             </li>
         {% else %}
             {# Registration #}
             <li>
-                <a href="{{ path('app_site_user_registration_registration') }}">{{ "registration"|trans }}</a>
+                <a href="{{ path('app_site_user_registration_registration') }}">{{ "common.registration"|trans }}</a>
             </li>
             {# Login #}
             <li>
-                <a href="{{ path('app_site_user_login_login') }}">{{ "login"|trans }}</a>
+                <a href="{{ path('app_site_user_login_login') }}">{{ "common.login"|trans }}</a>
             </li>
         {% endif %}
 
