@@ -137,7 +137,7 @@ email_content:
   registration:
     subject: Fűrjtojás.eu regisztráció
     link: Megerősítés
-    text: A regisztráció befejezéséhez kattintson a megerősítő linkre. Amennyiben a link nem kattintható, másolja azt a böngésző URL sávjába.
+    text: Köszönjük regisztrációját.\nA regisztráció befejezéséhez kattintson a megerősítő linkre.\nAmennyiben a link nem kattintható, másolja azt a böngésző URL sávjába.
 
 form:
   order:

@@ -1,5 +1,7 @@
-<a href="{{ confirmUrl }}">{{ 'email_content.registration.link'|trans }}</a>
+{{ 'email_content.registration.text'|trans|nl2br }}
 
 <br /><br />
 
-{{ 'email_content.registration.text'|trans }}
+<a href="{{ confirmUrl }}">
+    {{ 'email_content.registration.link'|trans }}
+</a>

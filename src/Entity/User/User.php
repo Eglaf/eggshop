@@ -88,9 +88,15 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	
 	/**
 	 * @var string
-	 * @ORM\Column(type="string", length=16, nullable=true, options={"fixed" = true})
+	 * @ORM\Column(name="activation_hash", type="string", length=16, nullable=true, options={"fixed" = true})
 	 */
 	private $activationHash;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(name="forgotten_password_hash", type="string", length=16, nullable=true, options={"fixed" = true})
+	 */
+	private $forgottenPasswordHash;
 	
 	
 	/**************************************************************************************************************************************************************
@@ -491,6 +497,23 @@ class User implements UserInterface, AdvancedUserInterface, \Serializable {
 	 */
 	public function setPhone($phone) {
 		$this->phone = $phone;
+		
+		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getForgottenPasswordHash() {
+		return $this->forgottenPasswordHash;
+	}
+	
+	/**
+	 * @param string $forgottenPasswordHash
+	 * @return User
+	 */
+	public function setForgottenPasswordHash($forgottenPasswordHash) {
+		$this->forgottenPasswordHash = $forgottenPasswordHash;
 		
 		return $this;
 	}
