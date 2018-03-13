@@ -1,0 +1,26 @@
+{% extends 'site/site.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}
+    {{ 'page_title.site.forgotten_password'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('css/admin/bootstrap.min.css') }}"/>
+
+    {{ parent() }}
+{% endblock %}
+
+{% block siteContent %}
+
+    <h1>{{ 'page_title.site.forgotten_password'|trans }}</h1>
+
+    {{ 'form.forgotten_password.text'|trans }}
+    <br /><br />
+
+    {{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_end(form) }}
+
+{% endblock %}

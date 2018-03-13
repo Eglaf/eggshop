@@ -114,6 +114,8 @@ page_title:
     base: Fürjtojás - Japán fürj
     registration: Regisztrálás
     login: Bejelentkezés
+    forgotten_password: Elfelejtett jelszó
+    new_password: Új jelszó
     new_order:
       select_products: Termékek kiválasztása
       select_addresses: Címek kiválasztása
@@ -138,7 +140,11 @@ email:
   registration:
     subject: Fűrjtojás.eu regisztráció
     link: Megerősítés
-    text: Köszönjük regisztrációját.\nA regisztráció befejezéséhez kattintson a megerősítő linkre.\nAmennyiben a link nem kattintható, másolja azt a böngésző URL sávjába.
+    text: Köszönjük regisztrációját.\nA regisztráció befejezéséhez kattintson a megerősítő linkre.
+  forgotten_password:
+    subject: Fürjtojás.eu új jelszó kérés
+    link: Új jelszó
+    text: Az új jelszó megadásához kattintson a linkre.
 
 form:
   order:
@@ -159,7 +165,13 @@ form:
     click_to_read_terms: Ide kattintva elolvashatja az ászf-t.
     email_change: Email változtatás után újra be kell jelentkezni.
     old_password: Az adatok megváltoztatásához, adja meg a jelenlegi jelszavát.
-    no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztráció gombra.
+    no_user_yet: Ha még nem hozott létre felhasználót, kattintson a regisztrálás gombra.
+  login:
+    forgot_password: Kattintson ide, ha elfelejtette jelszavát.
+  forgotten_password:
+    text: Adja meg az e-mail címet amivel regisztrált. Egy levelet fog kapni, amiben a linkre kattintva új jelszót állíthat be.
+    submit: Küldés
+    email_sent: A levelet kiküldtük a megadott email címre.
 
 nav:
   order:
@@ -187,6 +199,7 @@ message:
     saved: Sikeres mentés.
     user_changes_saved: Felhasználói adatok megváltoztatása sikeres.
     user_confirmed: Felhasználói e-mail cím megerősítve. Kérjük jelentkezzen be.
+    email_sent: Levél kiküldve.
   info:
     no_address: Nincs cím kiválasztva.
     no_delivery_address: Nincs szállítási cím kiválasztva.
@@ -195,6 +208,7 @@ message:
     no_products_selected: Válasszon ki terméket.
     order_with_duplicated_products: Egy termék többször van beállítva (%product%).
   error:
+    user_not_found: Felhasználó nem található.
     order_wasnt_created: Probléma volt a rendelés létrehozása során. Kérjük próbálja meg újra.
     old_password_invalid: A régi jelszó nem érvénye.
     email_taken: A megadott e-mail cím már foglalt.

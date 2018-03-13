@@ -22,37 +22,37 @@ class AddressType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('title', Type\TextType::class, [
-				'label' => 'title',
-				'required'   => FALSE,
+				'label'    => 'common.title',
+				'required' => FALSE,
 			])
 			->add('city', Type\TextType::class, [
-				'label' => 'city',
+				'label' => 'common.city',
 			])
 			->add('zipCode', Type\TextType::class, [
-				'label' => 'zip_code',
+				'label' => 'common.zip_code',
 			])
 			->add('street', Type\TextType::class, [
-				'label' => 'street',
+				'label' => 'common.street',
 			])
 			->add('houseNumber', Type\TextType::class, [
-				'label' => 'house_number',
+				'label' => 'common.house_number',
 			])
 			->add('floor', Type\TextType::class, [
-				'label' => 'floor',
+				'label'    => 'common.floor',
 				'required' => FALSE,
 			])
 			->add('door', Type\TextType::class, [
-				'label' => 'door',
+				'label'    => 'common.door',
 				'required' => FALSE,
 			])
 			->add('doorBell', Type\TextType::class, [
-				'label' => 'door_bell',
+				'label'    => 'common.door_bell',
 				'required' => FALSE,
 			]);
 		
 		if ($options['showSubmit'] === TRUE) {
 			$builder->add('save', Type\SubmitType::class, [
-				'label' => 'save',
+				'label' => 'common.save',
 			]);
 		}
 	}

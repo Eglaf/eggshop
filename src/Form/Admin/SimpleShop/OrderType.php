@@ -62,7 +62,7 @@ class OrderType extends AbstractType {
 				//'by_reference' => false, // TODO with addItem() Exception: Order has no addItem method... with setItems()... doesn't do shit...
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'save',
+				'label' => 'common.save',
 			]);
 	}
 	

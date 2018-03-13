@@ -29,7 +29,7 @@ class OrderItemType extends AbstractType {
 				'choice_label' => 'label',
 			])
 			->add('count', Type\NumberType::class, [
-				'label' => 'quantity',
+				'label' => 'common.quantity',
 			])
 			->add('price', Type\NumberType::class, [
 				'label'    => 'price',

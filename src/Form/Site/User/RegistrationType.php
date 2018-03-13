@@ -23,13 +23,13 @@ class RegistrationType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('name', Type\TextType::class, [
-				'label' => 'name',
+				'label' => 'common.name',
 			])
 			->add('email', Type\EmailType::class, [
-				'label' => 'email',
+				'label' => 'common.email',
 			])
 			->add('phone', Type\TextType::class, [
-				'label'    => 'phone',
+				'label'    => 'common.phone',
 				'required' => FALSE,
 			])
 			->add('plainPassword', Type\RepeatedType::class, [
@@ -37,8 +37,8 @@ class RegistrationType extends AbstractType {
 				'invalid_message' => 'two_password_must_match',
 				'options'         => ['attr' => ['class' => 'password-field']],
 				'required'        => TRUE,
-				'first_options'   => ['label' => 'password'],
-				'second_options'  => ['label' => 'password_repeat'],
+				'first_options'   => ['label' => 'common.password'],
+				'second_options'  => ['label' => 'common.password_repeat'],
 			])
 			->add('termsAccepted', Type\CheckboxType::class, [
 				'label'       => 'form.user.accept_terms',
@@ -46,7 +46,7 @@ class RegistrationType extends AbstractType {
 				'constraints' => new IsTrue(),
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'registration',
+				'label' => 'common.registration',
 			]);
 	}
 	

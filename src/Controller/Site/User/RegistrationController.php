@@ -149,7 +149,7 @@ class RegistrationController extends AbstractEggShopController {
 	 * @param User $user
 	 * @return int Count of sent emails.
 	 */
-	private function sendConfirmEmail(User $user) {
+	protected function sendConfirmEmail(User $user) {
 		$confirmUrl = $this->generateUrl('app_site_user_registration_confirm', [
 			'hash' => $user->getActivationHash(),
 		], UrlGeneratorInterface::ABSOLUTE_URL);

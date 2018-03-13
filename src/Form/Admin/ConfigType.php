@@ -22,18 +22,18 @@ class ConfigType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('code', Type\TextType::class, [
-				'label' => 'identifier',
+				'label' => 'common.identifier',
 				'disabled' => TRUE,
 			])
 			->add('description', Type\TextareaType::class, [
-				'label' => 'description',
+				'label' => 'common.description',
 				'disabled' => TRUE,
 			])
 			->add('value', Type\TextType::class, [
-				'label' => 'value',
+				'label' => 'common.value',
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'save',
+				'label' => 'common.save',
 			]);
 	}
 	

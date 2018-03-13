@@ -31,7 +31,7 @@ class SelectProductsType extends AbstractType {
 		}
 		
 		$builder->add('save', Type\SubmitType::class, [
-			'label' => 'next',
+			'label' => 'common.next',
 		]);
 	}
 	

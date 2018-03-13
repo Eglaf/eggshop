@@ -22,10 +22,10 @@ class UserType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('username', Type\TextType::class, [
-				'label' => 'name',
+				'label' => 'common.name',
 			])
 			->add('email', Type\TextType::class, [
-				'label' => 'email',
+				'label' => 'common.email',
 			])
 			// ->add('plainPassword', Type\TextType::class, [
 			// 	'required' => FALSE,
@@ -42,7 +42,7 @@ class UserType extends AbstractType {
 				],
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'save',
+				'label' => 'common.save',
 			]);
 	}
 	

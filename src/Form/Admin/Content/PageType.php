@@ -22,26 +22,26 @@ class PageType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('code', Type\TextType::class, [
-				'label' => 'identifier',
+				'label' => 'common.identifier',
 				'disabled' => TRUE,
 			])
 			->add('title', Type\TextType::class, [
-				'label' => 'title',
+				'label' => 'common.title',
 				'required' => FALSE,
 			])
 			->add('description', Type\TextareaType::class, [
-				'label' => 'title',
+				'label' => 'common.title',
 				'required' => FALSE,
 			])
 			->add('keywords', Type\TextType::class, [
-				'label' => 'keywords',
+				'label' => 'common.keywords',
 				'required' => FALSE,
 			])
 			->add('text', Type\TextareaType::class, [
-				'label' => 'text',
+				'label' => 'common.text',
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'save',
+				'label' => 'common.save',
 			]);
 	}
 	

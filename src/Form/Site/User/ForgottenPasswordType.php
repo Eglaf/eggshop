@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Form\Admin\Content;
+namespace App\Form\Site\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use App\Entity\Content\Text;
-
 /**
- * Class TextType
+ * Class ForgottenPasswordType
  */
-class TextType extends AbstractType {
+class ForgottenPasswordType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -21,15 +19,11 @@ class TextType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('code', Type\TextType::class, [
-				'label' => 'common.identifier',
-				'disabled' => TRUE,
+			->add('email', Type\EmailType::class, [
+				'label' => 'common.email',
 			])
-			->add('text', Type\TextareaType::class, [
-				'label' => 'common.text',
-			])
-			->add('save', Type\SubmitType::class, [
-				'label' => 'common.save',
+			->add('submit', Type\SubmitType::class, [
+				'label' => 'form.forgotten_password.submit',
 			]);
 	}
 	
@@ -39,7 +33,6 @@ class TextType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Text::class,
 		]);
 	}
 	

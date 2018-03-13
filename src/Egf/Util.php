@@ -53,6 +53,7 @@ class Util {
 	 * @param   int    $iLength Length of string. Default: 8.
 	 * @param   string $sType   Type of character pool. Default: alnum. Options: alnum, alpha, hexdec, numeric, nozero, distinct.
 	 * @return string Random string.
+	 * todo flags
 	 */
 	public static function getRandomString($iLength = 12, $sType = 'alnum') {
 		if ($sType == 'alnum') {

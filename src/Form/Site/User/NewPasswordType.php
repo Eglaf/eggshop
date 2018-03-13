@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Form\Admin\Content;
+namespace App\Form\Site\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use App\Entity\Content\Text;
+use App\Entity\User\User;
 
 /**
- * Class TextType
+ * Class AddressType
  */
-class TextType extends AbstractType {
+class NewPasswordType extends AbstractType {
 	
 	/**
 	 * Build form.
@@ -21,12 +21,13 @@ class TextType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('code', Type\TextType::class, [
-				'label' => 'common.identifier',
-				'disabled' => TRUE,
-			])
-			->add('text', Type\TextareaType::class, [
-				'label' => 'common.text',
+			->add('plainPassword', Type\RepeatedType::class, [
+				'type'            => Type\PasswordType::class,
+				'invalid_message' => 'two_password_must_match',
+				'options'         => ['attr' => ['class' => 'password-field']],
+				'required'        => TRUE,
+				'first_options'   => ['label' => 'common.password'],
+				'second_options'  => ['label' => 'common.password_repeat'],
 			])
 			->add('save', Type\SubmitType::class, [
 				'label' => 'common.save',
@@ -39,7 +40,8 @@ class TextType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults([
-			'data_class' => Text::class,
+			'data_class'        => User::class,
+			'validation_groups' => ['registration'],
 		]);
 	}
 	

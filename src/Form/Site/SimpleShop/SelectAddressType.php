@@ -77,11 +77,11 @@ class SelectAddressType extends AbstractType {
 				'label' => 'form.order_address.new_billing_address',
 			])
 			->add('comment', Type\TextareaType::class, [
-				'label'    => 'comment',
+				'label'    => 'common.comment',
 				'required' => FALSE,
 			])
 			->add('save', Type\SubmitType::class, [
-				'label' => 'next',
+				'label' => 'common.next',
 			]);
 	}
 	
