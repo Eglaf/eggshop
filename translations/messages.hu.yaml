@@ -140,11 +140,13 @@ email:
   registration:
     subject: Fűrjtojás.eu regisztráció
     link: Megerősítés
-    text: Köszönjük regisztrációját.\nA regisztráció befejezéséhez kattintson a megerősítő linkre.
+    text: Köszönjük regisztrációját. A regisztráció befejezéséhez kattintson a megerősítő linkre.
   forgotten_password:
     subject: Fürjtojás.eu új jelszó kérés
     link: Új jelszó
     text: Az új jelszó megadásához kattintson a linkre.
+  new_order:
+    subject: Új megrendelés
 
 form:
   order:
@@ -172,6 +174,8 @@ form:
     text: Adja meg az e-mail címet amivel regisztrált. Egy levelet fog kapni, amiben a linkre kattintva új jelszót állíthat be.
     submit: Küldés
     email_sent: A levelet kiküldtük a megadott email címre.
+  content:
+    available_parameters: Használható paraméterek
 
 nav:
   order:
@@ -213,6 +217,7 @@ message:
     old_password_invalid: A régi jelszó nem érvénye.
     email_taken: A megadott e-mail cím már foglalt.
     email_sending_problem: Probléma volt az e-mail küldéssel. Kérjük próbálja meg újra. Amennyiben nem először látja ezt az üzenetet, lépjen kapcsolatba velünk.
+    order_mail_wasnt_send: Rendelés feladva, de hiba történt az email küldés során. Kérjük lépjen kapcsolatba velünk és jelezze a problémát.
 
 exception:
   404:

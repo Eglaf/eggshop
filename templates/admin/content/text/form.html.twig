@@ -29,9 +29,9 @@
     {# CkEditor and parameter comment. #}
     {{ form_row(formView.text) }}
     {% if text.enabledParameters %}
-        {% set textComment = 'admin.text.available_parameters'|trans ~ '<ul>' %}
+        {% set textComment = 'form.content.available_parameters'|trans ~ '<ul>' %}
         {% for parameter in text.enabledParameters %}
-            {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }}</li>' %}
+            {% set textComment = textComment ~ '<li>{{ ' ~ parameter ~ ' }} ' ~ macro.parameterHelp(parameter) ~'</li>' %}
         {% endfor %}
         {% set textComment = textComment ~ '</ul>' %}
         {{ macro.inputComment(textComment) }}

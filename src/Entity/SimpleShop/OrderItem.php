@@ -46,6 +46,16 @@ class OrderItem {
 	 */
 	private $price;
 	
+	/**
+	 * @param mixed $order
+	 * @return OrderItem
+	 */
+	public function setOrder($order) {
+		$this->order = $order;
+	
+		return $this;
+	}
+	
 	
 	/**************************************************************************************************************************************************************
 	 *                                                          **         **         **         **         **         **         **         **         **         **
@@ -99,16 +109,6 @@ class OrderItem {
 	 */
 	public function getOrder() {
 		return $this->order;
-	}
-	
-	/**
-	 * @param mixed $order
-	 * @return OrderItem
-	 */
-	public function setOrder($order) {
-		$this->order = $order;
-		
-		return $this;
 	}
 	
 	/**

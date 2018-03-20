@@ -1,0 +1,97 @@
+{% import 'admin/macro.html.twig' as macro %}
+
+<span>{{ 'common.name'|trans }}: </span>
+<span><b>{{ order.user.name }}</b></span>
+<br />
+
+<span>{{ 'common.email'|trans }}: </span>
+<span><b>{{ order.user.email }}</b></span>
+<br />
+
+<span>{{ 'common.phone'|trans }}: </span>
+<span><b>{{ order.user.phone }}</b></span>
+<br />
+<br />
+
+<span>{{ 'common.status'|trans }}: </span>
+<span><b>{{ order.status.label }}</b></span>
+<br />
+
+<span>{{ 'common.date'|trans }}: </span>
+<span><b>{{ order.date|date }}</b></span>
+<br />
+<br />
+
+<span>{{ 'common.products'|trans }}</span>
+<br />
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>{{ 'common.product'|trans }}</th>
+            <th>{{ 'common.quantity'|trans }}</th>
+            <th>{{ 'common.price'|trans }}</th>
+            <th>{{ 'common.sum_total'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% set sumPrice = 0 %}
+
+        {% for item in order.items %}
+            {% set price = item.price ? item.price : item.product.price %}
+            {% set rowPrice = price * item.count %}
+            {% set sumPrice = sumPrice + rowPrice %}
+
+            <tr>
+                <td>{{ item.product.label }}</td>
+                <td>{{ item.count }} {{ 'common.quantity_short'|trans }}</td>
+                <td>{{ price }} {{ 'common.currency_short'|trans }}</td>
+                <td>{{ rowPrice }} {{ 'common.currency_short'|trans }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% if order.deliveryAddress and sumPrice < noDeliveryPriceAbove %}
+        {% set sumPrice = sumPrice + deliveryPrice %}
+
+        <div>{{ 'common.delivery_price'|trans }}:</div>
+        <div>{{ deliveryPrice }} {{ 'common.currency_short'|trans }}</div>
+    {% endif %}
+
+    <div>{{ 'common.sum_total'|trans }}:</div>
+    <div><b>{{ sumPrice }} {{ 'common.currency_short'|trans }}</b></div>
+
+</div>
+
+<br /><br />
+
+{% if order.deliveryAddress %}
+    <div>
+        {{ macro.address(order.deliveryAddress, 'common.delivery_address'|trans) }}
+    </div>
+{% else %}
+    <div>
+        {{ 'message.info.no_delivery_address'|trans }}
+    </div>
+{% endif %}
+
+    {% if order.billingAddress %}
+        <div>
+            {{ macro.address(order.billingAddress, 'common.billing_address'|trans) }}
+        </div>
+    {% else %}
+        <div>
+            {{ 'message.info.no_billing_address'|trans }}
+        </div>
+    {% endif %}
+
+<div class="col-sm-12 separator"></div>
+
+<span>{{ 'common.comment'|trans }}</span>
+<span>{{ order.comment }}</span>
+
+<br /><br />

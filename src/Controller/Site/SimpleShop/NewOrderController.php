@@ -15,6 +15,7 @@ use App\Controller\AbstractEggShopController;
 use App\Form\Site\SimpleShop as SimpleShopFormType;
 use App\Service\Content\TextEntityFinder;
 use App\Service\ConfigReader;
+use App\Service\NewOrderInMail;
 
 /**
  * Class NewOrderController
@@ -186,7 +187,7 @@ class NewOrderController extends AbstractEggShopController {
 	 * RouteName: app_site_simpleshop_neworder_submitorder
 	 * @Route("online-rendeles/mentes")
 	 */
-	public function submitOrderAction() {
+	public function submitOrderAction(NewOrderInMail $orderMailer) {
 		$cartProducts = $this->getCartProducts();
 		
 		// If no product is selected.
@@ -213,10 +214,18 @@ class NewOrderController extends AbstractEggShopController {
 		}
 		
 		$this->getDm()->flush();
+		$this->getDm()->refresh($order);
 		
 		// Check new order.
 		if ( ! Util::isNaturalNumber($order->getId())) {
 			$this->addFlash('error', $this->translator->trans('message.error.order_wasnt_created'));
+			
+			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
+		}
+		
+		// Check new order.
+		if ( ! $orderMailer->sendMailWithOrder($order)) {
+			$this->addFlash('error', $this->translator->trans('message.error.order_mail_wasnt_send'));
 			
 			return $this->redirectToRoute('app_site_simpleshop_neworder_selectproducts');
 		}

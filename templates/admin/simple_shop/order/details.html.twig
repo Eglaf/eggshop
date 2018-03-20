@@ -94,7 +94,7 @@
 
     {% if order.billingAddress %}
         <div class="table-container">
-            {{ macro.address(order.deliveryAddress, 'common.billing_address'|trans) }}
+            {{ macro.address(order.billingAddress, 'common.billing_address'|trans) }}
         </div>
     {% else %}
         <div class="col-sm-12 text-center bold">

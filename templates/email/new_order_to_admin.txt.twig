@@ -1,0 +1,52 @@
+{{ 'common.name'|trans }}:  {{ order.user.name }}
+{{ 'common.email'|trans }}:  {{ order.user.email }}
+{{ 'common.phone'|trans }}:  {{ order.user.phone }}
+{{ 'common.status'|trans }}:  {{ order.status.label }}
+{{ 'common.date'|trans }}:  {{ order.date|date }}
+
+{{ 'common.products'|trans }}
+
+{% set sumPrice = 0 %}
+{% for item in order.items %}
+    {% set price = item.price ? item.price : item.product.price %}
+    {% set rowPrice = price * item.count %}
+    {% set sumPrice = sumPrice + rowPrice %}
+
+    {{ item.product.label }}
+    {{ item.count }} {{ 'common.quantity_short'|trans }}
+    {{ price }} {{ 'common.currency_short'|trans }}
+    {{ rowPrice }} {{ 'common.currency_short'|trans }}
+{% endfor %}
+
+{% if order.deliveryAddress and sumPrice < noDeliveryPriceAbove %} {# todo #}
+    {% set sumPrice = sumPrice + deliveryPrice %}
+
+    {{ 'common.delivery_price'|trans }}: {{ deliveryPrice }} {{ 'common.currency_short'|trans }}
+{% endif %}
+
+{{ 'common.sum_total'|trans }}: {{ sumPrice }} {{ 'common.currency_short'|trans }}
+
+{% if order.deliveryAddress %}
+    {{ 'common.delivery_address'|trans }}
+    {{ order.deliveryAddress.city }}
+    {{ order.deliveryAddress.zipCode }}
+    {{ order.deliveryAddress.street }}
+    {{ order.deliveryAddress.houseNumber}}
+    {{ order.deliveryAddress.doorBell }}
+    {{ order.deliveryAddress.floor }}
+    {{ order.deliveryAddress.door }}
+{% endif %}
+
+{% if order.billingAddress %}
+    {{ 'common.billing_address'|trans }}
+    {{ order.billingAddress.city }}
+    {{ order.billingAddress.zipCode }}
+    {{ order.billingAddress.street }}
+    {{ order.billingAddress.houseNumber}}
+    {{ order.billingAddress.doorBell }}
+    {{ order.billingAddress.floor }}
+    {{ order.billingAddress.door }}
+{% endif %}
+
+{{ 'common.comment'|trans }}:
+{{ order.comment }}

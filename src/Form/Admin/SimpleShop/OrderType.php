@@ -28,16 +28,16 @@ class OrderType extends AbstractType {
 		
 		$builder
 			->add('status', EntityType::class, [
-				'label'        => 'status',
+				'label'        => 'common.status',
 				'class'        => OrderStatus::class,
 				'choice_label' => 'label',
 			])
 			->add('comment', Type\TextareaType::class, [
-				'label'    => 'comment',
+				'label'    => 'common.comment',
 				'required' => FALSE,
 			])
 			->add('shippingAddress', EntityType::class, [
-				'label'         => 'delivery_address',
+				'label'         => 'common.delivery_address',
 				'required'      => FALSE,
 				'class'         => Address::class,
 				'choice_label'  => 'titleCityStreet',
@@ -46,7 +46,7 @@ class OrderType extends AbstractType {
 				},
 			])
 			->add('billingAddress', EntityType::class, [
-				'label'         => 'billing_address',
+				'label'         => 'common.billing_address',
 				'required'      => FALSE,
 				'class'         => Address::class,
 				'choice_label'  => 'titleCityStreet',

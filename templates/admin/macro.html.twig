@@ -76,3 +76,13 @@
         </tbody>
     </table>
 {% endmacro %}
+
+{# Show some helper text of parameter. #}
+{% macro parameterHelp(parameter) %}
+    {% if parameter == 'admin-email' %}(Admin email címe){% endif %}
+    {% if parameter == 'admin-phone' %}(Admin telefonszáma){% endif %}
+    {% if parameter == 'minimum-order-price-to-deliver' %}(Minimum rendelés értéke kiszállításhoz){% endif %}
+    {% if parameter == 'order-delivery-price' %}(Kiszállítási díj){% endif %}
+    {% if parameter == 'order-no-delivery-price-above-sum' %}(Nincs kiszállítási díj efölött az összeg felett){% endif %}
+    {% if parameter == 'order-sum-price' %}(Rendelés értéke){% endif %}
+{% endmacro %}
