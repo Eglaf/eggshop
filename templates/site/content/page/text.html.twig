@@ -13,11 +13,28 @@
 {% endspaceless %}{% endblock %}
 
 {% block siteContent %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     {{ textEntity.getText()|raw }}
 
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_admin_content_text_update', {code: textEntity.code}) }}" target="_blank">(e)</a>
     {% endif %}
+
+    <div class="clear"></div>
+
+    <div class="fb-like" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+    <br /><br />
+    <g:plusone></g:plusone>
 
     <div class="clear"></div>
 
