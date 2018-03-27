@@ -53,7 +53,7 @@ class ProfileController extends AbstractEggShopController {
 		
 		return [
 			'listAsJson' => $serializer->toJson($orders, [
-				'attributes' => ['id', 'comment', 'date', 'priceSum', 'status' => ['label']],
+				'attributes' => ['id', 'comment', 'date', /*'priceSum',*/ 'status' => ['label']],
 			], [
 				'date' => ['date'],
 			]),

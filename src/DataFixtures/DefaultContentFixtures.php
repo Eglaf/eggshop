@@ -60,7 +60,7 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 		$this->newEntity(User::class, [
 			'name'     => 'Kovács Attila',
 			'email'    => 'eglafx@gmail.com',
-			'phone'    => '+36-30-658-7639',
+			'phone'    => '+36-30-658-7632',
 			'password' => '$2y$13$MeRlcVui61y.bob1z4dyU.ZXHsatu60x4OSGXuCoaOaqmN7ceWUau',
 			'role'     => 'ROLE_ADMIN',
 			'active'   => TRUE,
@@ -948,7 +948,9 @@ class DefaultContentFixtures extends AbstractFixture implements DependentFixture
 			        'description' => 'Ön szeretne füstölt, nyers vagy natúr konzerv fürjtojást rendelni? Nálunk megteheti, országosan házhozszállítással vagy akár személyes átvétellel is!',
 			        'keywords'    => 'fürjtojás, tojás rendelés, elérhetőségeink',
 			        'text'        => '<div class="right_map">
-						<iframe scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=hu&geocode=&q=1163 Budapest, Albán Street 1, Hungary|47.5087086,19.175843699999973;t=m&z=10&iwloc=A&output=embed&iwloc=near" height="300" frameborder="0" width="400"></iframe>
+						<iframe width="400" height="300" frameborder="0" style="border:0"
+								src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBNuE72DlGVo-NU1ffI6FVXtTmzd69B9xU&q=1163 Budapest, Albán Street 1, Hungary" allowfullscreen>
+						</iframe>
 						</div>
 						<p>Tamago Kft.<br>
 						1161 Budapest, Albán utca 1.<br>

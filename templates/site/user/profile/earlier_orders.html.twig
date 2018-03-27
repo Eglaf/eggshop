@@ -58,14 +58,14 @@
                 sort: function (row) {
                     return row.id;
                 }
-            }, {
+            }, {#{
                 text: "{{ 'common.sum_total'|trans }}",
                 property: 'priceSum',
                 func: function (row) {
                     return row.priceSum + " {{ 'common.currency_short'|trans }}";
                 },
                 sort: true
-            }, {
+            }, #}{
                 text: '',
                 func: function (row) {
                     var url = new Egf.Sf.Route()

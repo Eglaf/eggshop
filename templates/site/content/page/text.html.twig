@@ -27,14 +27,17 @@
     {{ textEntity.getText()|raw }}
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_admin_content_text_update', {code: textEntity.code}) }}" target="_blank">(e)</a>
+        <a href="{{ path('app_admin_content_page_update', {code: textEntity.code}) }}" target="_blank">(e)</a>
     {% endif %}
 
     <div class="clear"></div>
 
-    <div class="fb-like" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
-    <br /><br />
-    <g:plusone></g:plusone>
+    <div style="display:inline-block;">
+        <div class="fb-like" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+    </div>
+    <div style="display:inline-block; position:relative; top:7px; left:15px;">
+        <g:plusone></g:plusone>
+    </div>
 
     <div class="clear"></div>
 

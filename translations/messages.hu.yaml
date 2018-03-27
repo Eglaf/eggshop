@@ -208,6 +208,7 @@ message:
     no_address: Nincs cím kiválasztva.
     no_delivery_address: Nincs szállítási cím kiválasztva.
     no_billing_address: Nincs számlázási cím kiválasztva.
+    forgotten_password_mail_sent_if_exist: Az levelet kikültük. Amennyiben nem kapja meg azt, talán másik e-mail címmel regisztrált.
   warning:
     no_products_selected: Válasszon ki terméket.
     order_with_duplicated_products: Egy termék többször van beállítva (%product%).

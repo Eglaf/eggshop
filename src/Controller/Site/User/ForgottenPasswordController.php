@@ -67,16 +67,12 @@ class ForgottenPasswordController extends AbstractEggShopController {
 				
 				$this->getDm()->flush();
 				
-				if ($this->sendForgottenPasswordEmail($user)) {
-					$this->addFlash('success', $this->translator->trans('message.success.email_sent'));
-				}
-				else {
+				if ( ! $this->sendForgottenPasswordEmail($user)) {
 					$this->addFlash('error', $this->translator->trans('message.error.email_sending_problem'));
 				}
 			}
-			else {
-				// todo ?
-			}
+			
+			$this->addFlash('success', $this->translator->trans('message.info.forgotten_password_mail_sent_if_exist'));
 		}
 		
 		return [

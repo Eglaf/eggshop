@@ -4,6 +4,7 @@ namespace App\Controller\Site\User;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Service\Serializer;
@@ -15,6 +16,17 @@ use App\Form\Site\User\AddressType as AddressFormType;
  * Class AddressController
  */
 class AddressController extends AbstractEggShopController {
+	
+	/** @var TranslatorInterface */
+	protected $translator;
+	
+	/**
+	 * AddressController constructor.
+	 * @param TranslatorInterface $translator
+	 */
+	public function __construct(TranslatorInterface $translator) {
+		$this->translator = $translator;
+	}
 	
 	/**
 	 * List of addresses.
@@ -80,6 +92,8 @@ class AddressController extends AbstractEggShopController {
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->getDm()->persist($address);
 			$this->getDm()->flush();
+			
+			$this->addFlash('success', $this->translator->trans('message.success.saved'));
 			
 			return $this->redirectToRoute('app_site_user_address_list');
 		}

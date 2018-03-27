@@ -1,5 +1,7 @@
 {% extends 'site/site.html.twig' %}
 
+{% import _self as self %}
+
 {% block title %}
     {{ 'page_title.site.profile.earlier_order_details'|trans }} - {{ parent() }}
 {% endblock %}
@@ -56,6 +58,8 @@
         </tr>
 
         {% if order.deliveryAddress and sumPrice < noDeliveryPriceAbove %}
+            {% set sumPrice = sumPrice + deliveryPrice %}
+
             <tr>
                 <td>{{ 'common.delivery_price'|trans }}</td>
                 <td>{{ deliveryPrice }} {{ 'common.currency_short'|trans }}</td>
@@ -63,12 +67,65 @@
         {% endif %}
         <tr>
             <td>{{ 'common.sum_total'|trans }}</td>
-            <td>{{ order.priceSum }} {{ 'common.currency_short'|trans }}</td>
+            <td>{{ sumPrice }} {{ 'common.currency_short'|trans }}</td>
         </tr>
     </table>
+
+    {% if order.deliveryAddress %}
+        {{ self.printAddress('delivery', order.deliveryAddress) }}
+    {% endif %}
+
+    {% if order.billingAddress %}
+        {{ self.printAddress('billing', order.billingAddress) }}
+    {% endif %}
 
     <a href="{{ path('app_site_user_profile_earlierorders') }}" class="btn btn-default">
         {{ 'common.back_to_list'|trans }}
     </a>
 
 {% endblock %}
+
+{# Show address. #}
+{% macro printAddress(type, address) %}
+    <table class="table confirm_address">
+        <thead>
+        <tr>
+            <th colspan="2">{{ ('common.' ~ type ~ '_address')|trans}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ 'common.title'|trans}}</td>
+            <td>{{ address.title }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.city'|trans}}</td>
+            <td>{{ address.city }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.zip_code'|trans}}</td>
+            <td>{{ address.zipCode }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.street'|trans}}</td>
+            <td>{{ address.street }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.house_number'|trans}}</td>
+            <td>{{ address.houseNumber }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.door_bell'|trans}}</td>
+            <td>{{ address.doorBell }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.floor'|trans}}</td>
+            <td>{{ address.floor }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'common.door'|trans}}</td>
+            <td>{{ address.door }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endmacro %}

@@ -39,7 +39,7 @@
     </table>
 
     <div style="text-align:right;">
-        {% if deliveryAddress and tableSum < noDeliveryPriceAbove %}
+        {% if (deliveryAddress or app.session.get('newDeliveryAddress')) and tableSum < noDeliveryPriceAbove %}
             {% set tableSum = tableSum + deliveryPrice %}
 
             {{ 'common.delivery_price'|trans }}: {{ deliveryPrice|number_format(0, ',', ' ') }} {{ 'common.currency_short'|trans }}
